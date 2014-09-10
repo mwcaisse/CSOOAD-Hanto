@@ -45,10 +45,10 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 
 	@Override
 	public boolean equals(Object o) {
-		if (! (o instanceof HantoCoordinateImpl)) {
+		if (! (o instanceof HantoCoordinate)) {
 			return false;
 		}
-		HantoCoordinateImpl other = (HantoCoordinateImpl)o;		
+		HantoCoordinate other = (HantoCoordinate)o;		
 		return other.getX() == getX() && other.getY() == getY();
 	}	
 

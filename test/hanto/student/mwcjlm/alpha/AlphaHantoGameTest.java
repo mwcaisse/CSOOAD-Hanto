@@ -57,4 +57,20 @@ public class AlphaHantoGameTest {
 		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));	
 	}
 	
+	@Test(expected = HantoException.class)
+	public void testInvalidStartPositionShouldThrowException() throws HantoException {
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(2,0));
+	}
+	
+	@Test(expected = HantoException.class)
+	public void testPlaceNonAdjacentPiece() throws HantoException {
+		try {
+			assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)));	
+		}		
+		catch (HantoException e) {
+			fail();
+		}
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(2,2));
+	}
+	
 }
