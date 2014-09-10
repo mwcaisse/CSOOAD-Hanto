@@ -1,4 +1,4 @@
-package hanto.studentxxxx.alpha;
+package hanto.studentmwcjlm.alpha;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
