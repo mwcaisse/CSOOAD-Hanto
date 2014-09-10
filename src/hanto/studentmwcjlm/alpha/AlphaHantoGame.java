@@ -50,6 +50,11 @@ public class AlphaHantoGame implements HantoGame {
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) throws HantoException {
 		
+		//check if the game is over
+		if (isGameOver()) {
+			throw new HantoException("Game is over!");
+		}
+		
 		//check if it is a valid piece type
 		if (isValidPieceType(pieceType)) {		
 			//add piece to the board
@@ -102,6 +107,14 @@ public class AlphaHantoGame implements HantoGame {
 	
 	private boolean isValidPieceType(HantoPieceType type) {
 		return type == HantoPieceType.BUTTERFLY;
+	}
+	
+	/** Returns if the game is over or not
+	 * 
+	 * @return True if the game is over, false otherwise
+	 */
+	private boolean isGameOver() {
+		return turnCount >= 2;
 	}
 
 }

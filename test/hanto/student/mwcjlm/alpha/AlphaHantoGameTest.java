@@ -21,7 +21,7 @@ import org.junit.Test;
  *  X-test that red goes seccond
  *  X-test pieces are added to the boardX
  *  
- *  -test that there can be no 3rd move
+ *  X-test that there can be no 3rd move
  * 
  * 
  */
@@ -112,5 +112,16 @@ public class AlphaHantoGameTest {
 		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(1,0));
 		assertEquals(HantoPlayerColor.RED, game.getPieceAt(new HantoCoordinateImpl(1,0)).getColor());		
 	}
+	
+	@Test(expected = HantoException.class)
+	public void testOnlyTwoMovesCanBeMade() throws HantoException {
+		assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)));
+		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(1,0)));
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(-1,0));
+	}
+	
+	
+	
+	
 	
 }
