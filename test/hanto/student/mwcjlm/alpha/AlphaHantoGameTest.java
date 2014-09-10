@@ -1,6 +1,6 @@
 package hanto.student.mwcjlm.alpha;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import hanto.common.HantoException;
 import hanto.common.HantoGame;
 import hanto.common.HantoPieceType;
@@ -43,8 +43,18 @@ public class AlphaHantoGameTest {
 	@Test
 	public void secondMoveShouldBeDraw() throws HantoException {
 		assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)));	
-		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(1,0)));	
-		
+		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(1,0)));			
+	}
+	
+	@Test(expected = HantoException.class)
+	public void testTwoPiecesSameCoordinateShouldThrowException() throws HantoException {
+		try {
+			assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)));	
+		}		
+		catch (HantoException e) {
+			fail();
+		}
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));	
 	}
 	
 }

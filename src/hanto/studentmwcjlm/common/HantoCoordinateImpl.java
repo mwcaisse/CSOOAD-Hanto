@@ -31,4 +31,25 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		return y;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (! (o instanceof HantoCoordinateImpl)) {
+			return false;
+		}
+		HantoCoordinateImpl other = (HantoCoordinateImpl)o;		
+		return other.getX() == getX() && other.getY() == getY();
+	}	
+
 }
