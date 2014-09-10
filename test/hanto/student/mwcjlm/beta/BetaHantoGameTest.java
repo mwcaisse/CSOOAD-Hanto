@@ -142,5 +142,21 @@ public class BetaHantoGameTest {
 		assertEquals(MoveResult.OK, redGame.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)));
 		assertEquals(HantoPlayerColor.RED, redGame.getPieceAt(new HantoCoordinateImpl(0,0)).getColor());
 	}
+	
+	@Test
+	public void testGameEndsInDraw() throws HantoException {
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,1));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,2));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,3));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,4));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,5));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,6));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,7));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,8));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,9));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,10));
+		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,11)));
+	}
 
 }
