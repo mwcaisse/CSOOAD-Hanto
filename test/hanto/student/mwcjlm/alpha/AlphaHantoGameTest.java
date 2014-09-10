@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 import hanto.common.HantoException;
 import hanto.common.HantoGame;
 import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.alpha.AlphaHantoGame;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
@@ -11,6 +12,19 @@ import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 import org.junit.Before;
 import org.junit.Test;
 
+/*
+ *  Tests to create
+ *  
+ *  X-test that the correct color pieces are being placed
+ *  X-test that only butterflies can be placedX
+ *  X-test that blue is going first
+ *  X-test that red goes seccond
+ *  X-test pieces are added to the boardX
+ *  
+ *  -test that there can be no 3rd move
+ * 
+ * 
+ */
 
 
 /** Test for the Alpha Hanto Game
@@ -71,6 +85,32 @@ public class AlphaHantoGameTest {
 			fail();
 		}
 		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(2,2));
+	}
+	
+	@Test
+	public void testFirstPieceIsButterfly() throws HantoException {
+		assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)));
+		assertEquals(HantoPieceType.BUTTERFLY, game.getPieceAt(new HantoCoordinateImpl(0,0)).getType());		
+	}
+	
+	@Test(expected = HantoException.class)
+	public void testCanOnlyAddButterflies() throws HantoException {
+		game.makeMove(HantoPieceType.CRAB, null, new HantoCoordinateImpl(0,0));
+	}
+	
+	@Test
+	public void testFirstPieceIsBlue() throws HantoException {
+		assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)));
+		assertEquals(HantoPlayerColor.BLUE, game.getPieceAt(new HantoCoordinateImpl(0,0)).getColor());		
+	}
+	
+	@Test
+	public void testSeccondPieceIsRed() throws HantoException {
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));
+		assertEquals(HantoPlayerColor.BLUE, game.getPieceAt(new HantoCoordinateImpl(0,0)).getColor());		
+		
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(1,0));
+		assertEquals(HantoPlayerColor.RED, game.getPieceAt(new HantoCoordinateImpl(1,0)).getColor());		
 	}
 	
 }

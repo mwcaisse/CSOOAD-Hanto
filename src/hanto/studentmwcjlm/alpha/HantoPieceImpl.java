@@ -11,17 +11,26 @@ import hanto.common.HantoPlayerColor;
  */
 public class HantoPieceImpl implements HantoPiece {
 
+	/** The color of the player whoose piece this is */
+	private HantoPlayerColor color;
+	
+	/** The type of piece */
+	private HantoPieceType type;
+	
 	/** Creates a new Hanto Piece 
 	 * 
 	 */
-	public HantoPieceImpl() {} ;
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type) {
+		this.color = color;
+		this.type = type;
+	}
 	
 	public HantoPlayerColor getColor() {
-		return null;
+		return color;
 	}
 
 	public HantoPieceType getType() {
-		return null;
+		return type;
 	}
 
 	

@@ -5,6 +5,7 @@ import hanto.common.HantoException;
 import hanto.common.HantoGame;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.HantoBoard;
 
@@ -49,13 +50,19 @@ public class AlphaHantoGame implements HantoGame {
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) throws HantoException {
 		
-		//add piece to the board
-		board.addPieceToBoard(new HantoPieceImpl(), to);		
-		turnCount ++;			
-		if (turnCount > 1) {
-			return MoveResult.DRAW;
+		//check if it is a valid piece type
+		if (isValidPieceType(pieceType)) {		
+			//add piece to the board
+			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), to);		
+			turnCount ++;			
+			if (turnCount > 1) {
+				return MoveResult.DRAW;
+			}
+			return MoveResult.OK;
 		}
-		return MoveResult.OK;
+		else {
+			throw new HantoException("Invalid piece type");
+		}
 	}
 	
 	/**
@@ -64,8 +71,7 @@ public class AlphaHantoGame implements HantoGame {
 	 * 	piece at that position
 	 */
 	public HantoPiece getPieceAt(HantoCoordinate where) {
-		// TODO Auto-generated method stub
-		return null;
+		return board.getPieceAt(where);
 	}
 
 	/**
@@ -74,6 +80,28 @@ public class AlphaHantoGame implements HantoGame {
 	public String getPrintableBoard() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	/** Returns the player color for the current turn
+	 * 
+	 * @return The player color
+	 */
+	private HantoPlayerColor getTurnColor() {
+		if (turnCount % 2 == 0) {
+			return HantoPlayerColor.BLUE;
+		}
+		else {
+			return HantoPlayerColor.RED;
+		}
+	}
+	
+	/** Determines if the given piece is a valid piece type for the game
+	 * 
+	 * @param type The type of the piece
+	 * @return True if the piece is valid, false otherwise
+	 */
+	
+	private boolean isValidPieceType(HantoPieceType type) {
+		return type == HantoPieceType.BUTTERFLY;
 	}
 
 }
