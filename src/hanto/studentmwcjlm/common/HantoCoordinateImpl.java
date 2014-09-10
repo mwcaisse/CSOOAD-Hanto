@@ -9,19 +9,26 @@ import hanto.common.HantoCoordinate;
  */
 public class HantoCoordinateImpl implements HantoCoordinate {
 
+	/** The x value of this coordinate */
+	private int x;
+	
+	/** The y value of this coordinate */
+	private int y;
+	
 	/** Creates a new Hanto Coordinate
 	 * 
 	 */
-	public HantoCoordinateImpl() {
-		
+	public HantoCoordinateImpl(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 	
 	public int getX() {
-		return 0;
+		return x;
 	}
 
 	public int getY() {
-		return 0;
+		return y;
 	}
 
 }
