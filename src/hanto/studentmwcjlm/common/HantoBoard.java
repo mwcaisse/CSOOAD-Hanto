@@ -9,6 +9,7 @@ import hanto.common.HantoPlayerColor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Board for keeping track of Hanto Pieces
  * 
@@ -76,7 +77,7 @@ public class HantoBoard {
 	 */
 	protected boolean hasAdjacentPiece(HantoCoordinate coord) {		
 	
-		List<HantoCoordinate> adjacentCoordinates = getAdjacentPieces(coord);		
+		List<HantoCoordinate> adjacentCoordinates = getAdjacentCoords(coord);		
 		for (HantoCoordinate other : adjacentCoordinates) {
 			if (getPieceAt(other) != null) {
 				return true;
@@ -85,12 +86,13 @@ public class HantoBoard {
 		return false;
 		
 	}
+	
 	/** Returns the list of coordinates adjacent to the given coordinate
 	 * 
 	 * @param coord
 	 * @return
 	 */
-	public static List<HantoCoordinate> getAdjacentPieces(HantoCoordinate coord) {
+	public static List<HantoCoordinate> getAdjacentCoords(HantoCoordinate coord) {
 		int cx = coord.getX();
 		int cy = coord.getY();
 		
@@ -107,6 +109,26 @@ public class HantoBoard {
 		return adjacentCoordinates;
 	}
 	
+	/** Get a list of pieces adjacent to a coordinate
+	 * @param coord the coordinate of the desired piece
+	 * @return the pieces that are adjacent to the coordinate
+	 */
+	public List<HantoPiece> getAdjacentPieces(HantoCoordinate coord) {
+		List<HantoPiece> adjacentPieces = new ArrayList<HantoPiece>();
+		List<HantoCoordinate> adjacentCoordinates = getAdjacentCoords(coord);
+		for (HantoCoordinate other : adjacentCoordinates) {
+			if (getPieceAt(other) != null) {
+				adjacentPieces.add(getPieceAt(other));
+			}
+		}
+		return adjacentPieces;
+	}
+	
+	/** Get the number of a kind and color of piece on the board
+	 * @param type the type of piece
+	 * @param color the color of piece
+	 * @return the number of pieces
+	 */
 	public int getPieceCount(HantoPieceType type, HantoPlayerColor color) {
 		int count = 0;
 		for(HantoPiece piece : pieces.values()) {
@@ -115,6 +137,17 @@ public class HantoBoard {
 			}
 		}
 		return count;
+	}
+	
+	public List<HantoCoordinate> getPieceCoordinates(HantoPieceType type, HantoPlayerColor color) {
+		List<HantoCoordinate> coords = new ArrayList<HantoCoordinate>();
+		for(HantoCoordinate location : pieces.keySet()) {
+			HantoPiece piece = pieces.get(location);
+			if(piece.getType() == type && piece.getColor() == color) {
+				coords.add(location);
+			}
+		}
+		return coords;
 	}
 	
 }

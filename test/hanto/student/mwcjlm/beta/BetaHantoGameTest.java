@@ -158,5 +158,28 @@ public class BetaHantoGameTest {
 		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,10));
 		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,11)));
 	}
+	
+	@Test
+	public void testGameRedWon() throws HantoException {
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,-1));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(1,-1));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(1,0));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,1));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(-1,1));
+		assertEquals(MoveResult.RED_WINS, game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(-1,0)));
+	}
+	
+	@Test
+	public void testGameBlueWon() throws HantoException {
+		HantoGame game = HantoGameFactory.getInstance().makeHantoGame(HantoGameID.BETA_HANTO, HantoPlayerColor.RED);
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,-1));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(1,-1));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(1,0));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,1));
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(-1,1));
+		assertEquals(MoveResult.BLUE_WINS, game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(-1,0)));
+	}
 
 }

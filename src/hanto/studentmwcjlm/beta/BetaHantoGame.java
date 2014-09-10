@@ -11,6 +11,7 @@ import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class BetaHantoGame implements HantoGame {
 
@@ -79,11 +80,8 @@ public class BetaHantoGame implements HantoGame {
 			//add piece to the board
 			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), to);		
 			decrementPieceType(pieceType);
-			turnCount ++;			
-			if (turnCount > 11) {
-				return MoveResult.DRAW;
-			}
-			return MoveResult.OK;
+			turnCount ++;
+			return getMoveResult();
 		}
 		else {
 			throw new HantoException("Invalid piece type");
@@ -149,7 +147,46 @@ public class BetaHantoGame implements HantoGame {
 	 * @return True if the game is over, false otherwise
 	 */
 	private boolean isGameOver() {
-		return turnCount >= 12;
+		return (getMoveResult() != MoveResult.OK);
+	}
+	
+	private MoveResult getMoveResult() {
+		boolean blueWon = hasPlayerWon(HantoPlayerColor.BLUE);
+		boolean redWon = hasPlayerWon(HantoPlayerColor.RED);
+		if(redWon && blueWon) {
+			return MoveResult.DRAW;
+		}
+		else if(redWon) {
+			return MoveResult.RED_WINS;
+		}
+		else if(blueWon) {
+			return MoveResult.BLUE_WINS;
+		}
+		else if (turnCount > 11) {
+			return MoveResult.DRAW;
+		}
+		else {
+			return MoveResult.OK;
+		}
+	}
+	
+	private boolean hasPlayerWon(HantoPlayerColor color) {
+		List<HantoCoordinate> butterflyLoc = board.getPieceCoordinates(HantoPieceType.BUTTERFLY, oppositeColor(color));
+		if(!butterflyLoc.isEmpty()) {
+			if(board.getAdjacentPieces(butterflyLoc.get(0)).size() >= 6) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private HantoPlayerColor oppositeColor(HantoPlayerColor color) {
+		if(color == HantoPlayerColor.BLUE) {
+			return HantoPlayerColor.RED;
+		}
+		else {
+			return HantoPlayerColor.BLUE;
+		}
 	}
 
 }
