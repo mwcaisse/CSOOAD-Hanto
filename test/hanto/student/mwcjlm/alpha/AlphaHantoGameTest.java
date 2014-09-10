@@ -1,8 +1,10 @@
 package hanto.student.mwcjlm.alpha;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import hanto.HantoGameFactory;
 import hanto.common.HantoException;
 import hanto.common.HantoGame;
+import hanto.common.HantoGameID;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
@@ -39,7 +41,7 @@ public class AlphaHantoGameTest {
 	
 	@Before
 	public void setup() {
-		game = new AlphaHantoGame();
+		game = HantoGameFactory.getInstance().makeHantoGame(HantoGameID.ALPHA_HANTO);
 	}
 	/** Test the first for alpha
 	 * 
@@ -120,7 +122,11 @@ public class AlphaHantoGameTest {
 		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(-1,0));
 	}
 	
-	
+	@Test(expected = HantoException.class)
+	public void testPiecesCannotMove() throws HantoException {
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));
+		game.makeMove(HantoPieceType.BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(1,0));
+	}
 	
 	
 	

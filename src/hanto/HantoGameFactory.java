@@ -10,7 +10,11 @@
 
 package hanto;
 
-import hanto.common.*;
+import hanto.common.HantoGame;
+import hanto.common.HantoGameID;
+import hanto.common.HantoPlayerColor;
+import hanto.studentmwcjlm.alpha.AlphaHantoGame;
+import hanto.studentmwcjlm.beta.BetaHantoGame;
 
 /**
  * This is a singleton class that provides a factory to create an instance of any version
@@ -59,7 +63,12 @@ public class HantoGameFactory
 	public HantoGame makeHantoGame(HantoGameID gameId, HantoPlayerColor movesFirst) {
 		HantoGame game = null;
 		switch (gameId) {
-			// to be filled in
+		case ALPHA_HANTO:
+			game = new AlphaHantoGame();
+			break;
+		case BETA_HANTO:
+			game = new BetaHantoGame(movesFirst);
+			break;
 		}
 		return game;
 	}

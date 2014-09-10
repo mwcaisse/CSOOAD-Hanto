@@ -1,4 +1,4 @@
-package hanto.studentmwcjlm.alpha;
+package hanto.studentmwcjlm.beta;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
@@ -8,16 +8,22 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.HantoBoard;
+import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
 
-public class AlphaHantoGame implements HantoGame {
+import java.util.HashMap;
+
+public class BetaHantoGame implements HantoGame {
 
 	/** The number of turns in the game */
 	private int turnCount;
 	
 	/** The board for hanto */
 	private HantoBoard board;
+	private HashMap<HantoPlayerColor, HantoPlayerPieceCounter> piecesRemaining;
+	private HantoPlayerColor firstPlayer;
 	
-	public AlphaHantoGame() {
+	public BetaHantoGame(HantoPlayerColor firstPlayer) {
+		this.firstPlayer = firstPlayer;
 		init();
 	}
 	
@@ -26,6 +32,14 @@ public class AlphaHantoGame implements HantoGame {
 		turnCount = 0;
 		
 		board = new HantoBoard();
+		
+		piecesRemaining = new HashMap<HantoPlayerColor, HantoPlayerPieceCounter>();
+		HashMap<HantoPieceType, Integer> initPieces = new HashMap<HantoPieceType, Integer>();
+		initPieces.put(HantoPieceType.BUTTERFLY, 1);
+		initPieces.put(HantoPieceType.SPARROW, 5);
+		for(HantoPlayerColor color : HantoPlayerColor.values()) {
+			piecesRemaining.put(color, new HantoPlayerPieceCounter(initPieces));
+		}
 	}
 	
 	/**
@@ -61,11 +75,12 @@ public class AlphaHantoGame implements HantoGame {
 		}
 		
 		//check if it is a valid piece type
-		if (isValidPieceType(pieceType)) {		
+		if (canPlayPieceType(pieceType)) {		
 			//add piece to the board
 			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), to);		
+			decrementPieceType(pieceType);
 			turnCount ++;			
-			if (turnCount > 1) {
+			if (turnCount > 11) {
 				return MoveResult.DRAW;
 			}
 			return MoveResult.OK;
@@ -97,21 +112,36 @@ public class AlphaHantoGame implements HantoGame {
 	 */
 	private HantoPlayerColor getTurnColor() {
 		if (turnCount % 2 == 0) {
-			return HantoPlayerColor.BLUE;
+			return firstPlayer;
+		}
+		else if(firstPlayer == HantoPlayerColor.BLUE) {
+			return HantoPlayerColor.RED;
 		}
 		else {
-			return HantoPlayerColor.RED;
+			return HantoPlayerColor.BLUE;
 		}
 	}
 	
-	/** Determines if the given piece is a valid piece type for the game
+	/** Determines if the given piece type can be placed on this turn
 	 * 
 	 * @param type The type of the piece
 	 * @return True if the piece is valid, false otherwise
 	 */
+	private boolean canPlayPieceType(HantoPieceType type) {
+		// if it's after the third turn and a butterfly has not been played by that color yet
+		if((turnCount/2) >= 3 &&
+				board.getPieceCount(HantoPieceType.BUTTERFLY, getTurnColor()) < 1 &&
+				type != HantoPieceType.BUTTERFLY) {
+			return false;
+		}
+		return piecesRemaining.get(getTurnColor()).getPiecesRemaining(type) > 0;
+	}
 	
-	private boolean isValidPieceType(HantoPieceType type) {
-		return type == HantoPieceType.BUTTERFLY;
+	/** Decrement the number of pieces remaining for a type
+	 * @param type the type of hanto piece to be decremented
+	 */
+	private void decrementPieceType(HantoPieceType type) {
+		piecesRemaining.get(getTurnColor()).decrementPieceType(type);
 	}
 	
 	/** Returns if the game is over or not
@@ -119,7 +149,7 @@ public class AlphaHantoGame implements HantoGame {
 	 * @return True if the game is over, false otherwise
 	 */
 	private boolean isGameOver() {
-		return turnCount >= 2;
+		return turnCount >= 12;
 	}
 
 }

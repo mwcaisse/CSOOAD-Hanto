@@ -3,6 +3,8 @@ package hanto.studentmwcjlm.common;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,6 +105,16 @@ public class HantoBoard {
 		adjacentCoordinates.add(new HantoCoordinateImpl(cx - 1, cy + 1));
 		
 		return adjacentCoordinates;
+	}
+	
+	public int getPieceCount(HantoPieceType type, HantoPlayerColor color) {
+		int count = 0;
+		for(HantoPiece piece : pieces.values()) {
+			if(piece.getType() == type && piece.getColor() == color) {
+				count++;
+			}
+		}
+		return count;
 	}
 	
 }
