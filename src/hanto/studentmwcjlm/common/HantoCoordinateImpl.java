@@ -28,8 +28,10 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 	/** The y value of this coordinate */
 	private int y;
 	
-	/** Creates a new Hanto Coordinate
+	/** Creates a new Hanto Coordinate with the given x and y coordinates
 	 * 
+	 * @param x The x coordinate of the hanto coordinate
+	 * @param y The y coordinate of the hanto coordinate
 	 */
 	public HantoCoordinateImpl(int x, int y) {
 		this.x = x;
@@ -41,8 +43,7 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 	 * @param coord The coord to create from
 	 */
 	public HantoCoordinateImpl(HantoCoordinate coord) {
-		this.x = coord.getX();
-		this.y = coord.getY();
+		this(coord.getX(), coord.getY());
 	}
 	
 	public int getX() {
@@ -53,10 +54,9 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 		return y;
 	}
 	
-	/** Returns the list of coordinates adjacent to the given coordinate
+	/** Returns the list of coordinates adjacent to this coordinate
 	 * 
-	 * @param coord
-	 * @return
+	 * @return The list of coordinates adjacent to this coordinate
 	 */
 	public List<HantoCoordinateImpl> getAdjacentCoords() {
 		int cx = getX();
@@ -75,9 +75,6 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 		return adjacentCoordinates;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -96,9 +93,6 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 		return other.getX() == getX() && other.getY() == getY();
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	@Override
 	public int compareTo(HantoCoordinateImpl o) {
 		if (equals(o)) {

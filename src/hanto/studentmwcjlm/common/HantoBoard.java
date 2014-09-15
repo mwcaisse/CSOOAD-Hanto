@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -31,7 +32,7 @@ import java.util.List;
 public class HantoBoard {
 
 	/** The mapping of pieces and coordinates */
-	private HashMap<HantoCoordinateImpl, HantoPiece> pieces;
+	private Map<HantoCoordinateImpl, HantoPiece> pieces;
 	
 	/** Creates a mew Hanto Board and initializes the board
 	 * 
@@ -72,7 +73,7 @@ public class HantoBoard {
 	 */
 	public boolean isValidMove(HantoPiece piece, HantoCoordinateImpl to){
 		if (pieces.isEmpty()) { //if the board is empty only valid move is 0,0
-			return to.equals(new HantoCoordinateImpl(0,0));	
+			return to.equals(new HantoCoordinateImpl(0, 0));	
 		}
 		if (getPieceAt(to) != null) {
 			return false; //if there is a piece on the spot it is invalid
@@ -128,6 +129,12 @@ public class HantoBoard {
 		return count;
 	}
 	
+	/** Returns the list of coordinates for the peice with the specified type and color
+	 * 
+	 * @param type The type of piece
+	 * @param color The color of the piece
+	 * @return The list of coordinates that have a piece of this type + color
+	 */
 	public List<HantoCoordinateImpl> getPieceCoordinates(HantoPieceType type, HantoPlayerColor color) {
 		List<HantoCoordinateImpl> coords = new ArrayList<HantoCoordinateImpl>();
 		for(HantoCoordinateImpl location : pieces.keySet()) {

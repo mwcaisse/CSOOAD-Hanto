@@ -29,6 +29,8 @@ public class HantoPieceImpl implements HantoPiece {
 	
 	/** Creates a new Hanto Piece 
 	 * 
+	 * @param color The color of the piece
+	 * @param type The type of the color
 	 */
 	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type) {
 		this.color = color;

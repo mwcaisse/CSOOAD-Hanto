@@ -23,7 +23,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * 
 	 */
 	protected AbstractHantoGame() {
-		this.board = new HantoBoard();
+		board = new HantoBoard();
 	}
 	
 	
@@ -59,6 +59,25 @@ public abstract class AbstractHantoGame implements HantoGame{
 		return makeMove(pieceType, fromCoord, toCoord);
 		
 	}
+	
+	/**
+	 * This method executes a move in the game. It is called for every move that must be
+	 * made.
+	 * 
+	 * @param pieceType
+	 *            the piece type that is being moved
+	 * @param from
+	 *            the coordinate where the piece begins. If the coordinate is null, then
+	 *            the piece begins off the board (that is, it is placed on the board in
+	 *            this move).
+	 * @param to
+	 *            the coordinated where the piece is after the move has been made.
+	 * @return the result of the move
+	 * @throws HantoException
+	 *             if there are any problems in making the move (such as specifying a
+	 *             coordinate that does not have the appropriate piece, or the color of
+	 *             the piece is not the color of the player who is moving.
+	 */
 	
 	protected abstract MoveResult makeMove(HantoPieceType pieceType, HantoCoordinateImpl from,
 			HantoCoordinateImpl to) throws HantoException;

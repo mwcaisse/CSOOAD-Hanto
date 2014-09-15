@@ -10,7 +10,6 @@
 
 package hanto.studentmwcjlm.alpha;
 
-import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
@@ -19,6 +18,11 @@ import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 
+/** The implementation of HantoGame for Alpha
+ * 
+ * @author Mitchell Caisse, James Megin
+ *
+ */
 public class AlphaHantoGame extends AbstractHantoGame {
 
 	/** The number of turns in the game */

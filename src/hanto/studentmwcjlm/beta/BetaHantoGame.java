@@ -10,9 +10,7 @@
 
 package hanto.studentmwcjlm.beta;
 
-import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
-import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
@@ -23,15 +21,25 @@ import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/** The implementation of Hanto Game for Beta
+ * 
+ * @author Mitchell Caisse, James Megin
+ *
+ */
 public class BetaHantoGame extends AbstractHantoGame {
 
 	/** The number of turns in the game */
 	private int turnCount;
 	
-	private HashMap<HantoPlayerColor, HantoPlayerPieceCounter> piecesRemaining;
+	private Map<HantoPlayerColor, HantoPlayerPieceCounter> piecesRemaining;
 	private HantoPlayerColor firstPlayer;
 	
+	/** Creates a new Beta Hanto Game
+	 * 
+	 * @param firstPlayer The color of the player to go first
+	 */
 	public BetaHantoGame(HantoPlayerColor firstPlayer) {
 		this.firstPlayer = firstPlayer;
 		init();
