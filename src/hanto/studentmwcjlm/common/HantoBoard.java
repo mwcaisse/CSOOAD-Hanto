@@ -20,13 +20,13 @@ import java.util.Map;
 public class HantoBoard {
 
 	/** The mapping of pieces and coordinates */
-	private HashMap<HantoCoordinate, HantoPiece> pieces;
+	private HashMap<HantoCoordinateImpl, HantoPiece> pieces;
 	
 	/** Creates a mew Hanto Board and initializes the board
 	 * 
 	 */
 	public HantoBoard() {
-		pieces = new HashMap<HantoCoordinate, HantoPiece>();
+		pieces = new HashMap<HantoCoordinateImpl, HantoPiece>();
 	}
 	
 	/** Returns the piece at the given location
@@ -34,7 +34,7 @@ public class HantoBoard {
 	 * @param at The coordinate to get the piece of
 	 * @return The piece at the given coordinate
 	 */
-	public HantoPiece getPieceAt(HantoCoordinate at) {
+	public HantoPiece getPieceAt(HantoCoordinateImpl at) {
 		return pieces.get(at);
 	}
 	
@@ -44,7 +44,7 @@ public class HantoBoard {
 	 * @param to The position to add the piece to
 	 * @throws HantoException if the spot is invalid  
 	 */
-	public void addPieceToBoard(HantoPiece piece, HantoCoordinate to) throws HantoException {		
+	public void addPieceToBoard(HantoPiece piece, HantoCoordinateImpl to) throws HantoException {		
 		if (isValidMove(piece, to)) {
 			pieces.put(to, piece);
 		}
@@ -59,7 +59,7 @@ public class HantoBoard {
 	 * @param to The coordinate to move the peice to
 	 * @return True if it is a valid move, false othter wise
 	 */
-	public boolean isValidMove(HantoPiece piece, HantoCoordinate to){
+	public boolean isValidMove(HantoPiece piece, HantoCoordinateImpl to){
 		if (pieces.isEmpty()) { //if the board is empty only valid move is 0,0
 			return to.equals(new HantoCoordinateImpl(0,0));	
 		}
@@ -75,10 +75,10 @@ public class HantoBoard {
 	 * @param coord The coordinate to test
 	 * @return True if there is an adjacent piece, false otherwise
 	 */
-	protected boolean hasAdjacentPiece(HantoCoordinate coord) {		
+	protected boolean hasAdjacentPiece(HantoCoordinateImpl coord) {		
 	
-		List<HantoCoordinate> adjacentCoordinates = getAdjacentCoords(coord);		
-		for (HantoCoordinate other : adjacentCoordinates) {
+		List<HantoCoordinateImpl> adjacentCoordinates = coord.getAdjacentCoords();		
+		for (HantoCoordinateImpl other : adjacentCoordinates) {
 			if (getPieceAt(other) != null) {
 				return true;
 			}
@@ -87,36 +87,14 @@ public class HantoBoard {
 		
 	}
 	
-	/** Returns the list of coordinates adjacent to the given coordinate
-	 * 
-	 * @param coord
-	 * @return
-	 */
-	public static List<HantoCoordinate> getAdjacentCoords(HantoCoordinate coord) {
-		int cx = coord.getX();
-		int cy = coord.getY();
-		
-		List<HantoCoordinate> adjacentCoordinates = new ArrayList<HantoCoordinate>();
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx + 1, cy));
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx - 1, cy));
-		
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx, cy + 1));
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx, cy - 1));
-		
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx + 1, cy - 1));
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx - 1, cy + 1));
-		
-		return adjacentCoordinates;
-	}
-	
 	/** Get a list of pieces adjacent to a coordinate
 	 * @param coord the coordinate of the desired piece
 	 * @return the pieces that are adjacent to the coordinate
 	 */
-	public List<HantoPiece> getAdjacentPieces(HantoCoordinate coord) {
+	public List<HantoPiece> getAdjacentPieces(HantoCoordinateImpl coord) {
 		List<HantoPiece> adjacentPieces = new ArrayList<HantoPiece>();
-		List<HantoCoordinate> adjacentCoordinates = getAdjacentCoords(coord);
-		for (HantoCoordinate other : adjacentCoordinates) {
+		List<HantoCoordinateImpl> adjacentCoordinates = coord.getAdjacentCoords();
+		for (HantoCoordinateImpl other : adjacentCoordinates) {
 			if (getPieceAt(other) != null) {
 				adjacentPieces.add(getPieceAt(other));
 			}
@@ -139,9 +117,9 @@ public class HantoBoard {
 		return count;
 	}
 	
-	public List<HantoCoordinate> getPieceCoordinates(HantoPieceType type, HantoPlayerColor color) {
-		List<HantoCoordinate> coords = new ArrayList<HantoCoordinate>();
-		for(HantoCoordinate location : pieces.keySet()) {
+	public List<HantoCoordinateImpl> getPieceCoordinates(HantoPieceType type, HantoPlayerColor color) {
+		List<HantoCoordinateImpl> coords = new ArrayList<HantoCoordinateImpl>();
+		for(HantoCoordinateImpl location : pieces.keySet()) {
 			HantoPiece piece = pieces.get(location);
 			if(piece.getType() == type && piece.getColor() == color) {
 				coords.add(location);

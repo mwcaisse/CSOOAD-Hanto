@@ -2,24 +2,23 @@ package hanto.studentmwcjlm.beta;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
-import hanto.common.HantoGame;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
+import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.HantoBoard;
+import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class BetaHantoGame implements HantoGame {
+public class BetaHantoGame extends AbstractHantoGame {
 
 	/** The number of turns in the game */
 	private int turnCount;
 	
-	/** The board for hanto */
-	private HantoBoard board;
 	private HashMap<HantoPlayerColor, HantoPlayerPieceCounter> piecesRemaining;
 	private HantoPlayerColor firstPlayer;
 	
@@ -62,8 +61,8 @@ public class BetaHantoGame implements HantoGame {
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
-			HantoCoordinate to) throws HantoException {
+	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinateImpl from,
+			HantoCoordinateImpl to) throws HantoException {
 		
 		//check if the game is over
 		if (isGameOver()) {
@@ -88,22 +87,6 @@ public class BetaHantoGame implements HantoGame {
 		}
 	}
 	
-	/**
-	 * @param where the coordinate to query
-	 * @return the piece at the specified coordinate or null if there is no 
-	 * 	piece at that position
-	 */
-	public HantoPiece getPieceAt(HantoCoordinate where) {
-		return board.getPieceAt(where);
-	}
-
-	/**
-	 * @return a printable representation of the board.
-	 */	
-	public String getPrintableBoard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	/** Returns the player color for the current turn
 	 * 
 	 * @return The player color
@@ -171,7 +154,7 @@ public class BetaHantoGame implements HantoGame {
 	}
 	
 	private boolean hasPlayerWon(HantoPlayerColor color) {
-		List<HantoCoordinate> butterflyLoc = board.getPieceCoordinates(HantoPieceType.BUTTERFLY, oppositeColor(color));
+		List<HantoCoordinateImpl> butterflyLoc = board.getPieceCoordinates(HantoPieceType.BUTTERFLY, oppositeColor(color));
 		if(!butterflyLoc.isEmpty()) {
 			if(board.getAdjacentPieces(butterflyLoc.get(0)).size() >= 6) {
 				return true;

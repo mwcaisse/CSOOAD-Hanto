@@ -2,21 +2,17 @@ package hanto.studentmwcjlm.alpha;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
-import hanto.common.HantoGame;
-import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
+import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 
-public class AlphaHantoGame implements HantoGame {
+public class AlphaHantoGame extends AbstractHantoGame {
 
 	/** The number of turns in the game */
 	private int turnCount;
-	
-	/** The board for hanto */
-	private HantoBoard board;
 	
 	public AlphaHantoGame() {
 		init();
@@ -48,8 +44,8 @@ public class AlphaHantoGame implements HantoGame {
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
-			HantoCoordinate to) throws HantoException {
+	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinateImpl from,
+			HantoCoordinateImpl to) throws HantoException {
 		
 		//check if the game is over
 		if (isGameOver()) {
@@ -61,12 +57,10 @@ public class AlphaHantoGame implements HantoGame {
 			throw new HantoException("Pieces cannot move in Alpha Hanto");
 		}
 		
-		HantoCoordinate myTo = new HantoCoordinateImpl(to);
-		
 		//check if it is a valid piece type
 		if (isValidPieceType(pieceType)) {		
 			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), myTo);		
+			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), to);		
 			turnCount ++;			
 			if (turnCount > 1) {
 				return MoveResult.DRAW;
@@ -78,22 +72,8 @@ public class AlphaHantoGame implements HantoGame {
 		}
 	}
 	
-	/**
-	 * @param where the coordinate to query
-	 * @return the piece at the specified coordinate or null if there is no 
-	 * 	piece at that position
-	 */
-	public HantoPiece getPieceAt(HantoCoordinate where) {
-		return board.getPieceAt(where);
-	}
+	
 
-	/**
-	 * @return a printable representation of the board.
-	 */	
-	public String getPrintableBoard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	/** Returns the player color for the current turn
 	 * 
 	 * @return The player color

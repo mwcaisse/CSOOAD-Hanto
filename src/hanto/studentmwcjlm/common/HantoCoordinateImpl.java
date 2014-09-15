@@ -1,5 +1,8 @@
 package hanto.studentmwcjlm.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hanto.common.HantoCoordinate;
 
 /**
@@ -38,6 +41,28 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 
 	public int getY() {
 		return y;
+	}
+	
+	/** Returns the list of coordinates adjacent to the given coordinate
+	 * 
+	 * @param coord
+	 * @return
+	 */
+	public List<HantoCoordinateImpl> getAdjacentCoords() {
+		int cx = getX();
+		int cy = getY();
+		
+		List<HantoCoordinateImpl> adjacentCoordinates = new ArrayList<HantoCoordinateImpl>();
+		adjacentCoordinates.add(new HantoCoordinateImpl(cx + 1, cy));
+		adjacentCoordinates.add(new HantoCoordinateImpl(cx - 1, cy));
+		
+		adjacentCoordinates.add(new HantoCoordinateImpl(cx, cy + 1));
+		adjacentCoordinates.add(new HantoCoordinateImpl(cx, cy - 1));
+		
+		adjacentCoordinates.add(new HantoCoordinateImpl(cx + 1, cy - 1));
+		adjacentCoordinates.add(new HantoCoordinateImpl(cx - 1, cy + 1));
+		
+		return adjacentCoordinates;
 	}
 
 	/* (non-Javadoc)
