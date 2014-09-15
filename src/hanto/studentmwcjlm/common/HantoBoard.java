@@ -1,15 +1,16 @@
 package hanto.studentmwcjlm.common;
 
-import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+
 
 /** Board for keeping track of Hanto Pieces
  * 
@@ -126,6 +127,24 @@ public class HantoBoard {
 			}
 		}
 		return coords;
+	}
+	
+	/** Returns a string containing a printable copy of the board
+	 * 
+	 * @return The printabl copy of the board
+	 */
+	public String getPrintableBoard() {
+		
+		List<HantoCoordinateImpl> sortedCoords = new ArrayList<HantoCoordinateImpl>(pieces.keySet());
+		Collections.sort(sortedCoords);
+		
+		String board = "";
+		for (HantoCoordinateImpl coord : sortedCoords) {
+			HantoPiece piece = pieces.get(coord);
+			board += String.format("[%d,%d] %s:%s\n", coord.getX(), coord.getY(), piece.getColor(), piece.getType().getPrintableName());
+		}
+		
+		return board;
 	}
 	
 }

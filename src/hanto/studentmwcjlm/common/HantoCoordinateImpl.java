@@ -1,16 +1,16 @@
 package hanto.studentmwcjlm.common;
 
+import hanto.common.HantoCoordinate;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import hanto.common.HantoCoordinate;
 
 /**
  *  Basic implementation of the Hanto Coordinate
  * @author Mitchell
  *
  */
-public class HantoCoordinateImpl implements HantoCoordinate {
+public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoordinateImpl> {
 
 	/** The x value of this coordinate */
 	private int x;
@@ -84,6 +84,22 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		}
 		HantoCoordinate other = (HantoCoordinate)o;		
 		return other.getX() == getX() && other.getY() == getY();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(HantoCoordinateImpl o) {
+		if (equals(o)) {
+			return 0;
+		}		
+		if (o.getX() == this.getX()) {
+			return this.getY() - o.getY();
+		}
+		else {
+			return this.getX() - o.getX();
+		}
 	}	
 
 }

@@ -76,8 +76,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @return a printable representation of the board.
 	 */	
 	public String getPrintableBoard() {
-		// TODO Auto-generated method stub
-		return null;
+		return board.getPrintableBoard();
 	}
 	
 	/**

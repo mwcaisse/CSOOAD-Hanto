@@ -2,14 +2,20 @@ package hanto.student.mwcjlm.alpha;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import hanto.HantoGameFactory;
+import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
+import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.alpha.AlphaHantoGame;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+
+import static hanto.common.HantoPieceType.*;
+import static hanto.common.MoveResult.*;
+import static hanto.common.HantoPlayerColor.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -126,6 +132,30 @@ public class AlphaHantoGameTest {
 	public void testPiecesCannotMove() throws HantoException {
 		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));
 		game.makeMove(HantoPieceType.BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(1,0));
+	}
+	
+	@Test
+	public void testPrintBoardWithOnePiece() throws HantoException {
+		HantoCoordinate coord = new HantoCoordinateImpl(0, 0);
+		
+		game.makeMove(BUTTERFLY, null, coord);	
+		
+		String board = String.format("[%d,%d] %s:%s\n", coord.getX(), coord.getY(), BLUE, BUTTERFLY.getPrintableName());
+		
+		assertEquals(board, game.getPrintableBoard());
+	}
+	
+	@Test
+	public void testPrintBoardWithTwoPiece() throws HantoException {
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0));	
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(1,0));	
+		
+		String board = "";
+		
+		board +=String.format("[%d,%d] %s:%s\n", 0, 0, BLUE, BUTTERFLY.getPrintableName());
+		board +=String.format("[%d,%d] %s:%s\n", 1, 0, RED, BUTTERFLY.getPrintableName());
+		
+		assertEquals(board, game.getPrintableBoard());
 	}
 	
 	
