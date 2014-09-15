@@ -8,6 +8,7 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.HantoBoard;
+import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 
 public class AlphaHantoGame implements HantoGame {
 
@@ -60,10 +61,12 @@ public class AlphaHantoGame implements HantoGame {
 			throw new HantoException("Pieces cannot move in Alpha Hanto");
 		}
 		
+		HantoCoordinate myTo = new HantoCoordinateImpl(to);
+		
 		//check if it is a valid piece type
 		if (isValidPieceType(pieceType)) {		
 			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), to);		
+			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), myTo);		
 			turnCount ++;			
 			if (turnCount > 1) {
 				return MoveResult.DRAW;

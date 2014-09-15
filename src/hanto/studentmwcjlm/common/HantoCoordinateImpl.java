@@ -23,6 +23,15 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		this.y = y;
 	}
 	
+	/** Creates a new HantoCoordImpl from the given hanto coord 
+	 * 
+	 * @param coord The coord to create from
+	 */
+	public HantoCoordinateImpl(HantoCoordinate coord) {
+		this.x = coord.getX();
+		this.y = coord.getY();
+	}
+	
 	public int getX() {
 		return x;
 	}
