@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.studentmwcjlm.alpha;
+package hanto.studentmwcjlm.common;
 
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;

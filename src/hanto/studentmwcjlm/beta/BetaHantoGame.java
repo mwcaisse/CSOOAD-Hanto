@@ -17,11 +17,11 @@ import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+import hanto.studentmwcjlm.common.HantoPieceImpl;
 import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** The implementation of Hanto Game for Beta
  * 
@@ -29,19 +29,13 @@ import java.util.Map;
  *
  */
 public class BetaHantoGame extends AbstractHantoGame {
-
-	/** The number of turns in the game */
-	private int turnCount;
-	
-	private Map<HantoPlayerColor, HantoPlayerPieceCounter> piecesRemaining;
-	private HantoPlayerColor firstPlayer;
 	
 	/** Creates a new Beta Hanto Game
 	 * 
 	 * @param firstPlayer The color of the player to go first
 	 */
 	public BetaHantoGame(HantoPlayerColor firstPlayer) {
-		this.firstPlayer = firstPlayer;
+		super(firstPlayer);
 		init();
 	}
 	
@@ -95,29 +89,14 @@ public class BetaHantoGame extends AbstractHantoGame {
 		//check if it is a valid piece type
 		if (canPlayPieceType(pieceType)) {		
 			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), to);		
+			board.addPieceToBoard(new HantoPieceImpl(currentPlayerColor, pieceType), to);		
 			decrementPieceType(pieceType);
 			turnCount ++;
+			updateHantoPlayerColor();
 			return getMoveResult();
 		}
 		else {
 			throw new HantoException("Invalid piece type");
-		}
-	}
-	
-	/** Returns the player color for the current turn
-	 * 
-	 * @return The player color
-	 */
-	private HantoPlayerColor getTurnColor() {
-		if (turnCount % 2 == 0) {
-			return firstPlayer;
-		}
-		else if(firstPlayer == HantoPlayerColor.BLUE) {
-			return HantoPlayerColor.RED;
-		}
-		else {
-			return HantoPlayerColor.BLUE;
 		}
 	}
 	
@@ -129,18 +108,18 @@ public class BetaHantoGame extends AbstractHantoGame {
 	private boolean canPlayPieceType(HantoPieceType type) {
 		// if it's after the third turn and a butterfly has not been played by that color yet
 		if((turnCount/2) >= 3 &&
-				board.getPieceCount(HantoPieceType.BUTTERFLY, getTurnColor()) < 1 &&
+				board.getPieceCount(HantoPieceType.BUTTERFLY, currentPlayerColor) < 1 &&
 				type != HantoPieceType.BUTTERFLY) {
 			return false;
 		}
-		return piecesRemaining.get(getTurnColor()).getPiecesRemaining(type) > 0;
+		return piecesRemaining.get(currentPlayerColor).getPiecesRemaining(type) > 0;
 	}
 	
 	/** Decrement the number of pieces remaining for a type
 	 * @param type the type of hanto piece to be decremented
 	 */
 	private void decrementPieceType(HantoPieceType type) {
-		piecesRemaining.get(getTurnColor()).decrementPieceType(type);
+		piecesRemaining.get(currentPlayerColor).decrementPieceType(type);
 	}
 	
 	/** Returns if the game is over or not

@@ -17,6 +17,7 @@ import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+import hanto.studentmwcjlm.common.HantoPieceImpl;
 
 /** The implementation of HantoGame for Alpha
  * 
@@ -29,6 +30,7 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	private int turnCount;
 	
 	public AlphaHantoGame() {
+		super(HantoPlayerColor.BLUE);
 		init();
 	}
 	

@@ -41,6 +41,14 @@ public class HantoBoard {
 		pieces = new HashMap<HantoCoordinateImpl, HantoPiece>();
 	}
 	
+	/** Creates a new Hanto board with the given pieces 
+	 * 
+	 * @param pieces The initial pieces on the board
+	 */
+	public HantoBoard(Map<HantoCoordinateImpl, HantoPiece> pieces) {
+		this.pieces = pieces;
+	}
+	
 	/** Returns the piece at the given location
 	 * 
 	 * @param at The coordinate to get the piece of
