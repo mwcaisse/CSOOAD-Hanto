@@ -1,7 +1,6 @@
 package hanto.student.mwcjlm.alpha;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import hanto.HantoGameFactory;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoGame;
@@ -12,7 +11,7 @@ import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.alpha.AlphaHantoGame;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
-
+import hanto.studentmwcjlm.common.HantoGameFactory;
 import static hanto.common.HantoPieceType.*;
 import static hanto.common.MoveResult.*;
 import static hanto.common.HantoPlayerColor.*;
