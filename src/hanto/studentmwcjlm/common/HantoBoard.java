@@ -29,7 +29,7 @@ import java.util.Map;
  *
  */
 
-public class HantoBoard {
+public class HantoBoard implements Cloneable {
 
 	/** The mapping of pieces and coordinates */
 	private Map<HantoCoordinateImpl, HantoPiece> pieces;
@@ -58,6 +58,15 @@ public class HantoBoard {
 		return pieces.get(at);
 	}
 	
+	/** Determines if the piece at the given location is empty
+	 * 
+	 * @param at The location to check
+	 * @return True if the spot is empty, false otherwise
+	 */
+	public boolean isLocationEmpty(HantoCoordinateImpl at) {
+		return getPieceAt(at) == null;
+	}
+	
 	/** Adds a piece to the board, and determines if is a valid spot
 	 * 
 	 * @param piece The piece to add
@@ -71,6 +80,24 @@ public class HantoBoard {
 		else {
 			throw new HantoException("Invalid Move");
 		}
+	}
+	
+	/** Removes the peice at the given location from the board, and returns a copy of it
+	 * 
+	 * @param at The location of the piece to remove
+	 * @return A copy of the piece removed
+	 */
+	public HantoPiece removePeiceFromBoard(HantoCoordinateImpl at) {
+		return pieces.remove(at);
+	}
+	
+	/** Moves the peice from the specified location to the given location
+	 * 
+	 * @param from The location to move the piece from
+	 * @param to The location to move the peice to
+	 */
+	public void movePiece(HantoCoordinateImpl from, HantoCoordinateImpl to) {
+		pieces.put(to, removePeiceFromBoard(from));
 	}
 	
 	/** Checks that moving the specified piece to the specified location is valid
@@ -122,6 +149,22 @@ public class HantoBoard {
 		return adjacentPieces;
 	}
 	
+	/** Gets a list of coordinates adjacent to the given coordinate with pieces
+	 * 
+	 * @param coord The coord of the spot to check
+	 * @return The list of adj coords with pieces
+	 */
+	public List<HantoCoordinateImpl> getAdjacentLocationsWithPieces(HantoCoordinateImpl coord) {
+		List<HantoCoordinateImpl> adjacentCoords = new ArrayList<HantoCoordinateImpl>();
+		List<HantoCoordinateImpl> adjacentCoordinates = coord.getAdjacentCoords();
+		for (HantoCoordinateImpl other : adjacentCoordinates) {
+			if (getPieceAt(other) != null) {
+				adjacentCoords.add(other);
+			}
+		}
+		return adjacentCoords;
+	}
+	
 	/** Get the number of a kind and color of piece on the board
 	 * @param type the type of piece
 	 * @param color the color of piece
@@ -135,6 +178,14 @@ public class HantoBoard {
 			}
 		}
 		return count;
+	}
+	
+	/** Returns the number of pieces currently on the board
+	 * 
+	 * @return The number of pieces on the board
+	 */
+	public int getPieceCount() {
+		return pieces.size();
 	}
 	
 	/** Returns the list of coordinates for the peice with the specified type and color
@@ -169,6 +220,15 @@ public class HantoBoard {
 			board += String.format("[%d,%d] %s:%s\n", coord.getX(), coord.getY(), piece.getColor(), piece.getType().getPrintableName());
 		}
 		
+		return board;
+	}
+	
+	/** Clones this board
+	 * 
+	 */
+	public HantoBoard clone() {
+		HantoBoard board = new HantoBoard();
+		board.pieces = new HashMap<HantoCoordinateImpl, HantoPiece>(pieces);
 		return board;
 	}
 	

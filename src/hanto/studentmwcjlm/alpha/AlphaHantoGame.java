@@ -117,7 +117,8 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	 * 
 	 * @return True if the game is over, false otherwise
 	 */
-	private boolean isGameOver() {
+	@Override
+	protected boolean isGameOver() {
 		return turnCount >= 2;
 	}
 

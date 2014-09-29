@@ -41,7 +41,7 @@ public class BetaHantoGame extends AbstractHantoGame {
 	
 	
 	private void init() {
-		turnCount = 0;
+		turnLimit = 6 * 2;
 		
 		board = new HantoBoard();
 		
@@ -97,75 +97,6 @@ public class BetaHantoGame extends AbstractHantoGame {
 		}
 		else {
 			throw new HantoException("Invalid piece type");
-		}
-	}
-	
-	/** Determines if the given piece type can be placed on this turn
-	 * 
-	 * @param type The type of the piece
-	 * @return True if the piece is valid, false otherwise
-	 */
-	private boolean canPlayPieceType(HantoPieceType type) {
-		// if it's after the third turn and a butterfly has not been played by that color yet
-		if((turnCount/2) >= 3 &&
-				board.getPieceCount(HantoPieceType.BUTTERFLY, currentPlayerColor) < 1 &&
-				type != HantoPieceType.BUTTERFLY) {
-			return false;
-		}
-		return piecesRemaining.get(currentPlayerColor).getPiecesRemaining(type) > 0;
-	}
-	
-	/** Decrement the number of pieces remaining for a type
-	 * @param type the type of hanto piece to be decremented
-	 */
-	private void decrementPieceType(HantoPieceType type) {
-		piecesRemaining.get(currentPlayerColor).decrementPieceType(type);
-	}
-	
-	/** Returns if the game is over or not
-	 * 
-	 * @return True if the game is over, false otherwise
-	 */
-	private boolean isGameOver() {
-		return (getMoveResult() != MoveResult.OK);
-	}
-	
-	private MoveResult getMoveResult() {
-		boolean blueWon = hasPlayerWon(HantoPlayerColor.BLUE);
-		boolean redWon = hasPlayerWon(HantoPlayerColor.RED);
-		if(redWon && blueWon) {
-			return MoveResult.DRAW;
-		}
-		else if(redWon) {
-			return MoveResult.RED_WINS;
-		}
-		else if(blueWon) {
-			return MoveResult.BLUE_WINS;
-		}
-		else if (turnCount > 11) {
-			return MoveResult.DRAW;
-		}
-		else {
-			return MoveResult.OK;
-		}
-	}
-	
-	private boolean hasPlayerWon(HantoPlayerColor color) {
-		List<HantoCoordinateImpl> butterflyLoc = board.getPieceCoordinates(HantoPieceType.BUTTERFLY, oppositeColor(color));
-		if(!butterflyLoc.isEmpty()) {
-			if(board.getAdjacentPieces(butterflyLoc.get(0)).size() >= 6) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private HantoPlayerColor oppositeColor(HantoPlayerColor color) {
-		if(color == HantoPlayerColor.BLUE) {
-			return HantoPlayerColor.RED;
-		}
-		else {
-			return HantoPlayerColor.BLUE;
 		}
 	}
 
