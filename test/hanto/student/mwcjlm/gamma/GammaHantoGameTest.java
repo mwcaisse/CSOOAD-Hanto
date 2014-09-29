@@ -3,8 +3,8 @@
  */
 package hanto.student.mwcjlm.gamma;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoGameID;
@@ -14,10 +14,14 @@ import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import common.HantoTestGame;
+import common.HantoTestGame.PieceLocationPair;
 import common.HantoTestGameFactory;
 
 /**
@@ -81,6 +85,32 @@ public class GammaHantoGameTest {
 		assertNull(movedPiece);	
 		
 	}
+	
+	@Test (expected = HantoException.class)
+	public void nonContigiousPieceShouldThrowException() throws HantoException {
+		initWithButterflies();
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(1, -1)); //blue
+		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(-1, 2)); //red
+		game.makeMove(HantoPieceType.SPARROW, createCoord(1,-1), createCoord(2,-2));	
+	}
+	
+	@Test (expected = HantoException.class)
+	public void blockingWalkingShouldThrowException() throws HantoException {
+		List<PieceLocationPair> initialPieces = new ArrayList<PieceLocationPair>();
+		
+		initialPieces.add(new PieceLocationPair(HantoPlayerColor.BLUE, HantoPieceType.SPARROW, createCoord(0,0)));
+		initialPieces.add(new PieceLocationPair(HantoPlayerColor.BLUE, HantoPieceType.SPARROW, createCoord(0,1)));
+		initialPieces.add(new PieceLocationPair(HantoPlayerColor.BLUE, HantoPieceType.SPARROW, createCoord(1,-1)));
+		initialPieces.add(new PieceLocationPair(HantoPlayerColor.BLUE, HantoPieceType.SPARROW, createCoord(-1,1)));
+		
+		game.initializeBoard(initialPieces.toArray(new PieceLocationPair[0]));
+		
+		
+		game.makeMove(HantoPieceType.SPARROW, createCoord(0,0), createCoord(1,0));
+		
+		
+	}
+	
 	
 	public HantoCoordinate createCoord(int x, int y) {
 		return new HantoCoordinateImpl(x,y);

@@ -10,7 +10,10 @@
 
 package common;
 
-import hanto.common.*;
+import hanto.common.HantoCoordinate;
+import hanto.common.HantoGame;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
 
 /**
  * Description
@@ -23,7 +26,7 @@ public interface HantoTestGame extends HantoGame
 	 * for testing.
 	 * @version Sep 21, 2014
 	 */
-	class PieceLocationPair {
+	public class PieceLocationPair {
 		public final HantoPlayerColor player;
 		public final HantoPieceType pieceType;
 		public final HantoCoordinate location;

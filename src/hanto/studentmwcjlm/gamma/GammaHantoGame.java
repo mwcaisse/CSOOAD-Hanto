@@ -13,12 +13,12 @@ import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 import hanto.studentmwcjlm.common.HantoPieceImpl;
 import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
+import hanto.studentmwcjlm.common.movevalidation.MoveValidator;
+import hanto.studentmwcjlm.common.movevalidation.WalkMoveValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /** Gamma Hanto
  * @author Mitchell Caisse
@@ -26,6 +26,9 @@ import java.util.Set;
  */
 public class GammaHantoGame extends AbstractHantoGame {
 
+	/** The validator to use to ensure moves are valid */
+	private MoveValidator moveValidator;
+	
 	/** Creates a new Gamma Hanto Game
 	 * 
 	 * @param firstPlayer The player that will move first
@@ -38,6 +41,7 @@ public class GammaHantoGame extends AbstractHantoGame {
 	/** Initialize Gamma */
 	private void init() {		
 		board = new HantoBoard();
+		moveValidator = new WalkMoveValidator();
 		
 		turnLimit = 20 * 2;
 		
@@ -137,6 +141,9 @@ public class GammaHantoGame extends AbstractHantoGame {
 		if (!isMoveContigous(from, to)) {
 			throw new HantoException("Resulting board is not contigious");
 		}
+		if (!moveValidator.isMoveValid(board, from, to)) {
+			throw new HantoException("Invalid movement");
+		}
 		
 		return true;
 	}
@@ -153,17 +160,19 @@ public class GammaHantoGame extends AbstractHantoGame {
 		testBoard.movePiece(from, to);
 		
 		HantoCoordinateImpl current = to;
-		Set<HantoCoordinateImpl> visited = new HashSet<HantoCoordinateImpl>();
+		List<HantoCoordinateImpl> visited = new ArrayList<HantoCoordinateImpl>();
 		List<HantoCoordinateImpl> toVisit =  new ArrayList<HantoCoordinateImpl>();
 		
 		visited.add(current);
-		toVisit.addAll(board.getAdjacentLocationsWithPieces(current));
+		toVisit.addAll(testBoard.getAdjacentLocationsWithPieces(current));
 		
 		while (toVisit.size() > 0) {
-			current = toVisit.remove(0);
-			visited.add(current);
-			
-			List<HantoCoordinateImpl> adjCoords = board.getAdjacentLocationsWithPieces(current);
+			current = toVisit.remove(0);			
+			if (visited.contains(current)) {
+				continue;
+			}
+			visited.add(current);			
+			List<HantoCoordinateImpl> adjCoords = testBoard.getAdjacentLocationsWithPieces(current);
 			for (HantoCoordinateImpl coord : adjCoords) {
 				if (!visited.contains(coord)) {
 					toVisit.add(coord);
