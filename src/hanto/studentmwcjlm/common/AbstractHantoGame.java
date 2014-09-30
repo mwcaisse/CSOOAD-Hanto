@@ -35,6 +35,9 @@ public abstract class AbstractHantoGame implements HantoGame{
 	/** The turn limit */
 	protected int turnLimit;
 	
+	/** Tell if a player has resigned */
+	protected boolean resigned;
+	
 	/** Creates a new abstract hanto
 	 * 
 	 */
@@ -43,6 +46,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 		board = new HantoBoard();
 		turnCount = 0;
 		turnLimit = 0;
+		resigned = false;
 	}
 	
 	
@@ -106,7 +110,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @param coord The coordinate to convert
 	 * @return The HantoCoord impl of this coord
 	 */
-	private HantoCoordinateImpl convertHantoCoordinate(HantoCoordinate coord) {
+	protected HantoCoordinateImpl convertHantoCoordinate(HantoCoordinate coord) {
 		return new HantoCoordinateImpl(coord);
 	}
 	
@@ -220,6 +224,14 @@ public abstract class AbstractHantoGame implements HantoGame{
 	protected MoveResult getMoveResult() {
 		boolean blueWon = hasPlayerWon(HantoPlayerColor.BLUE);
 		boolean redWon = hasPlayerWon(HantoPlayerColor.RED);
+		if(resigned) {
+			if(currentPlayerColor == HantoPlayerColor.BLUE) {
+				return MoveResult.RED_WINS;
+			}
+			else {
+				return MoveResult.BLUE_WINS;
+			}
+		}
 		if(redWon && blueWon) {
 			return MoveResult.DRAW;
 		}
