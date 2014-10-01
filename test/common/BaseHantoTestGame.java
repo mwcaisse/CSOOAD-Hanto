@@ -10,10 +10,10 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 import hanto.studentmwcjlm.common.HantoPieceImpl;
-import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
+import hanto.studentmwcjlm.common.HantoPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,13 +60,18 @@ public class BaseHantoTestGame implements HantoTestGame {
 	@Override
 	public void initializeBoard(PieceLocationPair[] initialPieces) {
 		
-		Map<HantoCoordinateImpl, HantoPiece> boardPieces = new HashMap<HantoCoordinateImpl, HantoPiece>();
-		Map<HantoPlayerColor, HantoPlayerPieceCounter> piecesRemaining = hantoGame.getPiecesRemaining();
+		Map<ComparableHantoCoordinate, HantoPiece> boardPieces = new HashMap<ComparableHantoCoordinate, HantoPiece>();
+		Map<HantoPlayerColor, HantoPlayer> hantoPlayers = new HashMap<HantoPlayerColor, HantoPlayer>();
+		
+		// Put all of the hanto player colors into the map
+		for (HantoPlayerColor color : HantoPlayerColor.values()) {
+			hantoPlayers.put(color, hantoGame.getHantoPlayer(color));
+		}
 		
 		//set up the board + peice counts
 		for (PieceLocationPair pair : initialPieces) {
-			boardPieces.put(new HantoCoordinateImpl(pair.location), new HantoPieceImpl(pair.player, pair.pieceType));
-			piecesRemaining.get(pair.player).decrementPieceType(pair.pieceType);
+			boardPieces.put(new ComparableHantoCoordinate(pair.location), new HantoPieceImpl(pair.player, pair.pieceType));
+			hantoPlayers.get(pair.player).placePiece(pair.pieceType, new ComparableHantoCoordinate(pair.location));
 		}
 		
 		//set the board
@@ -75,6 +80,9 @@ public class BaseHantoTestGame implements HantoTestGame {
 		
 	}
 
+	/** Sets the turn number of the game. Where turn 1 is the first turn
+	 * 
+	 */
 	@Override
 	public void setTurnNumber(int turnNumber) {
 		hantoGame.setTurnCount(turnNumber);

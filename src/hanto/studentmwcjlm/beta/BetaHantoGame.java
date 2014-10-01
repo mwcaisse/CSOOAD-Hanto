@@ -15,13 +15,11 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.HantoCoordinateImpl;
 import hanto.studentmwcjlm.common.HantoPieceImpl;
-import hanto.studentmwcjlm.common.HantoPlayerPieceCounter;
 
 import java.util.HashMap;
-import java.util.List;
 
 /** The implementation of Hanto Game for Beta
  * 
@@ -41,17 +39,18 @@ public class BetaHantoGame extends AbstractHantoGame {
 	
 	
 	private void init() {
-		turnLimit = 6 * 2;
-		
+		turnLimit = 6 * 2;		
 		board = new HantoBoard();
-		
-		piecesRemaining = new HashMap<HantoPlayerColor, HantoPlayerPieceCounter>();
-		HashMap<HantoPieceType, Integer> initPieces = new HashMap<HantoPieceType, Integer>();
-		initPieces.put(HantoPieceType.BUTTERFLY, 1);
-		initPieces.put(HantoPieceType.SPARROW, 5);
-		for(HantoPlayerColor color : HantoPlayerColor.values()) {
-			piecesRemaining.put(color, new HantoPlayerPieceCounter(initPieces));
-		}
+	}
+	
+	/** Defines the starting inventory for this game
+	 * 
+	 */	
+	protected HashMap<HantoPieceType, Integer> getStartingInventory() {
+		HashMap<HantoPieceType, Integer> startingPieces = new HashMap<HantoPieceType, Integer>();
+		startingPieces.put(HantoPieceType.BUTTERFLY, 1);
+		startingPieces.put(HantoPieceType.SPARROW, 5);
+		return startingPieces;
 	}
 	
 	/**
@@ -73,8 +72,8 @@ public class BetaHantoGame extends AbstractHantoGame {
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinateImpl from,
-			HantoCoordinateImpl to) throws HantoException {
+	public MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {
 		
 		//check if the game is over
 		if (isGameOver()) {
@@ -89,10 +88,10 @@ public class BetaHantoGame extends AbstractHantoGame {
 		//check if it is a valid piece type
 		if (canPlayPieceType(pieceType)) {		
 			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(currentPlayerColor, pieceType), to);		
-			decrementPieceType(pieceType);
+			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
+			currentPlayer.placePiece(pieceType, to);
 			turnCount ++;
-			updateHantoPlayerColor();
+			updateHantoPlayer();
 			return getMoveResult();
 		}
 		else {

@@ -4,7 +4,7 @@
 package hanto.studentmwcjlm.common.movevalidation;
 
 import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
 import java.util.List;
 
@@ -23,16 +23,16 @@ public class WalkMoveValidator implements MoveValidator {
 	 * @return True if the move is valid, false otherwise
 	 */
 	
-	public boolean isMoveValid(HantoBoard board, HantoCoordinateImpl from, HantoCoordinateImpl to) {
-		List<HantoCoordinateImpl> fromAdj = from.getAdjacentCoords();
-		List<HantoCoordinateImpl> toAdj = to.getAdjacentCoords();
+	public boolean isMoveValid(HantoBoard board, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
+		List<ComparableHantoCoordinate> fromAdj = from.getAdjacentCoords();
+		List<ComparableHantoCoordinate> toAdj = to.getAdjacentCoords();
 		
 		fromAdj.retainAll(toAdj);
 		
 		//we moved only one space
 		if (fromAdj.size() == 2) {
 			int freeSpots = 0;
-			for (HantoCoordinateImpl coord : fromAdj) {
+			for (ComparableHantoCoordinate coord : fromAdj) {
 				if (board.isLocationEmpty(coord)) {
 					freeSpots ++;
 				}

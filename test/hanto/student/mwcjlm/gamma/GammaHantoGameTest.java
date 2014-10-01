@@ -12,7 +12,7 @@ import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
-import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,8 @@ public class GammaHantoGameTest {
 	}
 	
 	private void initWithButterflies() throws HantoException {
-		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)); //blue butteryfly
-		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,1)); //red butterfly
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new ComparableHantoCoordinate(0,0)); //blue butteryfly
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new ComparableHantoCoordinate(0,1)); //red butterfly
 	}
 	
 	/** Test gamma ends after 20 turns
@@ -52,28 +52,40 @@ public class GammaHantoGameTest {
 		initWithButterflies();
 		game.setTurnNumber(19);
 		
-		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,-1)); //blue sparrow
-		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,2)));
+		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0,-1)); //blue sparrow
+		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0,2)));
+		
+	}
+	
+	/** Test gamma should throw an exception after game is over
+	 * 
+	 * @throws HantoException
+	 */
+	@Test (expected=HantoException.class)
+	public void gameShouldThrowExceptionAfterGameOver() throws HantoException {
+		initWithButterflies();
+		game.setTurnNumber(20);		
+		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0,-1)); //blue sparrow		
 		
 	}
 	
 	@Test (expected = HantoException.class)
 	public void placingPieceNextToDifferentColorPieceShouldThrowException() throws HantoException {
 		initWithButterflies();
-		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0,2)); //blue at 0,2 . exception		
+		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0,2)); //blue at 0,2 . exception		
 	}
 	
 	@Test
 	public void playingPieceNextToSameColorShouldBeOkay() throws HantoException {
 		initWithButterflies();
-		assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(0, -1)));
+		assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0, -1)));
 	}
 	
 	@Test
 	public void walkingPeiceShouldBeOkay() throws HantoException {
 		initWithButterflies();
-		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(1, -1)); //blue
-		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(-1, 2)); //red
+		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(1, -1)); //blue
+		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(-1, 2)); //red
 		assertEquals(MoveResult.OK, game.makeMove(HantoPieceType.SPARROW, createCoord(1,-1), createCoord(1, 0)));
 		
 		
@@ -89,8 +101,8 @@ public class GammaHantoGameTest {
 	@Test (expected = HantoException.class)
 	public void nonContigiousPieceShouldThrowException() throws HantoException {
 		initWithButterflies();
-		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(1, -1)); //blue
-		game.makeMove(HantoPieceType.SPARROW, null, new HantoCoordinateImpl(-1, 2)); //red
+		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(1, -1)); //blue
+		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(-1, 2)); //red
 		game.makeMove(HantoPieceType.SPARROW, createCoord(1,-1), createCoord(2,-2));	
 	}
 	
@@ -113,7 +125,7 @@ public class GammaHantoGameTest {
 	
 	
 	public HantoCoordinate createCoord(int x, int y) {
-		return new HantoCoordinateImpl(x,y);
+		return new ComparableHantoCoordinate(x,y);
 	}
 			
 

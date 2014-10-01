@@ -10,13 +10,15 @@
 
 package hanto.studentmwcjlm.alpha;
 
+import java.util.HashMap;
+
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoPieceImpl;
 
 /** The implementation of HantoGame for Alpha
@@ -60,8 +62,8 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinateImpl from,
-			HantoCoordinateImpl to) throws HantoException {
+	public MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {
 		
 		//check if the game is over
 		if (isGameOver()) {
@@ -120,6 +122,14 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	@Override
 	protected boolean isGameOver() {
 		return turnCount >= 2;
+	}
+	
+	/** Defines the starting inventory for this game
+	 * 
+	 */
+	
+	protected HashMap<HantoPieceType, Integer> getStartingInventory() {
+		return new HashMap<HantoPieceType, Integer>();
 	}
 
 }

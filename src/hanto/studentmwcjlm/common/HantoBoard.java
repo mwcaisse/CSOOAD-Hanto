@@ -32,20 +32,20 @@ import java.util.Map;
 public class HantoBoard implements Cloneable {
 
 	/** The mapping of pieces and coordinates */
-	private Map<HantoCoordinateImpl, HantoPiece> pieces;
+	private Map<ComparableHantoCoordinate, HantoPiece> pieces;
 	
 	/** Creates a mew Hanto Board and initializes the board
 	 * 
 	 */
 	public HantoBoard() {
-		pieces = new HashMap<HantoCoordinateImpl, HantoPiece>();
+		pieces = new HashMap<ComparableHantoCoordinate, HantoPiece>();
 	}
 	
 	/** Creates a new Hanto board with the given pieces 
 	 * 
 	 * @param pieces The initial pieces on the board
 	 */
-	public HantoBoard(Map<HantoCoordinateImpl, HantoPiece> pieces) {
+	public HantoBoard(Map<ComparableHantoCoordinate, HantoPiece> pieces) {
 		this.pieces = pieces;
 	}
 	
@@ -54,7 +54,7 @@ public class HantoBoard implements Cloneable {
 	 * @param at The coordinate to get the piece of
 	 * @return The piece at the given coordinate
 	 */
-	public HantoPiece getPieceAt(HantoCoordinateImpl at) {
+	public HantoPiece getPieceAt(ComparableHantoCoordinate at) {
 		return pieces.get(at);
 	}
 	
@@ -63,7 +63,7 @@ public class HantoBoard implements Cloneable {
 	 * @param at The location to check
 	 * @return True if the spot is empty, false otherwise
 	 */
-	public boolean isLocationEmpty(HantoCoordinateImpl at) {
+	public boolean isLocationEmpty(ComparableHantoCoordinate at) {
 		return getPieceAt(at) == null;
 	}
 	
@@ -73,7 +73,7 @@ public class HantoBoard implements Cloneable {
 	 * @param to The position to add the piece to
 	 * @throws HantoException if the spot is invalid  
 	 */
-	public void addPieceToBoard(HantoPiece piece, HantoCoordinateImpl to) throws HantoException {		
+	public void addPieceToBoard(HantoPiece piece, ComparableHantoCoordinate to) throws HantoException {		
 		if (isValidMove(piece, to)) {
 			pieces.put(to, piece);
 		}
@@ -87,7 +87,7 @@ public class HantoBoard implements Cloneable {
 	 * @param at The location of the piece to remove
 	 * @return A copy of the piece removed
 	 */
-	public HantoPiece removePeiceFromBoard(HantoCoordinateImpl at) {
+	public HantoPiece removePeiceFromBoard(ComparableHantoCoordinate at) {
 		return pieces.remove(at);
 	}
 	
@@ -96,7 +96,7 @@ public class HantoBoard implements Cloneable {
 	 * @param from The location to move the piece from
 	 * @param to The location to move the peice to
 	 */
-	public void movePiece(HantoCoordinateImpl from, HantoCoordinateImpl to) {
+	public void movePiece(ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
 		pieces.put(to, removePeiceFromBoard(from));
 	}
 	
@@ -106,9 +106,9 @@ public class HantoBoard implements Cloneable {
 	 * @param to The coordinate to move the peice to
 	 * @return True if it is a valid move, false othter wise
 	 */
-	public boolean isValidMove(HantoPiece piece, HantoCoordinateImpl to){
+	public boolean isValidMove(HantoPiece piece, ComparableHantoCoordinate to){
 		if (pieces.isEmpty()) { //if the board is empty only valid move is 0,0
-			return to.equals(new HantoCoordinateImpl(0, 0));	
+			return to.equals(new ComparableHantoCoordinate(0, 0));	
 		}
 		if (getPieceAt(to) != null) {
 			return false; //if there is a piece on the spot it is invalid
@@ -122,10 +122,10 @@ public class HantoBoard implements Cloneable {
 	 * @param coord The coordinate to test
 	 * @return True if there is an adjacent piece, false otherwise
 	 */
-	protected boolean hasAdjacentPiece(HantoCoordinateImpl coord) {		
+	protected boolean hasAdjacentPiece(ComparableHantoCoordinate coord) {		
 	
-		List<HantoCoordinateImpl> adjacentCoordinates = coord.getAdjacentCoords();		
-		for (HantoCoordinateImpl other : adjacentCoordinates) {
+		List<ComparableHantoCoordinate> adjacentCoordinates = coord.getAdjacentCoords();		
+		for (ComparableHantoCoordinate other : adjacentCoordinates) {
 			if (getPieceAt(other) != null) {
 				return true;
 			}
@@ -138,10 +138,10 @@ public class HantoBoard implements Cloneable {
 	 * @param coord the coordinate of the desired piece
 	 * @return the pieces that are adjacent to the coordinate
 	 */
-	public List<HantoPiece> getAdjacentPieces(HantoCoordinateImpl coord) {
+	public List<HantoPiece> getAdjacentPieces(ComparableHantoCoordinate coord) {
 		List<HantoPiece> adjacentPieces = new ArrayList<HantoPiece>();
-		List<HantoCoordinateImpl> adjacentCoordinates = coord.getAdjacentCoords();
-		for (HantoCoordinateImpl other : adjacentCoordinates) {
+		List<ComparableHantoCoordinate> adjacentCoordinates = coord.getAdjacentCoords();
+		for (ComparableHantoCoordinate other : adjacentCoordinates) {
 			if (getPieceAt(other) != null) {
 				adjacentPieces.add(getPieceAt(other));
 			}
@@ -154,10 +154,10 @@ public class HantoBoard implements Cloneable {
 	 * @param coord The coord of the spot to check
 	 * @return The list of adj coords with pieces
 	 */
-	public List<HantoCoordinateImpl> getAdjacentLocationsWithPieces(HantoCoordinateImpl coord) {
-		List<HantoCoordinateImpl> adjacentCoords = new ArrayList<HantoCoordinateImpl>();
-		List<HantoCoordinateImpl> adjacentCoordinates = coord.getAdjacentCoords();
-		for (HantoCoordinateImpl other : adjacentCoordinates) {
+	public List<ComparableHantoCoordinate> getAdjacentLocationsWithPieces(ComparableHantoCoordinate coord) {
+		List<ComparableHantoCoordinate> adjacentCoords = new ArrayList<ComparableHantoCoordinate>();
+		List<ComparableHantoCoordinate> adjacentCoordinates = coord.getAdjacentCoords();
+		for (ComparableHantoCoordinate other : adjacentCoordinates) {
 			if (getPieceAt(other) != null) {
 				adjacentCoords.add(other);
 			}
@@ -194,9 +194,9 @@ public class HantoBoard implements Cloneable {
 	 * @param color The color of the piece
 	 * @return The list of coordinates that have a piece of this type + color
 	 */
-	public List<HantoCoordinateImpl> getPieceCoordinates(HantoPieceType type, HantoPlayerColor color) {
-		List<HantoCoordinateImpl> coords = new ArrayList<HantoCoordinateImpl>();
-		for(HantoCoordinateImpl location : pieces.keySet()) {
+	public List<ComparableHantoCoordinate> getPieceCoordinates(HantoPieceType type, HantoPlayerColor color) {
+		List<ComparableHantoCoordinate> coords = new ArrayList<ComparableHantoCoordinate>();
+		for(ComparableHantoCoordinate location : pieces.keySet()) {
 			HantoPiece piece = pieces.get(location);
 			if(piece.getType() == type && piece.getColor() == color) {
 				coords.add(location);
@@ -211,11 +211,11 @@ public class HantoBoard implements Cloneable {
 	 */
 	public String getPrintableBoard() {
 		
-		List<HantoCoordinateImpl> sortedCoords = new ArrayList<HantoCoordinateImpl>(pieces.keySet());
+		List<ComparableHantoCoordinate> sortedCoords = new ArrayList<ComparableHantoCoordinate>(pieces.keySet());
 		Collections.sort(sortedCoords);
 		
 		String board = "";
-		for (HantoCoordinateImpl coord : sortedCoords) {
+		for (ComparableHantoCoordinate coord : sortedCoords) {
 			HantoPiece piece = pieces.get(coord);
 			board += String.format("[%d,%d] %s:%s\n", coord.getX(), coord.getY(), piece.getColor(), piece.getType().getPrintableName());
 		}
@@ -228,7 +228,7 @@ public class HantoBoard implements Cloneable {
 	 */
 	public HantoBoard clone() {
 		HantoBoard board = new HantoBoard();
-		board.pieces = new HashMap<HantoCoordinateImpl, HantoPiece>(pieces);
+		board.pieces = new HashMap<ComparableHantoCoordinate, HantoPiece>(pieces);
 		return board;
 	}
 	

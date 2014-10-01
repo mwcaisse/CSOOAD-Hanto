@@ -24,7 +24,7 @@ public class HantoMovingPiece extends HantoPieceImpl {
 	 * @param to the ending location
 	 * @return true if the move is valid, false otherwise
 	 */
-	public boolean validateMove(HantoBoard board, HantoCoordinateImpl from, HantoCoordinateImpl to) {
+	public boolean validateMove(HantoBoard board, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
 		return moveValidator.isMoveValid(board, from, to);
 	}
 

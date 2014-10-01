@@ -4,7 +4,7 @@
 package hanto.studentmwcjlm.common.movevalidation;
 
 import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
 /**
  * @author Mitchell Caisse
@@ -19,6 +19,6 @@ public interface MoveValidator {
 	 * @param to The coordinate to move the piece too
 	 * @return True if the move is valid, false otherwise
 	 */
-	public boolean isMoveValid(HantoBoard board, HantoCoordinateImpl from, HantoCoordinateImpl to);
+	public boolean isMoveValid(HantoBoard board, ComparableHantoCoordinate from, ComparableHantoCoordinate to);
 	
 }

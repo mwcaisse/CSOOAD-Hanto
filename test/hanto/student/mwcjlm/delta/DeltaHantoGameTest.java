@@ -9,7 +9,7 @@ import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
-import hanto.studentmwcjlm.common.HantoCoordinateImpl;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,8 @@ public class DeltaHantoGameTest {
 	}
 	
 	private void initWithButterflies() throws HantoException {
-		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,0)); //blue butteryfly
-		game.makeMove(HantoPieceType.BUTTERFLY, null, new HantoCoordinateImpl(0,1)); //red butterfly
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new ComparableHantoCoordinate(0,0)); //blue butteryfly
+		game.makeMove(HantoPieceType.BUTTERFLY, null, new ComparableHantoCoordinate(0,1)); //red butterfly
 	}
 	
 	/** Test gamma ends after 20 turns
@@ -93,6 +93,6 @@ public class DeltaHantoGameTest {
 	}
 	
 	public HantoCoordinate createCoord(int x, int y) {
-		return new HantoCoordinateImpl(x,y);
+		return new ComparableHantoCoordinate(x,y);
 	}
 }

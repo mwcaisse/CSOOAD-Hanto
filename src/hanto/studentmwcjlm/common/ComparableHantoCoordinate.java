@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Basic implementation of the Hanto Coordinate
+ *  Implementation of a Hanto Coordinate that is comparable
  * @author Mitchell
  *
  */
-public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoordinateImpl> {
+public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<ComparableHantoCoordinate> {
 
 	/** The x value of this coordinate */
 	private int x;
@@ -33,7 +33,7 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 	 * @param x The x coordinate of the hanto coordinate
 	 * @param y The y coordinate of the hanto coordinate
 	 */
-	public HantoCoordinateImpl(int x, int y) {
+	public ComparableHantoCoordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -42,7 +42,7 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 	 * 
 	 * @param coord The coord to create from
 	 */
-	public HantoCoordinateImpl(HantoCoordinate coord) {
+	public ComparableHantoCoordinate(HantoCoordinate coord) {
 		this(coord.getX(), coord.getY());
 	}
 	
@@ -58,19 +58,19 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 	 * 
 	 * @return The list of coordinates adjacent to this coordinate
 	 */
-	public List<HantoCoordinateImpl> getAdjacentCoords() {
+	public List<ComparableHantoCoordinate> getAdjacentCoords() {
 		int cx = getX();
 		int cy = getY();
 		
-		List<HantoCoordinateImpl> adjacentCoordinates = new ArrayList<HantoCoordinateImpl>();
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx + 1, cy));
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx - 1, cy));
+		List<ComparableHantoCoordinate> adjacentCoordinates = new ArrayList<ComparableHantoCoordinate>();
+		adjacentCoordinates.add(new ComparableHantoCoordinate(cx + 1, cy));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(cx - 1, cy));
 		
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx, cy + 1));
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx, cy - 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(cx, cy + 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(cx, cy - 1));
 		
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx + 1, cy - 1));
-		adjacentCoordinates.add(new HantoCoordinateImpl(cx - 1, cy + 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(cx + 1, cy - 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(cx - 1, cy + 1));
 		
 		return adjacentCoordinates;
 	}
@@ -94,7 +94,7 @@ public class HantoCoordinateImpl implements HantoCoordinate, Comparable<HantoCoo
 	}
 
 	@Override
-	public int compareTo(HantoCoordinateImpl o) {
+	public int compareTo(ComparableHantoCoordinate o) {
 		if (equals(o)) {
 			return 0;
 		}		

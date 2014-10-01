@@ -3,9 +3,6 @@
  */
 package hanto.studentmwcjlm.common;
 
-import java.util.List;
-import java.util.Map;
-
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoGame;
@@ -13,6 +10,9 @@ import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Mitchell Caisse
@@ -23,14 +23,17 @@ public abstract class AbstractHantoGame implements HantoGame{
 	/** The board for hanto */
 	protected HantoBoard board;
 	
-	/** The store of peices that a player has remaining */
-	protected Map<HantoPlayerColor, HantoPlayerPieceCounter> piecesRemaining;
+	/** The state of the current players */
+	protected Map<HantoPlayerColor, HantoPlayer> players;
 	
 	/** The current turn count */
 	protected int turnCount;
 	
-	/** The color of the player whose turn it currently is */
-	protected HantoPlayerColor currentPlayerColor;
+	/** The color of the player who moves first */
+	protected final HantoPlayerColor firstPlayerColor;
+	
+	/** The current Hanto Player */
+	protected HantoPlayer currentPlayer;
 	
 	/** The turn limit */
 	protected int turnLimit;
@@ -42,11 +45,30 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * 
 	 */
 	protected AbstractHantoGame(HantoPlayerColor firstPlayer) {
-		this.currentPlayerColor = firstPlayer;
+		this.firstPlayerColor = firstPlayer;
 		board = new HantoBoard();
 		turnCount = 0;
 		turnLimit = 0;
 		resigned = false;
+		
+		//initialize the players
+		initializePlayers();
+	}
+	
+	/** Initializes the Hanto players
+	 * 
+	 */
+	private void initializePlayers() {
+		players = new HashMap<HantoPlayerColor, HantoPlayer>();
+		
+		//add a player for each color
+		for (HantoPlayerColor color : HantoPlayerColor.values()) {
+			HantoPlayer player = new HantoPlayer(color, getStartingInventory());
+			players.put(color, player);
+		}
+		
+		//set the current player to the first player
+		currentPlayer = players.get(firstPlayerColor);
 	}
 	
 	
@@ -74,8 +96,8 @@ public abstract class AbstractHantoGame implements HantoGame{
 		if (to == null) {
 			throw new HantoException("Move destination cannot be null");
 		}
-		HantoCoordinateImpl toCoord = convertHantoCoordinate(to);
-		HantoCoordinateImpl fromCoord = null;
+		ComparableHantoCoordinate toCoord = convertHantoCoordinate(to);
+		ComparableHantoCoordinate fromCoord = null;
 		if (from != null) {
 			 fromCoord = convertHantoCoordinate(from);
 		}
@@ -102,16 +124,16 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	protected abstract MoveResult makeMove(HantoPieceType pieceType, HantoCoordinateImpl from,
-			HantoCoordinateImpl to) throws HantoException;
+	protected abstract MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException;
 	
 	/** Converts the given hanto coordinate into a Hanto Coord implementation
 	 * 
 	 * @param coord The coordinate to convert
 	 * @return The HantoCoord impl of this coord
 	 */
-	protected HantoCoordinateImpl convertHantoCoordinate(HantoCoordinate coord) {
-		return new HantoCoordinateImpl(coord);
+	protected ComparableHantoCoordinate convertHantoCoordinate(HantoCoordinate coord) {
+		return new ComparableHantoCoordinate(coord);
 	}
 	
 	/**
@@ -135,7 +157,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @return the piece at the specified coordinate or null if there is no 
 	 * 	piece at that position
 	 */
-	protected HantoPiece getPieceAt(HantoCoordinateImpl where) {
+	protected HantoPiece getPieceAt(ComparableHantoCoordinate where) {
 		return board.getPieceAt(where);
 	}
 	
@@ -144,16 +166,16 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @param color The color to set the current player color to
 	 */
 	public void setCurrentPlayerColor(HantoPlayerColor color) {
-		this.currentPlayerColor = color;
+		this.currentPlayer = players.get(color);
 	}
 	
-	/** Updates the Hanto player color to the next player
+	/** Updates the Hanto player to the next player
 	 * 
-	 * @return A copy of the new player's color
+	 * @return A copy of the new player
 	 */
-	protected HantoPlayerColor updateHantoPlayerColor() {
-		currentPlayerColor = oppositeColor(currentPlayerColor);
-		return currentPlayerColor;
+	protected HantoPlayer updateHantoPlayer() {
+		currentPlayer = players.get(oppositeColor(currentPlayer.getColor()));
+		return currentPlayer;
 	}
 	
 	/** Sets the hanto board to use
@@ -164,28 +186,21 @@ public abstract class AbstractHantoGame implements HantoGame{
 		this.board = board;
 	}
 	
-	/** Sets the current turn count
+	/** Sets the current turn count where 1 is the first turn. And one turn is when both players have moved.
 	 * 
 	 * @param turnCount The new turn count
 	 */
 	public void setTurnCount(int turnCount) {
-		this.turnCount = turnCount * 2;
+		this.turnCount = (turnCount - 1) * 2; //zero base it, then convert into one move is one turn
 	}
 	
-	/** Returns the pieces remining
+	/** Returns the Hanto Player of the given color
 	 * 
-	 * @return THe pieces remaining
+	 * @param color The color of the player to fetch
+	 * @return The Hanto Player
 	 */
-	public Map<HantoPlayerColor, HantoPlayerPieceCounter> getPiecesRemaining() {
-		return piecesRemaining;
-	}
-	
-	
-	/** Decrement the number of pieces remaining for a type
-	 * @param type the type of hanto piece to be decremented
-	 */
-	protected void decrementPieceType(HantoPieceType type) {
-		piecesRemaining.get(currentPlayerColor).decrementPieceType(type);
+	public HantoPlayer getHantoPlayer(HantoPlayerColor color) {
+		return players.get(color);
 	}
 	
 	/** Determines if the given piece type can be placed on this turn
@@ -193,14 +208,15 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @param type The type of the piece
 	 * @return True if the piece is valid, false otherwise
 	 */
-	protected boolean canPlayPieceType(HantoPieceType type) {
-		// if it's after the third turn and a butterfly has not been played by that color yet
+	protected boolean canPlayPieceType(HantoPieceType type) {		
+		//check if is greater than the 4th turn and the player has not, or is not, placing thier butterfly
 		if((turnCount/2) >= 3 &&
-				board.getPieceCount(HantoPieceType.BUTTERFLY, currentPlayerColor) < 1 &&
+				!currentPlayer.hasPlacedButterfly() &&
 				type != HantoPieceType.BUTTERFLY) {
 			return false;
 		}
-		return piecesRemaining.get(currentPlayerColor).getPiecesRemaining(type) > 0;
+		//if they player has one of the pieces, then they can place it
+		return currentPlayer.hasPiece(type);
 	}
 	
 	/** Returns the opposite color of the given color
@@ -225,7 +241,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 		boolean blueWon = hasPlayerWon(HantoPlayerColor.BLUE);
 		boolean redWon = hasPlayerWon(HantoPlayerColor.RED);
 		if(resigned) {
-			if(currentPlayerColor == HantoPlayerColor.BLUE) {
+			if(currentPlayer.getColor() == HantoPlayerColor.BLUE) {
 				return MoveResult.RED_WINS;
 			}
 			else {
@@ -254,12 +270,16 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @param color The color of the player
 	 * @return True/False if the player won/loss
 	 */
-	private boolean hasPlayerWon(HantoPlayerColor color) {
-		List<HantoCoordinateImpl> butterflyLoc = board.getPieceCoordinates(HantoPieceType.BUTTERFLY, oppositeColor(color));
-		if(!butterflyLoc.isEmpty()) {
-			if(board.getAdjacentPieces(butterflyLoc.get(0)).size() >= 6) {
+	private boolean hasPlayerWon(HantoPlayerColor color) {		
+		// the other player
+		HantoPlayer otherPlayer = players.get(oppositeColor(color));
+		//check if the player has placed thier butterfly
+		if (otherPlayer.hasPlacedButterfly()) {
+			ComparableHantoCoordinate butterflyLocation = otherPlayer.getButterflyLocation();
+			//check if the butterfly is surrounded, if it is, the calling player has won
+			if(board.getAdjacentPieces(butterflyLocation).size() >= 6) {
 				return true;
-			}
+			}			
 		}
 		return false;
 	}
@@ -271,5 +291,20 @@ public abstract class AbstractHantoGame implements HantoGame{
 	protected boolean isGameOver() {
 		return (getMoveResult() != MoveResult.OK);
 	}
+	
+	/** Returns the starting pieces for a player
+	 * 
+	 * @return The starting inventory for a player
+	 */
+	protected abstract HashMap<HantoPieceType, Integer> getStartingInventory();
+	
+	/** Updates the turn count + player at the end of a move
+	 * 
+	 */
+	protected void finalizeMove() {
+		turnCount ++;
+		updateHantoPlayer();
+	}
+	
 	
 }
