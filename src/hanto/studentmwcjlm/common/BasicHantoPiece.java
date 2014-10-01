@@ -55,7 +55,10 @@ public class BasicHantoPiece implements HantoPiece {
 	 * @param moveValidator The movement validator for the piece
 	 */
 	public BasicHantoPiece(HantoPlayerColor color, HantoPieceType type, PlacementValidator placementValidator, MoveValidator moveValidator) {
-		
+		this.color = color;
+		this.type = type;
+		this.placementValidator = placementValidator;
+		this.moveValidator = moveValidator;
 	}
 	
 	public HantoPlayerColor getColor() {
@@ -73,7 +76,7 @@ public class BasicHantoPiece implements HantoPiece {
 	 * @return True if the placement is valid, false otherwise
 	 */
 	public boolean isPlacementValid(HantoBoard board, ComparableHantoCoordinate to) {	
-		return placementValidator.isPlacementValid(board, to);
+		return placementValidator.isPlacementValid(board, this, to);
 	}
 	
 	/** Determines if moving this piece from a location to a location is valid
@@ -84,7 +87,7 @@ public class BasicHantoPiece implements HantoPiece {
 	 * @return True if the movement is valid, false otherwise
 	 */
 	public boolean isMoveValid(HantoBoard board, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
-		return moveValidator.isMoveValid(board, from, to);
+		return moveValidator.isMoveValid(board, this, from, to);
 	}
 
 	

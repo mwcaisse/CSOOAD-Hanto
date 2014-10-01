@@ -14,8 +14,8 @@ import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
-import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.BasicHantoPiece;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +40,7 @@ public class BetaHantoGame extends AbstractHantoGame {
 	 */
 	private void init() {
 		turnLimit = 12;	
+		pieceFactory = new BetaPieceFactory();
 	}
 	
 	/** Defines the starting inventory for this game

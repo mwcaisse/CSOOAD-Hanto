@@ -3,6 +3,7 @@
  */
 package hanto.studentmwcjlm.common.placementvalidator;
 
+import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
 
@@ -29,10 +30,10 @@ public class BasicPlacementValidator implements PlacementValidator{
 		return instance;
 	}
 	
-	/** Private constructor
+	/** Protexted constructor
 	 * 
 	 */
-	private BasicPlacementValidator() {
+	protected BasicPlacementValidator() {
 		
 	}
 	
@@ -40,7 +41,7 @@ public class BasicPlacementValidator implements PlacementValidator{
 	 * 	on an existing piece
 	 */
 	
-	public boolean isPlacementValid(HantoBoard board, ComparableHantoCoordinate to) {		
+	public boolean isPlacementValid(HantoBoard board, HantoPiece toPlace, ComparableHantoCoordinate to) {		
 		//if the board is empty, the piece must be at 0,0
 		if (board.getPieceCount() == 0) {
 			return to.equals(new ComparableHantoCoordinate(0,0));

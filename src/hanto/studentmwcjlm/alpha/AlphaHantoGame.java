@@ -10,27 +10,66 @@
 
 package hanto.studentmwcjlm.alpha;
 
+import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
+import hanto.common.HantoGame;
+import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
-import hanto.studentmwcjlm.common.AbstractHantoGame;
-import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.BasicHantoPiece;
-
-import java.util.HashMap;
-import java.util.Map;
+import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
+import hanto.studentmwcjlm.common.HantoBoard;
 
 /** The implementation of HantoGame for Alpha
  * 
  * @author Mitchell Caisse, James Megin
  *
  */
-public class AlphaHantoGame extends AbstractHantoGame {
+public class AlphaHantoGame implements HantoGame {
 
+	private int turnCount;
+	
+	private HantoBoard board;
+	
 	public AlphaHantoGame() {
-		super(HantoPlayerColor.BLUE);
+		turnCount = 0;
+		board = new HantoBoard();
 	}	
+	
+	/**
+	 * This method executes a move in the game. It is called for every move that must be
+	 * made.
+	 * 
+	 * @param pieceType
+	 *            the piece type that is being moved
+	 * @param from
+	 *            the coordinate where the piece begins. If the coordinate is null, then
+	 *            the piece begins off the board (that is, it is placed on the board in
+	 *            this move).
+	 * @param to
+	 *            the coordinated where the piece is after the move has been made.
+	 * @return the result of the move
+	 * @throws HantoException
+	 *             if there are any problems in making the move (such as specifying a
+	 *             coordinate that does not have the appropriate piece, or the color of
+	 *             the piece is not the color of the player who is moving.
+	 */
+	
+	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
+			HantoCoordinate to) throws HantoException {		
+		if (to == null) {
+			throw new HantoException("Move destination cannot be null");
+		}
+		ComparableHantoCoordinate toCoord = convertHantoCoordinate(to);
+		ComparableHantoCoordinate fromCoord = null;
+		if (from != null) {
+			 fromCoord = convertHantoCoordinate(from);
+		}
+		return makeMove(pieceType, fromCoord, toCoord);
+		
+	}
+	
 
 	/**
 	 * This method executes a move in the game. It is called for every move that must be
@@ -51,7 +90,6 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	@Override
 	public MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
 			ComparableHantoCoordinate to) throws HantoException {
 		
@@ -79,30 +117,6 @@ public class AlphaHantoGame extends AbstractHantoGame {
 			throw new HantoException("Invalid piece type");
 		}
 	}
-	
-	/** Moves a piece of the specified type, from the given coordinate, to the given coordinate
-	 * 
-	 * @param pieceType The type of piece to move
-	 * @param from The position to move the piece from
-	 * @param to The position to move the piece to
-	 * @throws HantoException if the move is invalid
-	 */
-	protected void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from,
-			ComparableHantoCoordinate to) throws HantoException {	
-		
-		throw new HantoException("Moving pieces is not allowed in Alpha Hanto!");
-	}
-	
-	/** Places a piece of the given type at the given location
-	 * 
-	 * @param pieceType The type of piece to player
-	 * @param to The location to place the piece
-	 * @throws HantoException If the piece placement is invalid
-	 */
-	
-	protected void placePiece(HantoPieceType pieceType, ComparableHantoCoordinate to) {
-	}
-	
 	
 
 	/** Returns the player color for the current turn
@@ -132,17 +146,34 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	 * 
 	 * @return True if the game is over, false otherwise
 	 */
-	@Override
+
 	protected boolean isGameOver() {
 		return turnCount >= 2;
 	}
 	
-	/** Defines the starting inventory for this game
+	/** Converts the given hanto coordinate into a Hanto Coord implementation
 	 * 
+	 * @param coord The coordinate to convert
+	 * @return The HantoCoord impl of this coord
 	 */
+	private ComparableHantoCoordinate convertHantoCoordinate(HantoCoordinate coord) {
+		return new ComparableHantoCoordinate(coord);
+	}
+
+	/**
+	 * @return a printable representation of the board.
+	 */	
+	public String getPrintableBoard() {
+		return board.getPrintableBoard();
+	}
 	
-	protected Map<HantoPieceType, Integer> getStartingInventory() {
-		return new HashMap<HantoPieceType, Integer>();
+	/**
+	 * @param where the coordinate to query
+	 * @return the piece at the specified coordinate or null if there is no 
+	 * 	piece at that position
+	 */
+	public HantoPiece getPieceAt(HantoCoordinate where) {
+		return board.getPieceAt(convertHantoCoordinate(where));
 	}
 
 }

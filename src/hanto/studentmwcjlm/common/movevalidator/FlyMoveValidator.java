@@ -9,20 +9,33 @@
  *******************************************************************************/
 package hanto.studentmwcjlm.common.movevalidator;
 
-import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
 /** Move validator for Pieces that can flt
  * 
  * @author Mitchell Caisse
  *
  */
-public class FlyMoveValidator implements MoveValidator {
+public class FlyMoveValidator extends BasicMoveValidator {
 
-	@Override
-	public boolean isMoveValid(HantoBoard board, ComparableHantoCoordinate from,
-			ComparableHantoCoordinate to) {
-		return true;
+	/** The singleton instance */
+	private static FlyMoveValidator instance;
+	
+	/** Gets the singleton instance
+	 * 
+	 * @return The singleton instance
+	 */
+	public static FlyMoveValidator getInstance() {
+		if (instance == null) {
+			instance = new FlyMoveValidator();
+		}
+		return instance;
+	}
+	
+	/** Protected constructor
+	 * 
+	 */
+	protected FlyMoveValidator() {
+		
 	}
 
 }

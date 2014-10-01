@@ -49,6 +49,9 @@ public abstract class AbstractHantoGame implements HantoGame{
 	/** Tell if a player has resigned */
 	protected boolean resigned;
 	
+	/** The factory to use for creating pieces */
+	protected HantoPieceFactory pieceFactory;
+	
 	/** Creates a new abstract hanto
 	 * 
 	 * 	@param firstPlayerColor The color of the player who will go first
@@ -110,7 +113,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 		if (from != null) {
 			 fromCoord = convertHantoCoordinate(from);
 		}
-		return makeMove(pieceType, fromCoord, toCoord);
+		return makeMove(pieceFactory.makePiece(currentPlayer.getColor(), pieceType), fromCoord, toCoord);
 		
 	}
 	
@@ -133,7 +136,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	protected MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
+	protected MoveResult makeMove(BasicHantoPiece piece, ComparableHantoCoordinate from,
 			ComparableHantoCoordinate to) throws HantoException {
 		//check if the game is over
 		if (isGameOver()) {
@@ -141,10 +144,11 @@ public abstract class AbstractHantoGame implements HantoGame{
 		}
 		//check if we are moving a piece, or placing a piece
 		if (from != null) {
-			movePiece(pieceType, from, to);
+			movePiece(piece, from, to);
 		}
 		else {
-			placePiece(pieceType, to);
+			placePiece(piece, to);
+			
 		}	
 		//finalize the move
 		finalizeMove();
@@ -153,22 +157,38 @@ public abstract class AbstractHantoGame implements HantoGame{
 	
 	/** Moves a piece of the specified type, from the given coordinate, to the given coordinate
 	 * 
-	 * @param pieceType The type of piece to move
+	 * @param piece The piece to move
 	 * @param from The position to move the piece from
 	 * @param to The position to move the piece to
 	 * @throws HantoException if the move is invalid
 	 */
-	protected abstract void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from,
-			ComparableHantoCoordinate to) throws HantoException;
+	protected void movePiece(BasicHantoPiece piece, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {
+	
+		if (piece.isMoveValid(board, from, to)) {
+			board.movePiece(from, to);	
+		}
+		else {
+			throw new HantoException("Invalid piece movement");
+		}
+	}
 	
 	/** Places a piece of the given type at the given location
 	 * 
-	 * @param pieceType The type of piece to player
+	 * @param piece The piece to place
 	 * @param to The location to place the piece
 	 * @throws HantoException If the piece placement is invalid
 	 */
 	
-	protected abstract void placePiece(HantoPieceType pieceType, ComparableHantoCoordinate to) throws HantoException;
+	protected void placePiece(BasicHantoPiece piece, ComparableHantoCoordinate to) throws HantoException {
+		if (canPlayPieceType(piece.getType()) && piece.isPlacementValid(board, to)) {
+			board.addPieceToBoard(new BasicHantoPiece(currentPlayer.getColor(), piece.getType()), to);		
+			currentPlayer.placePiece(piece.getType(), to);
+		}
+		else {
+			throw new HantoException("Invalid piece placement");
+		}
+	}
 	
 	/** Converts the given hanto coordinate into a Hanto Coord implementation
 	 * 

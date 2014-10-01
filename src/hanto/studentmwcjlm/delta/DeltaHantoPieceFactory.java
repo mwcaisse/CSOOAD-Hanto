@@ -17,6 +17,7 @@ import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.HantoPieceFactory;
 import hanto.studentmwcjlm.common.movevalidator.FlyMoveValidator;
 import hanto.studentmwcjlm.common.movevalidator.WalkMoveValidator;
+import hanto.studentmwcjlm.common.placementvalidator.AdjacentPlacementValidator;
 import hanto.studentmwcjlm.common.placementvalidator.BasicPlacementValidator;
 import hanto.studentmwcjlm.common.placementvalidator.PlacementValidator;
 
@@ -34,7 +35,7 @@ public class DeltaHantoPieceFactory implements HantoPieceFactory {
 	 * 
 	 */
 	public DeltaHantoPieceFactory() {
-		this.placementValidator = BasicPlacementValidator.getInstance();
+		this.placementValidator = AdjacentPlacementValidator.getInstance();
 	}
 	
 	@Override
@@ -43,13 +44,11 @@ public class DeltaHantoPieceFactory implements HantoPieceFactory {
 		BasicHantoPiece piece = null;
 		switch(type) {
 		case CRAB:
-			piece = new BasicHantoPiece(color, type, placementValidator, new WalkMoveValidator());
-			break;
 		case BUTTERFLY:
-			piece = new BasicHantoPiece(color, type, placementValidator, new WalkMoveValidator());
+			piece = new BasicHantoPiece(color, type, placementValidator, WalkMoveValidator.getInstance());
 			break;
 		case SPARROW:
-			piece = new BasicHantoPiece(color, type, placementValidator, new FlyMoveValidator());
+			piece = new BasicHantoPiece(color, type, placementValidator, FlyMoveValidator.getInstance());
 			break;
 		default:
 			throw new HantoException("Unsupported Piece Type");

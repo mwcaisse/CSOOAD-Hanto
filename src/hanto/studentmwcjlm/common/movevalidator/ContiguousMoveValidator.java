@@ -3,11 +3,12 @@
  */
 package hanto.studentmwcjlm.common.movevalidator;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Move Validator for Contiguous Moves.
  * 
@@ -18,13 +19,33 @@ import hanto.studentmwcjlm.common.HantoBoard;
  */
 public class ContiguousMoveValidator implements MoveValidator {
 
+	/** The single ton instance */
+	private static ContiguousMoveValidator instance;
+	
+	/** Gets the singleton instance
+	 * 
+	 * @return The singleton insance
+	 */
+	public static ContiguousMoveValidator getInstance() {
+		if (instance == null) {
+			instance = new ContiguousMoveValidator();
+		}
+		return instance;
+	}
+	
+	/** Private constructor */
+	private ContiguousMoveValidator() {
+		
+	}
+	
 	/** Determines if the given move is Contiguous
 	 * 
 	 * 	@param board The board that the move is taking place on
+	 *  @param piece The piece to move
 	 *  @param from The starting coordinate
 	 *  @param to The ending coordinate
 	 */
-	public boolean isMoveValid(HantoBoard board, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
+	public boolean isMoveValid(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
 		HantoBoard testBoard = board.copy();
 		testBoard.movePiece(from, to);
 		
