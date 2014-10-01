@@ -35,7 +35,7 @@ public class GammaHantoGame extends AbstractHantoGame {
 	
 	/** Initialize Gamma */
 	private void init() {		
-		turnLimit = 38; //20 turns, 2 in our count, 0 based
+		turnLimit = 20;
 		pieceFactory = new GammaPieceFactory();
 	}
 	

@@ -12,8 +12,6 @@ package hanto.studentmwcjlm.common;
 
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
-import hanto.common.HantoPieceType;
-import hanto.common.HantoPlayerColor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -165,44 +163,12 @@ public class HantoBoard {
 		return adjacentCoords;
 	}
 	
-	/** Get the number of a kind and color of piece on the board
-	 * @param type the type of piece
-	 * @param color the color of piece
-	 * @return the number of pieces
-	 */
-	public int getPieceCount(HantoPieceType type, HantoPlayerColor color) {
-		int count = 0;
-		for(HantoPiece piece : pieces.values()) {
-			if(piece.getType() == type && piece.getColor() == color) {
-				count++;
-			}
-		}
-		return count;
-	}
-	
 	/** Returns the number of pieces currently on the board
 	 * 
 	 * @return The number of pieces on the board
 	 */
 	public int getPieceCount() {
 		return pieces.size();
-	}
-	
-	/** Returns the list of coordinates for the peice with the specified type and color
-	 * 
-	 * @param type The type of piece
-	 * @param color The color of the piece
-	 * @return The list of coordinates that have a piece of this type + color
-	 */
-	public List<ComparableHantoCoordinate> getPieceCoordinates(HantoPieceType type, HantoPlayerColor color) {
-		List<ComparableHantoCoordinate> coords = new ArrayList<ComparableHantoCoordinate>();
-		for(ComparableHantoCoordinate location : pieces.keySet()) {
-			HantoPiece piece = pieces.get(location);
-			if(piece.getType() == type && piece.getColor() == color) {
-				coords.add(location);
-			}
-		}
-		return coords;
 	}
 	
 	/** Returns a string containing a printable copy of the board

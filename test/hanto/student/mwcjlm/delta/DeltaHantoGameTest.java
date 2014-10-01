@@ -2,14 +2,19 @@ package hanto.student.mwcjlm.delta;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
+import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
+import hanto.studentmwcjlm.common.HantoGameFactory;
+import hanto.studentmwcjlm.delta.DeltaHantoGame;
+import hanto.studentmwcjlm.gamma.GammaHantoGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +95,17 @@ public class DeltaHantoGameTest {
 		game.makeMove(HantoPieceType.BUTTERFLY, null, createCoord(0,0));
 		game.makeMove(HantoPieceType.BUTTERFLY, null, createCoord(0,1));
 		game.makeMove(HantoPieceType.BUTTERFLY, createCoord(0,0), createCoord(1,0));
+	}
+	
+	@Test (expected = HantoException.class)
+	public void invalidPieceThrowsException() throws HantoException {
+		game.makeMove(HantoPieceType.HORSE, null, createCoord(0,0));
+	}
+	
+	@Test
+	public void gameFactoryMakesDeltaHanto() {
+		HantoGame deltaGame = HantoGameFactory.getInstance().makeHantoGame(HantoGameID.DELTA_HANTO);
+		assertTrue(deltaGame instanceof DeltaHantoGame);
 	}
 	
 	public HantoCoordinate createCoord(int x, int y) {

@@ -3,16 +3,18 @@
  */
 package hanto.student.mwcjlm.gamma;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
+import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
+import hanto.studentmwcjlm.common.HantoGameFactory;
+import hanto.studentmwcjlm.gamma.GammaHantoGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class GammaHantoGameTest {
 	@Test
 	public void gameShouldEndAfterTwentyTurns() throws HantoException {
 		initWithButterflies();
-		game.setTurnNumber(19);
+		game.setTurnNumber(20);
 		
 		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0,-1)); //blue sparrow
 		assertEquals(MoveResult.DRAW, game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0,2)));
@@ -64,7 +66,7 @@ public class GammaHantoGameTest {
 	@Test (expected=HantoException.class)
 	public void gameShouldThrowExceptionAfterGameOver() throws HantoException {
 		initWithButterflies();
-		game.setTurnNumber(20);		
+		game.setTurnNumber(21);		
 		game.makeMove(HantoPieceType.SPARROW, null, new ComparableHantoCoordinate(0,-1)); //blue sparrow		
 		
 	}
@@ -121,6 +123,17 @@ public class GammaHantoGameTest {
 		game.makeMove(HantoPieceType.SPARROW, createCoord(0,0), createCoord(1,0));
 		
 		
+	}
+	
+	@Test (expected = HantoException.class)
+	public void invalidPieceThrowsException() throws HantoException {
+		game.makeMove(HantoPieceType.HORSE, null, createCoord(0,0));
+	}
+	
+	@Test
+	public void gameFactoryMakesGammaHanto() {
+		HantoGame gammaGame = HantoGameFactory.getInstance().makeHantoGame(HantoGameID.GAMMA_HANTO);
+		assertTrue(gammaGame instanceof GammaHantoGame);
 	}
 	
 	

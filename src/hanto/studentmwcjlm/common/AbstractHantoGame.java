@@ -59,7 +59,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	protected AbstractHantoGame(HantoPlayerColor firstPlayerColor) {
 		this.firstPlayerColor = firstPlayerColor;
 		board = new HantoBoard();
-		turnCount = 0;
+		turnCount = 1;
 		turnLimit = 0;
 		resigned = false;
 		
@@ -254,7 +254,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @param turnCount The new turn count
 	 */
 	public void setTurnCount(int turnCount) {
-		this.turnCount = (turnCount - 1) * 2; //zero base it, then convert into one move is one turn
+		this.turnCount = turnCount;
 	}
 	
 	/** Returns the Hanto Player of the given color
@@ -273,7 +273,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 */
 	protected boolean canPlayPieceType(HantoPieceType type) {		
 		//check if is greater than the 4th turn and the player has not, or is not, placing thier butterfly
-		if((turnCount/2) >= 3 &&
+		if((turnCount) > 3 &&
 				!currentPlayer.hasPlacedButterfly() &&
 				type != HantoPieceType.BUTTERFLY) {
 			return false;
@@ -320,7 +320,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 		else if(blueWon) {
 			return MoveResult.BLUE_WINS;
 		}
-		else if (turnLimit > 0 && turnCount >= turnLimit) {
+		else if (turnLimit > 0 && turnCount > turnLimit) {
 			return MoveResult.DRAW;
 		}
 		else {
@@ -365,7 +365,9 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * 
 	 */
 	protected void finalizeMove() {
-		turnCount ++;
+		if(currentPlayer.getColor() != firstPlayerColor) {
+			turnCount ++;
+		}
 		updateHantoPlayer();
 	}
 	
