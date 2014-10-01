@@ -16,16 +16,13 @@ import hanto.studentmwcjlm.common.HantoBoard;
 public class NoMovementMoveValidator implements MoveValidator {
 
 	/** The singleton instance */
-	private static NoMovementMoveValidator instance;
+	private static NoMovementMoveValidator instance = new NoMovementMoveValidator();
 	
 	/** Get the singleton instance
 	 * 
 	 * @return the singleton instance
 	 */
 	public static NoMovementMoveValidator getInstance() {
-		if (instance == null) {
-			instance = new NoMovementMoveValidator();
-		}
 		return instance;
 	}
 	

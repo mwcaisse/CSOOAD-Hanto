@@ -18,7 +18,6 @@ import hanto.studentmwcjlm.common.HantoPieceFactory;
 import hanto.studentmwcjlm.common.movevalidator.FlyMoveValidator;
 import hanto.studentmwcjlm.common.movevalidator.WalkMoveValidator;
 import hanto.studentmwcjlm.common.placementvalidator.AdjacentPlacementValidator;
-import hanto.studentmwcjlm.common.placementvalidator.BasicPlacementValidator;
 import hanto.studentmwcjlm.common.placementvalidator.PlacementValidator;
 
 /** Piece Factory for Delta Hanto
@@ -35,7 +34,7 @@ public class DeltaHantoPieceFactory implements HantoPieceFactory {
 	 * 
 	 */
 	public DeltaHantoPieceFactory() {
-		this.placementValidator = AdjacentPlacementValidator.getInstance();
+		placementValidator = AdjacentPlacementValidator.getInstance();
 	}
 	
 	@Override

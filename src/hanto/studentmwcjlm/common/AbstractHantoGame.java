@@ -121,8 +121,8 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * This method executes a move in the game. It is called for every move that must be
 	 * made.
 	 * 
-	 * @param pieceType
-	 *            the piece type that is being moved
+	 * @param piece
+	 *            the piece that is being moved
 	 * @param from
 	 *            the coordinate where the piece begins. If the coordinate is null, then
 	 *            the piece begins off the board (that is, it is placed on the board in

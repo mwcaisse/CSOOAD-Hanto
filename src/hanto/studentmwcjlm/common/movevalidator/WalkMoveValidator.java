@@ -25,16 +25,13 @@ import java.util.List;
 public class WalkMoveValidator extends BasicMoveValidator {
 
 	/** The singleton instance */
-	private static WalkMoveValidator instance;	
+	private static WalkMoveValidator instance = new WalkMoveValidator();
 	
 	/** Gets the singleton instance
 	 * 
 	 * @return The singleton instance
 	 */
 	public static WalkMoveValidator getInstance() {
-		if (instance == null) {
-			instance = new WalkMoveValidator();
-		}
 		return instance;
 	}
 	

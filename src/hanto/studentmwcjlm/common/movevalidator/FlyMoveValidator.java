@@ -18,16 +18,13 @@ package hanto.studentmwcjlm.common.movevalidator;
 public class FlyMoveValidator extends BasicMoveValidator {
 
 	/** The singleton instance */
-	private static FlyMoveValidator instance;
+	private static FlyMoveValidator instance = new FlyMoveValidator();
 	
 	/** Gets the singleton instance
 	 * 
 	 * @return The singleton instance
 	 */
 	public static FlyMoveValidator getInstance() {
-		if (instance == null) {
-			instance = new FlyMoveValidator();
-		}
 		return instance;
 	}
 	

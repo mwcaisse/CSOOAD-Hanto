@@ -20,16 +20,13 @@ import java.util.List;
 public class ContiguousMoveValidator implements MoveValidator {
 
 	/** The single ton instance */
-	private static ContiguousMoveValidator instance;
+	private static ContiguousMoveValidator instance = new ContiguousMoveValidator();
 	
 	/** Gets the singleton instance
 	 * 
 	 * @return The singleton insance
 	 */
 	public static ContiguousMoveValidator getInstance() {
-		if (instance == null) {
-			instance = new ContiguousMoveValidator();
-		}
 		return instance;
 	}
 	

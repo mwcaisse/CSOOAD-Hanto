@@ -16,16 +16,14 @@ import java.util.List;
 public class AdjacentPlacementValidator extends BasicPlacementValidator{
 
 	/** The singleton instance */
-	private static AdjacentPlacementValidator instance;
+	private static AdjacentPlacementValidator instance = new AdjacentPlacementValidator();
 	
-	/** Gets teh singleton instance
+	/** Gets the singleton instance
 	 * 
 	 * @return The singleton instance
 	 */
+	
 	public static AdjacentPlacementValidator getInstance() {
-		if (instance == null) {
-			instance = new AdjacentPlacementValidator();
-		}
 		return instance;
 	}
 	

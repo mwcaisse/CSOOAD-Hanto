@@ -17,7 +17,6 @@ import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
-import hanto.studentmwcjlm.common.HantoPieceFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +27,6 @@ import java.util.Map;
  *
  */
 public class DeltaHantoGame extends AbstractHantoGame {
-
-	private HantoPieceFactory pieceFactory;
 	
 	/** Creates a new Delta Hanto Game
 	 * 
