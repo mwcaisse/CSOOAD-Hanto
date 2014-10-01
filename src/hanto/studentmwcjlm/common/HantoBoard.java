@@ -29,7 +29,7 @@ import java.util.Map;
  *
  */
 
-public class HantoBoard implements Cloneable {
+public class HantoBoard {
 
 	/** The mapping of pieces and coordinates */
 	private Map<ComparableHantoCoordinate, HantoPiece> pieces;
@@ -223,10 +223,10 @@ public class HantoBoard implements Cloneable {
 		return board;
 	}
 	
-	/** Clones this board
-	 * 
+	/** Copies this board
+	 * 	@return a copy of this board
 	 */
-	public HantoBoard clone() {
+	public HantoBoard copy() {
 		HantoBoard board = new HantoBoard();
 		board.pieces = new HashMap<ComparableHantoCoordinate, HantoPiece>(pieces);
 		return board;

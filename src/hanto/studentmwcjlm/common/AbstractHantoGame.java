@@ -1,6 +1,14 @@
-/**
- * 
- */
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
+
 package hanto.studentmwcjlm.common;
 
 import hanto.common.HantoCoordinate;
@@ -43,9 +51,10 @@ public abstract class AbstractHantoGame implements HantoGame{
 	
 	/** Creates a new abstract hanto
 	 * 
+	 * 	@param firstPlayerColor The color of the player who will go first
 	 */
-	protected AbstractHantoGame(HantoPlayerColor firstPlayer) {
-		this.firstPlayerColor = firstPlayer;
+	protected AbstractHantoGame(HantoPlayerColor firstPlayerColor) {
+		this.firstPlayerColor = firstPlayerColor;
 		board = new HantoBoard();
 		turnCount = 0;
 		turnLimit = 0;
@@ -159,7 +168,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @throws HantoException If the piece placement is invalid
 	 */
 	
-	protected abstract void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException;
+	protected abstract void placePiece(HantoPieceType pieceType, ComparableHantoCoordinate to) throws HantoException;
 	
 	/** Converts the given hanto coordinate into a Hanto Coord implementation
 	 * 
@@ -200,7 +209,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @param color The color to set the current player color to
 	 */
 	public void setCurrentPlayerColor(HantoPlayerColor color) {
-		this.currentPlayer = players.get(color);
+		currentPlayer = players.get(color);
 	}
 	
 	/** Updates the Hanto player to the next player
@@ -330,7 +339,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * 
 	 * @return The starting inventory for a player
 	 */
-	protected abstract HashMap<HantoPieceType, Integer> getStartingInventory();
+	protected abstract Map<HantoPieceType, Integer> getStartingInventory();
 	
 	/** Updates the turn count + player at the end of a move
 	 * 

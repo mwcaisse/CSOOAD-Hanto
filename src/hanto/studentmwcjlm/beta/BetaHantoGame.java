@@ -13,13 +13,12 @@ package hanto.studentmwcjlm.beta;
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
-import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
-import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoPieceImpl;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /** The implementation of Hanto Game for Beta
  * 
@@ -40,13 +39,14 @@ public class BetaHantoGame extends AbstractHantoGame {
 	 * 
 	 */
 	private void init() {
-		turnLimit = 6 * 2;	
+		turnLimit = 12;	
 	}
 	
 	/** Defines the starting inventory for this game
 	 * 
+	 * @return The starting inventory
 	 */	
-	protected HashMap<HantoPieceType, Integer> getStartingInventory() {
+	protected Map<HantoPieceType, Integer> getStartingInventory() {
 		HashMap<HantoPieceType, Integer> startingPieces = new HashMap<HantoPieceType, Integer>();
 		startingPieces.put(HantoPieceType.BUTTERFLY, 1);
 		startingPieces.put(HantoPieceType.SPARROW, 5);
@@ -73,7 +73,7 @@ public class BetaHantoGame extends AbstractHantoGame {
 	 * @throws HantoException If the piece placement is invalid
 	 */
 	
-	protected void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException {
+	protected void placePiece(HantoPieceType pieceType, ComparableHantoCoordinate to) throws HantoException {
 		//check if this placement is valid
 		if (canPlayPieceType(pieceType)) {		
 			//add piece to the board

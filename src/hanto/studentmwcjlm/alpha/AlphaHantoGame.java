@@ -10,16 +10,16 @@
 
 package hanto.studentmwcjlm.alpha;
 
-import java.util.HashMap;
-
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
-import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoPieceImpl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /** The implementation of HantoGame for Alpha
  * 
@@ -28,9 +28,6 @@ import hanto.studentmwcjlm.common.HantoPieceImpl;
  */
 public class AlphaHantoGame extends AbstractHantoGame {
 
-	/** The number of turns in the game */
-	private int turnCount;
-	
 	public AlphaHantoGame() {
 		super(HantoPlayerColor.BLUE);
 	}	
@@ -103,8 +100,7 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	 * @throws HantoException If the piece placement is invalid
 	 */
 	
-	protected void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException {
-		//do nothing.
+	protected void placePiece(HantoPieceType pieceType, ComparableHantoCoordinate to) {
 	}
 	
 	
@@ -145,7 +141,7 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	 * 
 	 */
 	
-	protected HashMap<HantoPieceType, Integer> getStartingInventory() {
+	protected Map<HantoPieceType, Integer> getStartingInventory() {
 		return new HashMap<HantoPieceType, Integer>();
 	}
 

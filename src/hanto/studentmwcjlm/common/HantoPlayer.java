@@ -39,7 +39,7 @@ public class HantoPlayer {
 	 */
 	public HantoPlayer(HantoPlayerColor color, Map<HantoPieceType, Integer> startingInvetory) {
 		this.color = color;
-		this.pieceInventory = new HashMap<HantoPieceType, Integer>();
+		pieceInventory = new HashMap<HantoPieceType, Integer>();
 		initializeInventory(startingInvetory);
 	}
 	
@@ -63,7 +63,7 @@ public class HantoPlayer {
 	public void placePiece(HantoPieceType pieceType, ComparableHantoCoordinate location) {
 		pieceInventory.put(pieceType, pieceInventory.get(pieceType) - 1);
 		if (pieceType == HantoPieceType.BUTTERFLY) {
-			this.butterflyLocation = location;
+			butterflyLocation = location;
 		}
 	}
 	

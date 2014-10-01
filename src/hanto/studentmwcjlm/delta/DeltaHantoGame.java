@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
 package hanto.studentmwcjlm.delta;
 
 import hanto.common.HantoCoordinate;
@@ -15,7 +25,13 @@ import hanto.studentmwcjlm.common.HantoPieceImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/** Hanto Game for Delta Iteration
+ * 
+ * @author Mitchell Caisse
+ *
+ */
 public class DeltaHantoGame extends AbstractHantoGame {
 
 	private HantoPieceFactory pieceFactory;
@@ -31,14 +47,14 @@ public class DeltaHantoGame extends AbstractHantoGame {
 	
 	/** Initialize Delta */
 	private void init() {			
-		turnLimit = 20 * 2;		
 		pieceFactory = new DeltaHantoPieceFactory();
 	}
 	
 	/** Defines the starting inventory for this game
-	 * 
+	 * 	
+	 * @return The starting inventory for this game
 	 */	
-	protected HashMap<HantoPieceType, Integer> getStartingInventory() {
+	protected Map<HantoPieceType, Integer> getStartingInventory() {
 		HashMap<HantoPieceType, Integer> startingPieces = new HashMap<HantoPieceType, Integer>();
 		startingPieces.put(HantoPieceType.BUTTERFLY, 1);
 		startingPieces.put(HantoPieceType.SPARROW, 4);
@@ -88,7 +104,7 @@ public class DeltaHantoGame extends AbstractHantoGame {
 	 * @throws HantoException If the piece placement is invalid
 	 */
 	
-	protected void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException {
+	protected void placePiece(HantoPieceType pieceType, ComparableHantoCoordinate to) throws HantoException {
 		//check if this placement is valid
 		if (canPlayPieceType(pieceType) && isValidPlacement(pieceType, to)) {		
 			//add piece to the board
@@ -164,7 +180,7 @@ public class DeltaHantoGame extends AbstractHantoGame {
 	 */
 	private boolean isMoveContigous(ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
 		//clone the board
-		HantoBoard testBoard = board.clone();
+		HantoBoard testBoard = board.copy();
 		testBoard.movePiece(from, to);
 		
 		ComparableHantoCoordinate current = to;
