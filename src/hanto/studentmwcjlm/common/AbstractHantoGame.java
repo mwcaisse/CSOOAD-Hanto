@@ -124,8 +124,42 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
-	protected abstract MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
+	protected MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {
+		//check if the game is over
+		if (isGameOver()) {
+			throw new HantoException("Game is over!");
+		}
+		//check if we are moving a piece, or placing a piece
+		if (from != null) {
+			movePiece(pieceType, from, to);
+		}
+		else {
+			placePiece(pieceType, to);
+		}	
+		//finalize the move
+		finalizeMove();
+		return getMoveResult();		
+	}
+	
+	/** Moves a piece of the specified type, from the given coordinate, to the given coordinate
+	 * 
+	 * @param pieceType The type of piece to move
+	 * @param from The position to move the piece from
+	 * @param to The position to move the piece to
+	 * @throws HantoException if the move is invalid
+	 */
+	protected abstract void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from,
 			ComparableHantoCoordinate to) throws HantoException;
+	
+	/** Places a piece of the given type at the given location
+	 * 
+	 * @param pieceType The type of piece to player
+	 * @param to The location to place the piece
+	 * @throws HantoException If the piece placement is invalid
+	 */
+	
+	protected abstract void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException;
 	
 	/** Converts the given hanto coordinate into a Hanto Coord implementation
 	 * 

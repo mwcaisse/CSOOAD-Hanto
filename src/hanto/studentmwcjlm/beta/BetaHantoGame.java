@@ -35,12 +35,12 @@ public class BetaHantoGame extends AbstractHantoGame {
 	public BetaHantoGame(HantoPlayerColor firstPlayer) {
 		super(firstPlayer);
 		init();
-	}
-	
-	
+	}	
+	/** Initialize the settings for this hanto game
+	 * 
+	 */
 	private void init() {
-		turnLimit = 6 * 2;		
-		board = new HantoBoard();
+		turnLimit = 6 * 2;	
 	}
 	
 	/** Defines the starting inventory for this game
@@ -53,49 +53,35 @@ public class BetaHantoGame extends AbstractHantoGame {
 		return startingPieces;
 	}
 	
-	/**
-	 * This method executes a move in the game. It is called for every move that must be
-	 * made.
+	/** Moves a piece of the specified type, from the given coordinate, to the given coordinate
 	 * 
-	 * @param pieceType
-	 *            the piece type that is being moved
-	 * @param from
-	 *            the coordinate where the piece begins. If the coordinate is null, then
-	 *            the piece begins off the board (that is, it is placed on the board in
-	 *            this move).
-	 * @param to
-	 *            the coordinated where the piece is after the move has been made.
-	 * @return the result of the move
-	 * @throws HantoException
-	 *             if there are any problems in making the move (such as specifying a
-	 *             coordinate that does not have the appropriate piece, or the color of
-	 *             the piece is not the color of the player who is moving.
+	 * @param pieceType The type of piece to move
+	 * @param from The position to move the piece from
+	 * @param to The position to move the piece to
+	 * @throws HantoException if the move is invalid
+	 */
+	protected void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {	
+		
+		throw new HantoException("Moving pieces is not allowed in Beta Hanto!");
+	}
+	
+	/** Places a piece of the given type at the given location
+	 * 
+	 * @param pieceType The type of piece to player
+	 * @param to The location to place the piece
+	 * @throws HantoException If the piece placement is invalid
 	 */
 	
-	public MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
-			ComparableHantoCoordinate to) throws HantoException {
-		
-		//check if the game is over
-		if (isGameOver()) {
-			throw new HantoException("Game is over!");
-		}
-		
-		//check that pieces are not moving
-		if(from != null) {
-			throw new HantoException("Pieces cannot move in Alpha Hanto");
-		}
-		
-		//check if it is a valid piece type
+	protected void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException {
+		//check if this placement is valid
 		if (canPlayPieceType(pieceType)) {		
 			//add piece to the board
 			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
 			currentPlayer.placePiece(pieceType, to);
-			turnCount ++;
-			updateHantoPlayer();
-			return getMoveResult();
 		}
 		else {
-			throw new HantoException("Invalid piece type");
+			throw new HantoException("Invalid piece placement");
 		}
 	}
 

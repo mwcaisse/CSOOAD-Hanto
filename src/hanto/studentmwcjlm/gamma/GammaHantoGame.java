@@ -39,7 +39,6 @@ public class GammaHantoGame extends AbstractHantoGame {
 	
 	/** Initialize Gamma */
 	private void init() {		
-		board = new HantoBoard();
 		moveValidator = new WalkMoveValidator();		
 		turnLimit = 19 * 2; //20 turns, 2 in our count, 0 based
 	}
@@ -54,39 +53,61 @@ public class GammaHantoGame extends AbstractHantoGame {
 		startingPieces.put(HantoPieceType.SPARROW, 5);
 		return startingPieces;
 	}
-
-	public MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
+	
+	protected MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
 			ComparableHantoCoordinate to) throws HantoException {
-		
 		//check if the game is over
 		if (isGameOver()) {
 			throw new HantoException("Game is over!");
 		}
-		
-		//we are moving a peice
+		//check if we are moving a piece, or placing a piece
 		if (from != null) {
-			if (isValidMove(pieceType, from, to)) {
-				board.movePiece(from, to);	
-				finalizeMove();
-			}
-			else {
-				throw new HantoException("Invalid Peice Movement");
-			}
-
-		}		
-		//check if we can place the peice
-		else if (canPlayPieceType(pieceType) && isValidPlacement(pieceType, to)) {		
-			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
-			currentPlayer.placePiece(pieceType, to);
-			finalizeMove();			
+			movePiece(pieceType, from, to);
 		}
 		else {
-			throw new HantoException("Invalid piece type");
-		}
+			placePiece(pieceType, to);
+		}	
+		//finalize the move
+		finalizeMove();
+		return getMoveResult();		
+	}
+	
+	/** Moves a piece of the specified type, from the given coordinate, to the given coordinate
+	 * 
+	 * @param pieceType The type of piece to move
+	 * @param from The position to move the piece from
+	 * @param to The position to move the piece to
+	 * @throws HantoException if the move is invalid
+	 */
+	protected void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {
 		
-		return getMoveResult();
-	}	
+		if (isValidMove(pieceType, from, to)) {
+			board.movePiece(from, to);	
+		}
+		else {
+			throw new HantoException("Invalid peice movement");
+		}
+	}
+	
+	/** Places a piece of the given type at the given location
+	 * 
+	 * @param pieceType The type of piece to player
+	 * @param to The location to place the piece
+	 * @throws HantoException If the piece placement is invalid
+	 */
+	
+	protected void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException {
+		//check if this placement is valid
+		if (canPlayPieceType(pieceType) && isValidPlacement(pieceType, to)) {		
+			//add piece to the board
+			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
+			currentPlayer.placePiece(pieceType, to);		
+		}
+		else {
+			throw new HantoException("Invalid piece placement");
+		}
+	}
 	
 	/** Checks if the given placement of the piece is valid
 	 * 

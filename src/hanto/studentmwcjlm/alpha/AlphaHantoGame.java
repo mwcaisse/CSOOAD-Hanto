@@ -33,16 +33,8 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	
 	public AlphaHantoGame() {
 		super(HantoPlayerColor.BLUE);
-		init();
-	}
-	
-	
-	private void init() {
-		turnCount = 0;
-		
-		board = new HantoBoard();
-	}
-	
+	}	
+
 	/**
 	 * This method executes a move in the game. It is called for every move that must be
 	 * made.
@@ -62,6 +54,7 @@ public class AlphaHantoGame extends AbstractHantoGame {
 	 *             the piece is not the color of the player who is moving.
 	 */
 	
+	@Override
 	public MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
 			ComparableHantoCoordinate to) throws HantoException {
 		
@@ -88,6 +81,30 @@ public class AlphaHantoGame extends AbstractHantoGame {
 		else {
 			throw new HantoException("Invalid piece type");
 		}
+	}
+	
+	/** Moves a piece of the specified type, from the given coordinate, to the given coordinate
+	 * 
+	 * @param pieceType The type of piece to move
+	 * @param from The position to move the piece from
+	 * @param to The position to move the piece to
+	 * @throws HantoException if the move is invalid
+	 */
+	protected void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {	
+		
+		throw new HantoException("Moving pieces is not allowed in Alpha Hanto!");
+	}
+	
+	/** Places a piece of the given type at the given location
+	 * 
+	 * @param pieceType The type of piece to player
+	 * @param to The location to place the piece
+	 * @throws HantoException If the piece placement is invalid
+	 */
+	
+	protected void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException {
+		//do nothing.
 	}
 	
 	

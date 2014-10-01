@@ -30,8 +30,7 @@ public class DeltaHantoGame extends AbstractHantoGame {
 	}
 	
 	/** Initialize Delta */
-	private void init() {		
-		board = new HantoBoard();		
+	private void init() {			
 		turnLimit = 20 * 2;		
 		pieceFactory = new DeltaHantoPieceFactory();
 	}
@@ -64,38 +63,42 @@ public class DeltaHantoGame extends AbstractHantoGame {
 		
 	}
 	
-	public MoveResult makeMove(HantoPieceType pieceType, ComparableHantoCoordinate from,
-			ComparableHantoCoordinate to) throws HantoException {
+	/** Moves a piece of the specified type, from the given coordinate, to the given coordinate
+	 * 
+	 * @param pieceType The type of piece to move
+	 * @param from The position to move the piece from
+	 * @param to The position to move the piece to
+	 * @throws HantoException if the move is invalid
+	 */
+	protected void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from,
+			ComparableHantoCoordinate to) throws HantoException {	
 		
-		//check if the game is over
-		if (isGameOver()) {
-			throw new HantoException("Game is over!");
-		}
-		
-		//we are moving a peice
-		if (from != null) {
-			if (isValidMove(pieceType, from, to)) {
-				board.movePiece(from, to);	
-				finalizeMove();
-			}
-			else {
-				throw new HantoException("Invalid Peice Movement");
-			}
-
-		}		
-		//check if we can place the peice
-		else if (canPlayPieceType(pieceType) && isValidPlacement(pieceType, to)) {		
-			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
-			currentPlayer.placePiece(pieceType, to);
-			finalizeMove();			
+		if (isValidMove(pieceType, from, to)) {
+			board.movePiece(from, to);	
 		}
 		else {
-			throw new HantoException("Invalid piece type");
+			throw new HantoException("Invalid peice movement");
 		}
-		
-		return getMoveResult();
-	}	
+	}
+	
+	/** Places a piece of the given type at the given location
+	 * 
+	 * @param pieceType The type of piece to player
+	 * @param to The location to place the piece
+	 * @throws HantoException If the piece placement is invalid
+	 */
+	
+	protected void placePiece(HantoPieceType pieceType	, ComparableHantoCoordinate to) throws HantoException {
+		//check if this placement is valid
+		if (canPlayPieceType(pieceType) && isValidPlacement(pieceType, to)) {		
+			//add piece to the board
+			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
+			currentPlayer.placePiece(pieceType, to);	
+		}
+		else {
+			throw new HantoException("Invalid piece placement");
+		}
+	}
 	
 	/** Checks if the given placement of the piece is valid
 	 * 
