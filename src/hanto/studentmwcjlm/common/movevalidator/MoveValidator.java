@@ -9,7 +9,7 @@
  *******************************************************************************/
 
 
-package hanto.studentmwcjlm.common.movevalidation;
+package hanto.studentmwcjlm.common.movevalidator;
 
 import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;

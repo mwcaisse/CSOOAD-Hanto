@@ -15,7 +15,7 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
-import hanto.studentmwcjlm.common.HantoPieceImpl;
+import hanto.studentmwcjlm.common.BasicHantoPiece;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class BetaHantoGame extends AbstractHantoGame {
 		//check if this placement is valid
 		if (canPlayPieceType(pieceType)) {		
 			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
+			board.addPieceToBoard(new BasicHantoPiece(currentPlayer.getColor(), pieceType), to);		
 			currentPlayer.placePiece(pieceType, to);
 		}
 		else {

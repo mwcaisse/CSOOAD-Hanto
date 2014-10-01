@@ -16,7 +16,7 @@ import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
-import hanto.studentmwcjlm.common.HantoPieceImpl;
+import hanto.studentmwcjlm.common.BasicHantoPiece;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +68,7 @@ public class AlphaHantoGame extends AbstractHantoGame {
 		//check if it is a valid piece type
 		if (isValidPieceType(pieceType)) {		
 			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(getTurnColor(), pieceType), to);		
+			board.addPieceToBoard(new BasicHantoPiece(getTurnColor(), pieceType), to);		
 			turnCount ++;			
 			if (turnCount > 1) {
 				return MoveResult.DRAW;

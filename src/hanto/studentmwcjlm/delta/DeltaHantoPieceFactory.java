@@ -13,10 +13,12 @@ package hanto.studentmwcjlm.delta;
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
-import hanto.studentmwcjlm.common.HantoMovingPiece;
+import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.HantoPieceFactory;
-import hanto.studentmwcjlm.common.movevalidation.FlyMoveValidator;
-import hanto.studentmwcjlm.common.movevalidation.WalkMoveValidator;
+import hanto.studentmwcjlm.common.movevalidator.FlyMoveValidator;
+import hanto.studentmwcjlm.common.movevalidator.WalkMoveValidator;
+import hanto.studentmwcjlm.common.placementvalidator.BasicPlacementValidator;
+import hanto.studentmwcjlm.common.placementvalidator.PlacementValidator;
 
 /** Piece Factory for Delta Hanto
  * 
@@ -25,19 +27,29 @@ import hanto.studentmwcjlm.common.movevalidation.WalkMoveValidator;
  */
 public class DeltaHantoPieceFactory implements HantoPieceFactory {
 
+	/** The placement validator to use for pieces */
+	private PlacementValidator placementValidator;
+	
+	/** Creates a new Piece Factory for Delta Hanto
+	 * 
+	 */
+	public DeltaHantoPieceFactory() {
+		this.placementValidator = BasicPlacementValidator.getInstance();
+	}
+	
 	@Override
-	public HantoMovingPiece makePiece(HantoPlayerColor color,
+	public BasicHantoPiece makePiece(HantoPlayerColor color,
 			HantoPieceType type) throws HantoException {
-		HantoMovingPiece piece = null;
+		BasicHantoPiece piece = null;
 		switch(type) {
 		case CRAB:
-			piece = new HantoMovingPiece(color, type, new WalkMoveValidator());
+			piece = new BasicHantoPiece(color, type, placementValidator, new WalkMoveValidator());
 			break;
 		case BUTTERFLY:
-			piece = new HantoMovingPiece(color, type, new WalkMoveValidator());
+			piece = new BasicHantoPiece(color, type, placementValidator, new WalkMoveValidator());
 			break;
 		case SPARROW:
-			piece = new HantoMovingPiece(color, type, new FlyMoveValidator());
+			piece = new BasicHantoPiece(color, type, placementValidator, new FlyMoveValidator());
 			break;
 		default:
 			throw new HantoException("Unsupported Piece Type");

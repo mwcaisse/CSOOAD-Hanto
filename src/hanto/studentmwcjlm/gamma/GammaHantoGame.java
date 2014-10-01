@@ -18,9 +18,10 @@ import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.HantoPieceImpl;
-import hanto.studentmwcjlm.common.movevalidation.MoveValidator;
-import hanto.studentmwcjlm.common.movevalidation.WalkMoveValidator;
+import hanto.studentmwcjlm.common.BasicHantoPiece;
+import hanto.studentmwcjlm.common.movevalidator.ContiguousMoveValidator;
+import hanto.studentmwcjlm.common.movevalidator.MoveValidator;
+import hanto.studentmwcjlm.common.movevalidator.WalkMoveValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class GammaHantoGame extends AbstractHantoGame {
 		//check if this placement is valid
 		if (canPlayPieceType(pieceType) && isValidPlacement(pieceType, to)) {		
 			//add piece to the board
-			board.addPieceToBoard(new HantoPieceImpl(currentPlayer.getColor(), pieceType), to);		
+			board.addPieceToBoard(new BasicHantoPiece(currentPlayer.getColor(), pieceType), to);		
 			currentPlayer.placePiece(pieceType, to);		
 		}
 		else {
@@ -158,38 +159,14 @@ public class GammaHantoGame extends AbstractHantoGame {
 	
 	/** Checks if the board resulting of the move is contigious
 	 * 
+	 *  TODO: Placeholder method
+	 * 
 	 * @param from The ocordinate to move piece from
 	 * @param to Coordinate to moave the piece to
 	 * @return True if contigious false otherwise
 	 */
 	private boolean isMoveContigous(ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
-		//clone the board
-		HantoBoard testBoard = board.copy();
-		testBoard.movePiece(from, to);
-		
-		ComparableHantoCoordinate current = to;
-		List<ComparableHantoCoordinate> visited = new ArrayList<ComparableHantoCoordinate>();
-		List<ComparableHantoCoordinate> toVisit =  new ArrayList<ComparableHantoCoordinate>();
-		
-		visited.add(current);
-		toVisit.addAll(testBoard.getAdjacentLocationsWithPieces(current));
-		
-		while (toVisit.size() > 0) {
-			current = toVisit.remove(0);			
-			if (visited.contains(current)) {
-				continue;
-			}
-			visited.add(current);			
-			List<ComparableHantoCoordinate> adjCoords = testBoard.getAdjacentLocationsWithPieces(current);
-			for (ComparableHantoCoordinate coord : adjCoords) {
-				if (!visited.contains(coord)) {
-					toVisit.add(coord);
-				}
-			}
-		}
-		
-		//if we visited every spot on the board is is contigous
-		return testBoard.getPieceCount() == visited.size();
+		return new ContiguousMoveValidator().isMoveValid(board, from, to);
 	}
 	
 }

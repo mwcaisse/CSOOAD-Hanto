@@ -27,5 +27,5 @@ public interface HantoPieceFactory {
 	 * @return The piece
 	 * @throws HantoException If the specified piece type is unsupported
 	 */
-	HantoMovingPiece makePiece(HantoPlayerColor color, HantoPieceType type) throws HantoException;
+	BasicHantoPiece makePiece(HantoPlayerColor color, HantoPieceType type) throws HantoException;
 }

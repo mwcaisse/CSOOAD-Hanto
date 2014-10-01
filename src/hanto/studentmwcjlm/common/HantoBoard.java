@@ -122,7 +122,7 @@ public class HantoBoard {
 	 * @param coord The coordinate to test
 	 * @return True if there is an adjacent piece, false otherwise
 	 */
-	protected boolean hasAdjacentPiece(ComparableHantoCoordinate coord) {		
+	public boolean hasAdjacentPiece(ComparableHantoCoordinate coord) {		
 	
 		List<ComparableHantoCoordinate> adjacentCoordinates = coord.getAdjacentCoords();		
 		for (ComparableHantoCoordinate other : adjacentCoordinates) {

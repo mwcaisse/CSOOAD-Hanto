@@ -7,7 +7,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package hanto.studentmwcjlm.common.movevalidation;
+package hanto.studentmwcjlm.common.movevalidator;
 
 import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;

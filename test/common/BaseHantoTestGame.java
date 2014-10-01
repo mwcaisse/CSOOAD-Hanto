@@ -12,7 +12,7 @@ import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
-import hanto.studentmwcjlm.common.HantoPieceImpl;
+import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.HantoPlayer;
 
 import java.util.HashMap;
@@ -70,7 +70,7 @@ public class BaseHantoTestGame implements HantoTestGame {
 		
 		//set up the board + peice counts
 		for (PieceLocationPair pair : initialPieces) {
-			boardPieces.put(new ComparableHantoCoordinate(pair.location), new HantoPieceImpl(pair.player, pair.pieceType));
+			boardPieces.put(new ComparableHantoCoordinate(pair.location), new BasicHantoPiece(pair.player, pair.pieceType));
 			hantoPlayers.get(pair.player).placePiece(pair.pieceType, new ComparableHantoCoordinate(pair.location));
 		}
 		
