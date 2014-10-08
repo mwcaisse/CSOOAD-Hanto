@@ -83,6 +83,29 @@ public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<Co
 		
 		return adjacentCoordinates;
 	}
+	
+	public List<ComparableHantoCoordinate> getAdjacentCoordsRadius(int radius) {
+		List<ComparableHantoCoordinate> adjCoords = getAdjacentCoords();
+		adjCoords.add(this);
+		List<ComparableHantoCoordinate> newCoords = getAdjacentCoords();
+		for(int i = 1; i < radius; i++) {
+			List<ComparableHantoCoordinate> nextNew = new ArrayList<ComparableHantoCoordinate>();
+			for(ComparableHantoCoordinate coord: newCoords) {
+				List<ComparableHantoCoordinate> neighbors = coord.getAdjacentCoords();
+				for(ComparableHantoCoordinate c: neighbors) {
+					if(!adjCoords.contains(c)) {
+						adjCoords.add(c);
+						if(!nextNew.contains(c)) {
+							nextNew.add(c);
+						}
+					}
+				}
+			}
+			newCoords = nextNew;
+		}
+		adjCoords.remove(this);
+		return adjCoords;
+	}
 
 	@Override
 	public int hashCode() {
