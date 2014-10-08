@@ -1,10 +1,12 @@
 package hanto.student.mwcjlm.epsilon;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import hanto.common.HantoException;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
+import hanto.common.HantoPrematureResignationException;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
 import java.util.ArrayList;
@@ -72,6 +74,11 @@ public class EpsilonHantoGameTest {
 		assertEquals(18, start.getAdjacentCoordsRadius(2).size());
 		assertTrue(start.getAdjacentCoordsRadius(2).containsAll(area));
 		assertEquals(start.getAdjacentCoords(), start.getAdjacentCoordsRadius(1));
+	}
+	
+	@Test//(expected = HantoPrematureResignationException.class)
+	public void resignOnFirstMoveShouldException() throws HantoException {
+		game.makeMove(null, null, null);
 	}
 	
 	public ComparableHantoCoordinate createCoord(int x, int y) {
