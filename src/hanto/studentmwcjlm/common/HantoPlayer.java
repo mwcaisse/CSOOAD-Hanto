@@ -90,6 +90,9 @@ public class HantoPlayer {
 		AdjacentPlacementValidator apv = AdjacentPlacementValidator.getInstance();
 		BasicHantoPiece dummyPiece = new BasicHantoPiece(color, HantoPieceType.CRAB);
 		List<ComparableHantoCoordinate> pieceCoords = board.getPiecesForPlayer(color);
+		if (pieceCoords.size() == 0) {
+			return true; //player has not yet placed a piece, no way he cannot place one
+		}
 		for(ComparableHantoCoordinate coord: pieceCoords) {
 			for(ComparableHantoCoordinate c: coord.getAdjacentCoords()) {
 				if(apv.isPlacementValid(board, dummyPiece, c)) {

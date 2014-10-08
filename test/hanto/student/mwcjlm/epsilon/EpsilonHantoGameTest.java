@@ -76,8 +76,14 @@ public class EpsilonHantoGameTest {
 		assertEquals(start.getAdjacentCoords(), start.getAdjacentCoordsRadius(1));
 	}
 	
-	@Test//(expected = HantoPrematureResignationException.class)
+	@Test(expected = HantoPrematureResignationException.class)
 	public void resignOnFirstMoveShouldException() throws HantoException {
+		game.makeMove(null, null, null);
+	}
+	
+	@Test(expected = HantoPrematureResignationException.class)
+	public void resignOnFirstMoveShouldException2() throws HantoException {
+		initWithButterflies();
 		game.makeMove(null, null, null);
 	}
 	
