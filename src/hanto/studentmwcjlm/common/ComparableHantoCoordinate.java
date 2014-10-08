@@ -54,6 +54,15 @@ public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<Co
 		return y;
 	}
 	
+	/*
+	 * function hex_distance(Hex(q1, r1), Hex(q2, r2)):
+    return (abs(q1 - q2) + abs(r1 - r2)
+          + abs(q1 + r1 - q2 - r2)) / 2
+	 */
+	public int getDistance(ComparableHantoCoordinate to) {
+		return (Math.abs(x - to.x) + Math.abs(y - to.y) + Math.abs(x + y - to.x - to.y)) / 2;
+	}
+	
 	/** Returns the list of coordinates adjacent to this coordinate
 	 * 
 	 * @return The list of coordinates adjacent to this coordinate

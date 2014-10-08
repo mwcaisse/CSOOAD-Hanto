@@ -16,7 +16,7 @@ public class EpsilonHantoGame extends AbstractHantoGame {
 	/** Create a new epsilon hanto game
 	 * @param firstPlayerColor the color of the player that goes first
 	 */
-	protected EpsilonHantoGame(HantoPlayerColor firstPlayerColor) {
+	public EpsilonHantoGame(HantoPlayerColor firstPlayerColor) {
 		super(firstPlayerColor);
 		init();
 	}

@@ -13,6 +13,7 @@ package common;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.delta.DeltaHantoGame;
+import hanto.studentmwcjlm.epsilon.EpsilonHantoGame;
 import hanto.studentmwcjlm.gamma.GammaHantoGame;
 
 /**
@@ -64,6 +65,9 @@ public class HantoTestGameFactory
 				break;
 			case DELTA_HANTO:
 				game = new BaseHantoTestGame(new DeltaHantoGame(movesFirst));
+				break;
+			case EPSILON_HANTO:
+				game = new BaseHantoTestGame(new EpsilonHantoGame(movesFirst));
 				break;
 		}
 		return game;

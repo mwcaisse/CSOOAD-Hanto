@@ -29,12 +29,15 @@ public class DeltaHantoPieceFactory implements HantoPieceFactory {
 
 	/** The placement validator to use for pieces */
 	private PlacementValidator placementValidator;
+	/** The flying movement validator */
+	private FlyMoveValidator flyMoveValidator;
 	
 	/** Creates a new Piece Factory for Delta Hanto
 	 * 
 	 */
 	public DeltaHantoPieceFactory() {
 		placementValidator = AdjacentPlacementValidator.getInstance();
+		flyMoveValidator = new FlyMoveValidator();
 	}
 	
 	@Override
@@ -47,7 +50,7 @@ public class DeltaHantoPieceFactory implements HantoPieceFactory {
 			piece = new BasicHantoPiece(color, type, placementValidator, WalkMoveValidator.getInstance());
 			break;
 		case SPARROW:
-			piece = new BasicHantoPiece(color, type, placementValidator, FlyMoveValidator.getInstance());
+			piece = new BasicHantoPiece(color, type, placementValidator, flyMoveValidator);
 			break;
 		default:
 			throw new HantoException("Unsupported Piece Type");
