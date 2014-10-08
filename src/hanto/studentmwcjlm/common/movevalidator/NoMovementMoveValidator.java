@@ -39,6 +39,12 @@ public class NoMovementMoveValidator implements MoveValidator {
 		return false; // move ment is not allowed
 	}
 
+	@Override
+	public boolean hasLegalMove(HantoBoard board, HantoPiece piece,
+			ComparableHantoCoordinate start) {
+		return false;
+	}
+
 	
 	
 }

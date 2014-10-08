@@ -72,4 +72,14 @@ public class WalkMoveValidator extends BasicMoveValidator {
 		return false;
 	}
 	
+	public boolean hasLegalMove(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate start) {
+		List<ComparableHantoCoordinate> adjCoords = start.getAdjacentCoords();
+		for(ComparableHantoCoordinate coord : adjCoords) {
+			if(isMoveValid(board, piece, start, coord)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

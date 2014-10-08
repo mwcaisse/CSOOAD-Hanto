@@ -67,6 +67,16 @@ public class HantoPlayer {
 		}
 	}
 	
+	/** Checks to see if the player has a legal move
+	 * @param board the game board
+	 * @return True if there is a legal move for the player, false otherwise
+	 */
+	public boolean hasLegalMove(HantoBoard board) {
+		// check if have pieces, if so can they be places
+		// check if pieces on board have legal moves
+		return false;
+	}
+	
 	/** Determines if the player has any pieces of the specified type remaining
 	 * 
 	 * @param pieceType The type of piece to check

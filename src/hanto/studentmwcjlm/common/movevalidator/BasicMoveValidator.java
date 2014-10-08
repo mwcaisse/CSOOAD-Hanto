@@ -3,6 +3,9 @@
  */
 package hanto.studentmwcjlm.common.movevalidator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
@@ -12,8 +15,6 @@ import hanto.studentmwcjlm.common.HantoBoard;
  *
  */
 public class BasicMoveValidator implements MoveValidator {
-	
-	private MoveValidator contiguousMoveValidator = ContiguousMoveValidator.getInstance();
 	
 	@Override
 	public boolean isMoveValid(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
@@ -25,6 +26,41 @@ public class BasicMoveValidator implements MoveValidator {
 		if (!board.isLocationEmpty(to)) {
 			return false; //destination is not empty
 		}
-		return contiguousMoveValidator.isMoveValid(board, piece, from, to);
+		return isMoveContiguous(board, piece, from, to);
+	}
+	
+	public boolean isMoveContiguous(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
+		HantoBoard testBoard = board.copy();
+		testBoard.movePiece(from, to);
+		
+		ComparableHantoCoordinate current = to;
+		List<ComparableHantoCoordinate> visited = new ArrayList<ComparableHantoCoordinate>();
+		List<ComparableHantoCoordinate> toVisit =  new ArrayList<ComparableHantoCoordinate>();
+		
+		visited.add(current);
+		toVisit.addAll(testBoard.getAdjacentLocationsWithPieces(current));
+		
+		while (toVisit.size() > 0) {
+			current = toVisit.remove(0);			
+			if (visited.contains(current)) {
+				continue;
+			}
+			visited.add(current);			
+			List<ComparableHantoCoordinate> adjCoords = testBoard.getAdjacentLocationsWithPieces(current);
+			for (ComparableHantoCoordinate coord : adjCoords) {
+				if (!visited.contains(coord)) {
+					toVisit.add(coord);
+				}
+			}
+		}		
+		//if we visited every spot on the board is is contigous
+		return testBoard.getPieceCount() == visited.size();
+	}
+
+	@Override
+	public boolean hasLegalMove(HantoBoard board, HantoPiece piece,
+			ComparableHantoCoordinate start) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
