@@ -1,15 +1,16 @@
 package hanto.studentmwcjlm.epsilon;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
+import hanto.common.HantoPrematureResignationException;
 import hanto.common.MoveResult;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EpsilonHantoGame extends AbstractHantoGame {
 
@@ -46,6 +47,9 @@ public class EpsilonHantoGame extends AbstractHantoGame {
 		//check if the player resigns
 		if(pieceType == null && from == null && to == null) {
 			//TODO: check to see if they have legal moves, if they don't throw new HantoPrematureResignationException
+			if (currentPlayer.hasLegalMove(board)) {
+				throw new HantoPrematureResignationException();
+			}
 			resigned = true;
 			return getMoveResult();
 		}
