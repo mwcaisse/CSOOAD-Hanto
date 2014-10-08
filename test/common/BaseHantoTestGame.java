@@ -13,6 +13,7 @@ import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.BasicHantoPiece;
+import hanto.studentmwcjlm.common.HantoPieceFactory;
 import hanto.studentmwcjlm.common.HantoPlayer;
 
 import java.util.HashMap;
@@ -62,16 +63,21 @@ public class BaseHantoTestGame implements HantoTestGame {
 		
 		Map<ComparableHantoCoordinate, BasicHantoPiece> boardPieces = new HashMap<ComparableHantoCoordinate, BasicHantoPiece>();
 		Map<HantoPlayerColor, HantoPlayer> hantoPlayers = new HashMap<HantoPlayerColor, HantoPlayer>();
+		HantoPieceFactory pieceFactory = hantoGame.getPieceFactory();
 		
 		// Put all of the hanto player colors into the map
 		for (HantoPlayerColor color : HantoPlayerColor.values()) {
 			hantoPlayers.put(color, hantoGame.getHantoPlayer(color));
 		}
-		
-		//set up the board + peice counts
-		for (PieceLocationPair pair : initialPieces) {
-			boardPieces.put(new ComparableHantoCoordinate(pair.location), new BasicHantoPiece(pair.player, pair.pieceType));
-			hantoPlayers.get(pair.player).placePiece(pair.pieceType, new ComparableHantoCoordinate(pair.location));
+		try {
+			//set up the board + peice counts
+			for (PieceLocationPair pair : initialPieces) {
+				boardPieces.put(new ComparableHantoCoordinate(pair.location), pieceFactory.makePiece(pair.player, pair.pieceType));
+				hantoPlayers.get(pair.player).placePiece(pair.pieceType, new ComparableHantoCoordinate(pair.location));
+			}
+		}
+		catch (HantoException e) {
+			//invalid piece was added, silently fail.
 		}
 		
 		//set the board

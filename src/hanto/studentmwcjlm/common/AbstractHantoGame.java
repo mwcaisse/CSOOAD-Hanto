@@ -371,5 +371,13 @@ public abstract class AbstractHantoGame implements HantoGame{
 		updateHantoPlayer();
 	}
 	
+	/** Returns the piece factory this Hanto Game uses for creating pieces
+	 * 
+	 * @return the piece factory
+	 */
+	public HantoPieceFactory getPieceFactory() {
+		return pieceFactory;
+	}
+	
 	
 }
