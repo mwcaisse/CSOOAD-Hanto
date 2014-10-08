@@ -7,6 +7,9 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,6 +45,33 @@ public class EpsilonHantoGameTest {
 		from = createCoord(-3, 0);
 		to = createCoord(0, 3);
 		assertEquals(6, from.getDistance(to));
+	}
+	
+	@Test
+	public void checkCoordinateAdjacentByRadius() {
+		ComparableHantoCoordinate start = createCoord(0, 0);
+		List<ComparableHantoCoordinate> area = new ArrayList<ComparableHantoCoordinate>();
+		area.add(createCoord(0, 1));
+		area.add(createCoord(1, 0));
+		area.add(createCoord(1, -1));
+		area.add(createCoord(0, -1));
+		area.add(createCoord(-1, 0));
+		area.add(createCoord(-1, 1));
+		area.add(createCoord(0, 2));
+		area.add(createCoord(1, 1));
+		area.add(createCoord(2, 0));
+		area.add(createCoord(2, -1));
+		area.add(createCoord(2, -2));
+		area.add(createCoord(1, -2));
+		area.add(createCoord(0, -2));
+		area.add(createCoord(-1, -1));
+		area.add(createCoord(-2, 0));
+		area.add(createCoord(-2, 1));
+		area.add(createCoord(-2, 2));
+		area.add(createCoord(-1, 2));
+		assertEquals(18, start.getAdjacentCoordsRadius(2).size());
+		assertTrue(start.getAdjacentCoordsRadius(2).containsAll(area));
+		assertEquals(start.getAdjacentCoords(), start.getAdjacentCoordsRadius(1));
 	}
 	
 	public ComparableHantoCoordinate createCoord(int x, int y) {

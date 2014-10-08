@@ -12,6 +12,7 @@ package hanto.studentmwcjlm.common;
 
 import hanto.common.HantoException;
 import hanto.common.HantoPiece;
+import hanto.common.HantoPlayerColor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -169,6 +170,16 @@ public class HantoBoard {
 	 */
 	public int getPieceCount() {
 		return pieces.size();
+	}
+	
+	public List<ComparableHantoCoordinate> getPiecesForPlayer(HantoPlayerColor color) {
+		List<ComparableHantoCoordinate> playerPieces = new ArrayList<ComparableHantoCoordinate>();
+		for(ComparableHantoCoordinate coord: pieces.keySet()) {
+			if(pieces.get(coord).getColor() == color) {
+				playerPieces.add(coord);
+			}
+		}
+		return playerPieces;
 	}
 	
 	/** Returns a string containing a printable copy of the board

@@ -89,6 +89,10 @@ public class BasicHantoPiece implements HantoPiece {
 	public boolean isMoveValid(HantoBoard board, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
 		return moveValidator.isMoveValid(board, this, from, to);
 	}
+	
+	public boolean hasLegalMove(HantoBoard board, ComparableHantoCoordinate coord) {
+		return moveValidator.hasLegalMove(board, this, coord);
+	}
 
 	
 	

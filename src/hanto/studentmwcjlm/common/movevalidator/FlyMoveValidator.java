@@ -48,18 +48,7 @@ public class FlyMoveValidator extends BasicMoveValidator {
 		if(maxMoveDistance == 0) {
 			return true;
 		}
-		List<ComparableHantoCoordinate> adjCoords = start.getAdjacentCoords();
-		List<ComparableHantoCoordinate> newCoords = start.getAdjacentCoords();
-		for(int i = 1; i < maxMoveDistance; i++) {
-			for(ComparableHantoCoordinate coord: newCoords) {
-				List<ComparableHantoCoordinate> neighbors = coord.getAdjacentCoords();
-				for(ComparableHantoCoordinate c: neighbors) {
-					if(!adjCoords.contains(c)) {
-						adjCoords.add(c);
-					}
-				}
-			}
-		}
+		List<ComparableHantoCoordinate> adjCoords = start.getAdjacentCoordsRadius(maxMoveDistance);
 		for(ComparableHantoCoordinate coord: adjCoords) {
 			if(isMoveValid(board, piece, start, coord)) {
 				return true;

@@ -12,8 +12,10 @@ package hanto.studentmwcjlm.common;
 
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
+import hanto.studentmwcjlm.common.placementvalidator.AdjacentPlacementValidator;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** Class to represent a HantoPlayer
@@ -74,6 +76,37 @@ public class HantoPlayer {
 	public boolean hasLegalMove(HantoBoard board) {
 		// check if have pieces, if so can they be places
 		// check if pieces on board have legal moves
+		return canPlacePiece(board) || canMovePiece(board);
+	}
+	
+	public boolean canPlacePiece(HantoBoard board) {
+		int totalPieceCount = 0;
+		for(HantoPieceType type: pieceInventory.keySet()) {
+			totalPieceCount += pieceInventory.get(type);
+		}
+		if(totalPieceCount <= 0) {
+			return false;
+		}
+		AdjacentPlacementValidator apv = AdjacentPlacementValidator.getInstance();
+		BasicHantoPiece dummyPiece = new BasicHantoPiece(color, HantoPieceType.CRAB);
+		List<ComparableHantoCoordinate> pieceCoords = board.getPiecesForPlayer(color);
+		for(ComparableHantoCoordinate coord: pieceCoords) {
+			for(ComparableHantoCoordinate c: coord.getAdjacentCoords()) {
+				if(apv.isPlacementValid(board, dummyPiece, c)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean canMovePiece(HantoBoard board) {
+		List<ComparableHantoCoordinate> pieceCoords = board.getPiecesForPlayer(color);
+		for(ComparableHantoCoordinate coord: pieceCoords) {
+			if(board.getPieceAt(coord).hasLegalMove(board, coord)) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
