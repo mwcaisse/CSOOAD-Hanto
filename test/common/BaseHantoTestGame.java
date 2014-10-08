@@ -60,7 +60,7 @@ public class BaseHantoTestGame implements HantoTestGame {
 	@Override
 	public void initializeBoard(PieceLocationPair[] initialPieces) {
 		
-		Map<ComparableHantoCoordinate, HantoPiece> boardPieces = new HashMap<ComparableHantoCoordinate, HantoPiece>();
+		Map<ComparableHantoCoordinate, BasicHantoPiece> boardPieces = new HashMap<ComparableHantoCoordinate, BasicHantoPiece>();
 		Map<HantoPlayerColor, HantoPlayer> hantoPlayers = new HashMap<HantoPlayerColor, HantoPlayer>();
 		
 		// Put all of the hanto player colors into the map

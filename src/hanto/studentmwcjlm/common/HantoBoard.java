@@ -30,20 +30,20 @@ import java.util.Map;
 public class HantoBoard {
 
 	/** The mapping of pieces and coordinates */
-	private Map<ComparableHantoCoordinate, HantoPiece> pieces;
+	private Map<ComparableHantoCoordinate, BasicHantoPiece> pieces;
 	
 	/** Creates a mew Hanto Board and initializes the board
 	 * 
 	 */
 	public HantoBoard() {
-		pieces = new HashMap<ComparableHantoCoordinate, HantoPiece>();
+		pieces = new HashMap<ComparableHantoCoordinate, BasicHantoPiece>();
 	}
 	
 	/** Creates a new Hanto board with the given pieces 
 	 * 
 	 * @param pieces The initial pieces on the board
 	 */
-	public HantoBoard(Map<ComparableHantoCoordinate, HantoPiece> pieces) {
+	public HantoBoard(Map<ComparableHantoCoordinate, BasicHantoPiece> pieces) {
 		this.pieces = pieces;
 	}
 	
@@ -52,7 +52,7 @@ public class HantoBoard {
 	 * @param at The coordinate to get the piece of
 	 * @return The piece at the given coordinate
 	 */
-	public HantoPiece getPieceAt(ComparableHantoCoordinate at) {
+	public BasicHantoPiece getPieceAt(ComparableHantoCoordinate at) {
 		return pieces.get(at);
 	}
 	
@@ -71,7 +71,7 @@ public class HantoBoard {
 	 * @param to The position to add the piece to
 	 * @throws HantoException if the spot is invalid  
 	 */
-	public void addPieceToBoard(HantoPiece piece, ComparableHantoCoordinate to) throws HantoException {		
+	public void addPieceToBoard(BasicHantoPiece piece, ComparableHantoCoordinate to) throws HantoException {		
 		if (isValidMove(piece, to)) {
 			pieces.put(to, piece);
 		}
@@ -85,7 +85,7 @@ public class HantoBoard {
 	 * @param at The location of the piece to remove
 	 * @return A copy of the piece removed
 	 */
-	public HantoPiece removePeiceFromBoard(ComparableHantoCoordinate at) {
+	public BasicHantoPiece removePeiceFromBoard(ComparableHantoCoordinate at) {
 		return pieces.remove(at);
 	}
 	
@@ -104,7 +104,7 @@ public class HantoBoard {
 	 * @param to The coordinate to move the peice to
 	 * @return True if it is a valid move, false othter wise
 	 */
-	public boolean isValidMove(HantoPiece piece, ComparableHantoCoordinate to){
+	public boolean isValidMove(BasicHantoPiece piece, ComparableHantoCoordinate to){
 		if (pieces.isEmpty()) { //if the board is empty only valid move is 0,0
 			return to.equals(new ComparableHantoCoordinate(0, 0));	
 		}
@@ -136,8 +136,8 @@ public class HantoBoard {
 	 * @param coord the coordinate of the desired piece
 	 * @return the pieces that are adjacent to the coordinate
 	 */
-	public List<HantoPiece> getAdjacentPieces(ComparableHantoCoordinate coord) {
-		List<HantoPiece> adjacentPieces = new ArrayList<HantoPiece>();
+	public List<BasicHantoPiece> getAdjacentPieces(ComparableHantoCoordinate coord) {
+		List<BasicHantoPiece> adjacentPieces = new ArrayList<BasicHantoPiece>();
 		List<ComparableHantoCoordinate> adjacentCoordinates = coord.getAdjacentCoords();
 		for (ComparableHantoCoordinate other : adjacentCoordinates) {
 			if (getPieceAt(other) != null) {
@@ -194,7 +194,7 @@ public class HantoBoard {
 	 */
 	public HantoBoard copy() {
 		HantoBoard board = new HantoBoard();
-		board.pieces = new HashMap<ComparableHantoCoordinate, HantoPiece>(pieces);
+		board.pieces = new HashMap<ComparableHantoCoordinate, BasicHantoPiece>(pieces);
 		return board;
 	}
 	

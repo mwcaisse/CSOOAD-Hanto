@@ -4,6 +4,7 @@
 package hanto.studentmwcjlm.common.placementvalidator;
 
 import hanto.common.HantoPiece;
+import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
 
@@ -44,9 +45,9 @@ public class AdjacentPlacementValidator extends BasicPlacementValidator{
 		}
 		
 		if (board.getPieceCount() >= 2) {
-			List<HantoPiece> adjacentPeices = board.getAdjacentPieces(to);
+			List<BasicHantoPiece> adjacentPeices = board.getAdjacentPieces(to);
 			//check that the color of all the adjacent peices are same color
-			for (HantoPiece piece : adjacentPeices) {
+			for (BasicHantoPiece piece : adjacentPeices) {
 				if (!piece.getColor().equals(toPlace.getColor())) {
 					return false; //placed a peice next to a color not his own
 				}

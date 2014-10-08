@@ -182,7 +182,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	
 	protected void placePiece(BasicHantoPiece piece, ComparableHantoCoordinate to) throws HantoException {
 		if (canPlayPieceType(piece.getType()) && piece.isPlacementValid(board, to)) {
-			board.addPieceToBoard(new BasicHantoPiece(currentPlayer.getColor(), piece.getType()), to);		
+			board.addPieceToBoard(pieceFactory.makePiece(currentPlayer.getColor(), piece.getType()), to);		
 			currentPlayer.placePiece(piece.getType(), to);
 		}
 		else {
