@@ -159,12 +159,19 @@ public class LateGameHantoAI implements HantoAI {
 	 * @return
 	 */
 	private HantoMoveRecord movePiece(EpsilonHantoGame game, HantoPlayerColor myColor) {
-		if (moveOffensive(game, myColor)) {
-			
+		if (!moveOffensive(game, myColor)) {
+			//defensive moving
+			//check if we can move butterfly, if so, we move it anywhere.
+			//move any adjacent pieces next to butterfly
+			//if neither, offensive move
 		}
-		else {
+	
+		//offensive moving
+		//try and move a piece next to their butterfly
+		//if cannot, then move a piece as close to butterfly as possible
 			
-		}
+			
+		
 		
 		return null;
 	}
