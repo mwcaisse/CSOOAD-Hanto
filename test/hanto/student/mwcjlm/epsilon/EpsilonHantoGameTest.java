@@ -201,6 +201,50 @@ public class EpsilonHantoGameTest {
 		assertEquals(MoveResult.OK, game.makeMove(HORSE, createCoord(2,  -2), createCoord(-3, 3)));
 	}
 	
+	@Test
+	public void horseShouldJumpDiagnolly2() throws HantoException {
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, HORSE, 3, -2), 
+			    plPair(RED, BUTTERFLY, 2, -1),
+			    plPair(RED, CRAB, 1, 0),
+			    plPair(RED, CRAB, 0, 1),
+			    plPair(BLUE, SPARROW, -1, 2)			    
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		assertEquals(MoveResult.OK, game.makeMove(HORSE, createCoord(3,  -2), createCoord(-2, 3)));
+	}
+	
+	@Test
+	public void horseShouldBeAbleJumpAlongX() throws HantoException {
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, HORSE, 3, 0), 
+			    plPair(RED, BUTTERFLY, 2, 0),
+			    plPair(RED, CRAB, 1, 0),
+			    plPair(RED, CRAB, 0, 0),
+			    plPair(BLUE, SPARROW, -1, 0)			    
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		assertEquals(MoveResult.OK, game.makeMove(HORSE, createCoord(3,  0), createCoord(-2, 0)));
+	}
+	
+	@Test
+	public void horseShouldBeAbleToJumpAlongY() throws HantoException {	
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, HORSE, 5, 2), 
+			    plPair(RED, BUTTERFLY, 5, 1),
+			    plPair(RED, CRAB, 5, 0),
+			    plPair(RED, CRAB, 5, -1),
+			    plPair(BLUE, SPARROW, 5, -2)			    
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		assertEquals(MoveResult.OK, game.makeMove(HORSE, createCoord(5,  2), createCoord(5, -3)));
+	}
+	
+	
+	
 	@Test(expected = HantoException.class)
 	public void horseShouldNotBeableToJumpOverMissingPiece() throws HantoException {
 		final PieceLocationPair[] board = new PieceLocationPair[] {
@@ -213,6 +257,20 @@ public class EpsilonHantoGameTest {
 		game.initializeBoard(board);
 		game.setPlayerMoving(BLUE);		
 		game.makeMove(HORSE, createCoord(2,  -2), createCoord(-3, 3));
+	}
+	
+	@Test(expected = HantoException.class)
+	public void horseShouldntBeableToJumpInNonLine() throws HantoException {
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, HORSE, -1, -1), 
+			    plPair(RED, BUTTERFLY, 0, -1),
+			    plPair(RED, CRAB, 0,0),
+			    plPair(BLUE, SPARROW, 1, 0),
+			    plPair(BLUE, SPARROW, 0, 1)
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		game.makeMove(HORSE, createCoord(-1,  -1), createCoord(1, 1));
 	}
 	
 	public ComparableHantoCoordinate createCoord(int x, int y) {
