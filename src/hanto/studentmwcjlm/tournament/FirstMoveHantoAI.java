@@ -49,7 +49,7 @@ public class FirstMoveHantoAI implements HantoAI {
 			move = new HantoMoveRecord(HantoPieceType.CRAB, null,getRandomNeighborCoord(
 					new ComparableHantoCoordinate(0,0)));			
 		}			
-		return new HantoAIResult(this, move);
+		return new HantoAIResult(new EarlyGameHantoAI(1), move);
 	}
 	
 	/** Gets a random coord adjacent to the given coordinate
