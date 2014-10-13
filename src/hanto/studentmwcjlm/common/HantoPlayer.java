@@ -157,4 +157,12 @@ public class HantoPlayer {
 	public ComparableHantoCoordinate getButterflyLocation() {
 		return butterflyLocation;
 	}
+	
+	/** Gets this players piece inventory
+	 * 
+	 * @return The players piece inventory
+	 */
+	public Map<HantoPieceType, Integer> getPieceInventory() {
+		return pieceInventory;
+	}
 }

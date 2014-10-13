@@ -287,7 +287,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 * @param color The color to get the opposite of
 	 * @return The opposite color
 	 */
-	protected HantoPlayerColor oppositeColor(HantoPlayerColor color) {
+	public static HantoPlayerColor oppositeColor(HantoPlayerColor color) {
 		if(color == HantoPlayerColor.BLUE) {
 			return HantoPlayerColor.RED;
 		}
@@ -370,6 +370,24 @@ public abstract class AbstractHantoGame implements HantoGame{
 		}
 		updateHantoPlayer();
 	}
+	
+	/** Returns the board that the game is currently using
+	 * 
+	 * @return The board
+	 */
+	public HantoBoard getBoard() {
+		return board;
+	}
+	
+	/**  Gets the player of the given color
+	 * 
+	 * @param color THe color of the player to fetch
+	 * @return The player with the given color
+	 */
+	public HantoPlayer getPlayer(HantoPlayerColor color) {
+		return players.get(color);
+	}
+	
 	
 	/** Returns the piece factory this Hanto Game uses for creating pieces
 	 * 
