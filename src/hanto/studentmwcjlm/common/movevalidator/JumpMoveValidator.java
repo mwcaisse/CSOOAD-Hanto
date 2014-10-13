@@ -29,6 +29,15 @@ public class JumpMoveValidator extends BasicMoveValidator {
 		if (!super.isMoveValid(board, piece, from, to)) {
 			return false;
 		}
-		return true;
+		if (from.getY() == to.getY()) {
+
+		}
+		else if (from.getX() == to.getY()) {
+			//moved in straight line in the y direction
+		}
+		else if ((to.getX() - from.getX()) == -1 * (to.getY() - from.getY())) {
+			//moved diagonally 
+		}
+		return false;
 	}
 }
