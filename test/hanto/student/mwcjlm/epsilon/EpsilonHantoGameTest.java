@@ -1,11 +1,8 @@
 package hanto.student.mwcjlm.epsilon;
 
 
-import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPieceType.CRAB;
-import static hanto.common.HantoPieceType.SPARROW;
-import static hanto.common.HantoPlayerColor.BLUE;
-import static hanto.common.HantoPlayerColor.RED;
+import static hanto.common.HantoPieceType.*;
+import static hanto.common.HantoPlayerColor.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import hanto.common.HantoException;
@@ -178,6 +175,44 @@ public class EpsilonHantoGameTest {
 		game.setPlayerMoving(BLUE);		
 		game.makeMove(SPARROW, createCoord(0,  -1), createCoord(0, 4));
 		
+	}
+	
+	@Test(expected = HantoException.class)
+	public void horseShouldNotJumpOneSpace() throws HantoException {
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, HORSE, 0, 0), 		    
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		game.makeMove(HORSE, createCoord(0,  0), createCoord(0, 1));
+	}
+	
+	@Test
+	public void horseShouldJumpDiagnolly() throws HantoException {
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, HORSE, 2, -2), 
+			    plPair(RED, BUTTERFLY, 1, -1),
+			    plPair(RED, CRAB, 0, 0),
+			    plPair(RED, CRAB, -1, 1),
+			    plPair(BLUE, SPARROW, -2, 2)			    
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		assertEquals(MoveResult.OK, game.makeMove(HORSE, createCoord(2,  -2), createCoord(-3, 3)));
+	}
+	
+	@Test(expected = HantoException.class)
+	public void horseShouldNotBeableToJumpOverMissingPiece() throws HantoException {
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, HORSE, 2, -2), 
+			    plPair(RED, BUTTERFLY, 1, -1),
+			    plPair(RED, CRAB, -1, 1),
+			    plPair(BLUE, SPARROW, -1, 0),
+			    plPair(BLUE, SPARROW, 0, -1)
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		game.makeMove(HORSE, createCoord(2,  -2), createCoord(-3, 3));
 	}
 	
 	public ComparableHantoCoordinate createCoord(int x, int y) {

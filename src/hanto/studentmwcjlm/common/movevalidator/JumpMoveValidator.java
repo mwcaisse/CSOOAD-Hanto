@@ -45,13 +45,32 @@ public class JumpMoveValidator extends BasicMoveValidator {
 			return false;
 		}
 		if (from.getY() == to.getY()) {
-
+			for (int i = (Math.min(from.getX(), to.getX()) + 1); i < Math.max(from.getX(), to.getX()); i++) {
+				if (board.isLocationEmpty(new ComparableHantoCoordinate(i, to.getY()))) {
+					return false;
+				}
+			}
+			return Math.abs(from.getX() - to.getX()) > 1;
 		}
-		else if (from.getX() == to.getY()) {
-			//moved in straight line in the y direction
+		else if (from.getX() == to.getX()) {
+			for (int i = (Math.min(from.getY(), to.getY()) + 1); i < Math.max(from.getY(), to.getY()); i++) {
+				if (board.isLocationEmpty(new ComparableHantoCoordinate(to.getX(), i))) {
+					return false;
+				}
+			}
+			return Math.abs(from.getY() - to.getY()) > 1;
 		}
 		else if ((to.getX() - from.getX()) == -1 * (to.getY() - from.getY())) {
-			//moved diagonally 
+			
+			
+			
+			for (int i = 1; i < Math.abs(to.getX() - from.getX()); i++) {
+				
+			}
+			
+			
+			//check distance
+			return Math.abs(from.getY() - to.getY()) > 1;
 		}
 		return false;
 	}
