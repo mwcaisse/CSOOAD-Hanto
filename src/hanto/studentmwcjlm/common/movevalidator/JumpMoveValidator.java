@@ -61,14 +61,13 @@ public class JumpMoveValidator extends BasicMoveValidator {
 			return Math.abs(from.getY() - to.getY()) > 1;
 		}
 		else if ((to.getX() - from.getX()) == -1 * (to.getY() - from.getY())) {
-			
-			
-			
+			int startX = Math.min(to.getX(), from.getX());
+			int startY = startX == to.getX() ? to.getY() : from.getY();
 			for (int i = 1; i < Math.abs(to.getX() - from.getX()); i++) {
-				
+				if (board.isLocationEmpty(new ComparableHantoCoordinate(startX + i, startY - i))) {
+					return false;
+				}
 			}
-			
-			
 			//check distance
 			return Math.abs(from.getY() - to.getY()) > 1;
 		}
