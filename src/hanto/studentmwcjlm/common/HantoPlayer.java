@@ -134,6 +134,19 @@ public class HantoPlayer {
 		return pieceInventory.get(pieceType) > 0;
 	}
 	
+	/** Determines if the player has any pieces remaining
+	 * 
+	 * @return True if the player has pieces remaining, false otherwise
+	 */
+	public boolean hasPiecesRemaining() {
+		for (HantoPieceType type : pieceInventory.keySet()) {
+			if (pieceInventory.get(type) > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/** Determines if the player has placed their butterfly yet
 	 * 
 	 * @return True if the player's butterfly has been placed, false otherwise

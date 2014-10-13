@@ -377,17 +377,7 @@ public abstract class AbstractHantoGame implements HantoGame{
 	 */
 	public HantoBoard getBoard() {
 		return board;
-	}
-	
-	/**  Gets the player of the given color
-	 * 
-	 * @param color THe color of the player to fetch
-	 * @return The player with the given color
-	 */
-	public HantoPlayer getPlayer(HantoPlayerColor color) {
-		return players.get(color);
-	}
-	
+	}	
 	
 	/** Returns the piece factory this Hanto Game uses for creating pieces
 	 * 
