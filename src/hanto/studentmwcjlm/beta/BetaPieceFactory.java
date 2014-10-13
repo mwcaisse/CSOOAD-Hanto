@@ -10,6 +10,7 @@ import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.HantoPieceFactory;
 import hanto.studentmwcjlm.common.movevalidator.NoMovementMoveValidator;
 import hanto.studentmwcjlm.common.placementvalidator.BasicPlacementValidator;
+import hanto.studentmwcjlm.common.placementvalidator.PlacementValidator;
 
 /**
  * @author Mitchell Caisse
@@ -17,6 +18,12 @@ import hanto.studentmwcjlm.common.placementvalidator.BasicPlacementValidator;
  */
 public class BetaPieceFactory implements HantoPieceFactory {
 
+	/** The Placement Validator to use for Beta Hanto */
+	private PlacementValidator placementValidator;
+	
+	public BetaPieceFactory() {
+		placementValidator = new BasicPlacementValidator();
+	}
 
 	public BasicHantoPiece makePiece(HantoPlayerColor color, HantoPieceType type)
 			throws HantoException {
@@ -26,7 +33,7 @@ public class BetaPieceFactory implements HantoPieceFactory {
 		switch(type) {
 		case BUTTERFLY:
 		case SPARROW:
-			piece = new BasicHantoPiece(color, type, BasicPlacementValidator.getInstance(), NoMovementMoveValidator.getInstance());
+			piece = new BasicHantoPiece(color, type, placementValidator, NoMovementMoveValidator.getInstance());
 			break;
 			
 			default:

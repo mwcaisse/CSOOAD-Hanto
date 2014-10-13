@@ -7,32 +7,12 @@ import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
 
-/** The basic piece placement validator
- * 
- * 	
+/** The basic piece placement validator	
  * 
  * @author Mitchell Caisse
  *
  */
 public class BasicPlacementValidator implements PlacementValidator{
-
-	/** The singleton instance */
-	private static BasicPlacementValidator instance = new BasicPlacementValidator();
-	
-	/** Retrieves the singleton instance the this Basic Placement Validator
-	 * 
-	 * @return The singleton instance
-	 */
-	public static BasicPlacementValidator getInstance() {
-		return instance;
-	}
-	
-	/** Protexted constructor
-	 * 
-	 */
-	protected BasicPlacementValidator() {
-		
-	}
 	
 	/** Checks to  see if the board is empty and move is to 0,0, The piece has an adjacent piece, and it is not being placed
 	 * 	on an existing piece

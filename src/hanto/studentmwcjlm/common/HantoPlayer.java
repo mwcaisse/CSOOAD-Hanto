@@ -79,6 +79,12 @@ public class HantoPlayer {
 		return canPlacePiece(board) || canMovePiece(board);
 	}
 	
+	/** Determines if a player can place any of thier pieces
+	 * 
+	 * @param board The board to place the pieces on
+	 * @return True if the player can place a piece, false otherwise
+	 */
+	
 	public boolean canPlacePiece(HantoBoard board) {
 		int totalPieceCount = 0;
 		for(HantoPieceType type: pieceInventory.keySet()) {
@@ -102,6 +108,12 @@ public class HantoPlayer {
 		}
 		return false;
 	}
+	
+	/** Determines if the player can move a piece on the given board
+	 * 
+	 * @param board The board
+	 * @return True if the player can move any of thier pieces
+	 */
 	
 	public boolean canMovePiece(HantoBoard board) {
 		List<ComparableHantoCoordinate> pieceCoords = board.getPiecesForPlayer(color);

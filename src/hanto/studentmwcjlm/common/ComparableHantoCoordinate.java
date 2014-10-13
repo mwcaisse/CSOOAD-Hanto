@@ -54,11 +54,12 @@ public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<Co
 		return y;
 	}
 	
-	/*
-	 * function hex_distance(Hex(q1, r1), Hex(q2, r2)):
-    return (abs(q1 - q2) + abs(r1 - r2)
-          + abs(q1 + r1 - q2 - r2)) / 2
+	/** Calculates the distance between this coordinate and the given coordinate
+	 * 
+	 * @param to The coordinate to calculate the distance between
+	 * @return The distance between the coordinates
 	 */
+	
 	public int getDistance(ComparableHantoCoordinate to) {
 		return (Math.abs(x - to.x) + Math.abs(y - to.y) + Math.abs(x + y - to.x - to.y)) / 2;
 	}
@@ -83,6 +84,12 @@ public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<Co
 		
 		return adjacentCoordinates;
 	}
+	
+	/** Calculates the neighboring coordinates in the given radius
+	 * 
+	 * @param radius The radius
+	 * @return The neighboring coordinates
+	 */
 	
 	public List<ComparableHantoCoordinate> getAdjacentCoordsRadius(int radius) {
 		List<ComparableHantoCoordinate> adjCoords = getAdjacentCoords();

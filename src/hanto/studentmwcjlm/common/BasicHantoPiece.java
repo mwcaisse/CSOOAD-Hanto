@@ -44,7 +44,7 @@ public class BasicHantoPiece implements HantoPiece {
 	 */
 	
 	public BasicHantoPiece(HantoPlayerColor color, HantoPieceType type) {
-		this(color, type, BasicPlacementValidator.getInstance(), new BasicMoveValidator());
+		this(color, type, new BasicPlacementValidator(), new BasicMoveValidator());
 	}
 	
 	/** Creates a new Hanto Piece Implementation with the given color, type, placement validator, and move validator
@@ -90,8 +90,15 @@ public class BasicHantoPiece implements HantoPiece {
 		return moveValidator.isMoveValid(board, this, from, to);
 	}
 	
-	public boolean hasLegalMove(HantoBoard board, ComparableHantoCoordinate coord) {
-		return moveValidator.hasLegalMove(board, this, coord);
+	/** Determines if the piece has any legal moves on the given board
+	 * 
+	 * @param board The board to check for legal moves on
+	 * @param position The position of the piece on the board
+	 * @return True if the piece has any legal moves, false otherwise
+	 */
+	
+	public boolean hasLegalMove(HantoBoard board, ComparableHantoCoordinate position) {
+		return moveValidator.hasLegalMove(board, this, position);
 	}
 
 	

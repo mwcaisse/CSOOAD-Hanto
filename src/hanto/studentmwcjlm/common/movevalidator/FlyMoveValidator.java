@@ -9,12 +9,11 @@
  *******************************************************************************/
 package hanto.studentmwcjlm.common.movevalidator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
+
+import java.util.List;
 
 
 /** Move validator for Pieces that can flt
@@ -30,6 +29,10 @@ public class FlyMoveValidator extends BasicMoveValidator {
 		this(0);
 	}
 	
+	/** Creates a new Move Validator for Flying
+	 * 
+	 * @param maxMoveDistance The maximum number of coordinates that can be flown over, 0 for infinite
+	 */
 	public FlyMoveValidator(int maxMoveDistance) {
 		this.maxMoveDistance = maxMoveDistance;
 	}

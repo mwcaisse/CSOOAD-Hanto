@@ -30,5 +30,14 @@ public interface MoveValidator {
 	 * @return True if the move is valid, false otherwise
 	 */
 	boolean isMoveValid(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate from, ComparableHantoCoordinate to);
-	boolean hasLegalMove(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate start);
+	
+	/** Determines if the piece has any legal moves on the given board
+	 * 
+	 * @param board The board to check for legal moves on
+	 * @param piece The piece to check if it has legal moves
+	 * @param position The position of the piece on the board
+	 * @return True if the piece has any legal moves, false otherwise
+	 */
+	
+	boolean hasLegalMove(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate position);
 }

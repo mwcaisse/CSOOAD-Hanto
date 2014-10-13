@@ -1,6 +1,12 @@
-/**
- * 
- */
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentmwcjlm.common.movevalidator;
 
 import java.util.ArrayList;
@@ -29,6 +35,14 @@ public class BasicMoveValidator implements MoveValidator {
 		return isMoveContiguous(board, piece, from, to);
 	}
 	
+	/** Determines if the move is contigious or not
+	 * 
+	 * @param board The board to make the move on
+	 * @param piece The piece to move
+	 * @param from The coordinate to move from
+	 * @param to The coordinate to mvoe to
+	 * @return True if the board is contigous after the move, false otherwise
+	 */
 	public boolean isMoveContiguous(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
 		HantoBoard testBoard = board.copy();
 		testBoard.movePiece(from, to);

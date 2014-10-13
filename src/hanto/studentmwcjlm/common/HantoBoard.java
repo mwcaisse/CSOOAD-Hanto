@@ -172,6 +172,11 @@ public class HantoBoard {
 		return pieces.size();
 	}
 	
+	/** Returns the list of pieces that belong to the player of the given color on the board
+	 * 
+	 * @param color The color of the player
+	 * @return The list of pieces belonging to the specified player
+	 */
 	public List<ComparableHantoCoordinate> getPiecesForPlayer(HantoPlayerColor color) {
 		List<ComparableHantoCoordinate> playerPieces = new ArrayList<ComparableHantoCoordinate>();
 		for(ComparableHantoCoordinate coord: pieces.keySet()) {
