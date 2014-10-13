@@ -16,6 +16,7 @@ import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.alpha.AlphaHantoGame;
 import hanto.studentmwcjlm.beta.BetaHantoGame;
 import hanto.studentmwcjlm.delta.DeltaHantoGame;
+import hanto.studentmwcjlm.epsilon.EpsilonHantoGame;
 import hanto.studentmwcjlm.gamma.GammaHantoGame;
 
 /**
@@ -76,6 +77,9 @@ public class HantoGameFactory
 			break;
 		case DELTA_HANTO:
 			game = new DeltaHantoGame(movesFirst);
+			break;
+		case EPSILON_HANTO:
+			game = new EpsilonHantoGame(movesFirst);
 			break;
 		}
 		return game;
