@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
 package hanto.studentmwcjlm.tournament;
 
 import hanto.common.HantoPieceType;
@@ -14,17 +24,27 @@ import hanto.tournament.HantoMoveRecord;
 import java.util.List;
 import java.util.Map;
 
-public class LateGameHantoAI implements HantoAI {
+/** The Hanto AI for playing after the butterfly has been placed
+ * 
+ * @author Mitchell Caisse, James Megin
+ *
+ */
 
-	/** Keep track of how many turns */
-	private int turnCount;
+public class LateGameHantoAI extends BaseHantoAI {
 	
-	public LateGameHantoAI(int turnCount) {
-		this.turnCount = turnCount;
+	/** Creates a new Hanto AI for playing the game after the butterfly placement
+	 * 
+	 * @param game The game to use for playing Hanto
+	 * @param myColor The color of the player's pieces
+	 * @param turnCount The current turn count
+	 */
+	
+	public LateGameHantoAI(EpsilonHantoGame game, HantoPlayerColor myColor, int turnCount) {
+		super(game, myColor, turnCount);
 	}
 	
 	@Override
-	public HantoAIResult getNextMove(EpsilonHantoGame game, HantoPlayerColor myColor) {
+	public HantoAIResult getNextMove() {
 		turnCount++;
 		HantoMoveRecord move;
 		HantoAI nextAI = this;
@@ -41,11 +61,6 @@ public class LateGameHantoAI implements HantoAI {
 			move = movePiece(game, myColor);
 		}	
 		
-		
-		// check if valid move
-		// decide if we will be defensive or aggressive?
-		// decide if we will place or move
-		// place or move
 		return new HantoAIResult(nextAI, move);
 	}
 	

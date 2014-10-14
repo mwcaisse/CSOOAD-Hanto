@@ -1,6 +1,13 @@
-/**
- * 
- */
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+
 package hanto.studentmwcjlm.tournament;
 
 import hanto.common.HantoException;
@@ -26,8 +33,10 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 	/** Whether or not we move first */
 	private boolean moveFirst;
 	
-	/** The Ai to use for the game */
+	/** The current Hanto AI to use for determining our next move */
 	private HantoAI hantoAI;
+	
+	
 	/**
 	 * This method must be called first after the player is constructed. It tells the
 	 * player what version of the game to play, what the player's color is, and whether the
@@ -41,7 +50,7 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 		game = new EpsilonHantoGame(firstColor);
 		this.myColor = myColor;
 		moveFirst = doIMoveFirst;
-		hantoAI = new FirstMoveHantoAI();
+		hantoAI = new FirstMoveHantoAI(game, myColor);
 	}
 	
 	/**
@@ -52,13 +61,11 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 	 */
 	public HantoMoveRecord makeMove(HantoMoveRecord opponentsMove) {
 		try {
-			boolean firstMove = false;
 			if (opponentsMove != null) {		
 				makeHantoMove(opponentsMove);
-				game.makeMove(opponentsMove.getPiece(),opponentsMove.getFrom(), opponentsMove.getTo());
-				firstMove = true;
+				game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
 			}
-			HantoAIResult res = hantoAI.getNextMove(game, myColor);
+			HantoAIResult res = hantoAI.getNextMove();
 			hantoAI = res.getAi();
 			makeHantoMove(res.getMove());			
 			return res.getMove();
@@ -68,7 +75,7 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 			e.printStackTrace();
 		}
 		
-		return null;		
+		return new HantoMoveRecord(null, null, null); // something went wrong, just resign. *tear	
 	}
 	
 	/** Makes the specified move
@@ -77,9 +84,6 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 	 * @throws HantoException If the move was invalid
 	 */
 	private void makeHantoMove(HantoMoveRecord move) throws HantoException {
-		game.makeMove(move.getPiece(),move.getFrom(), move.getTo());
+		game.makeMove(move.getPiece(), move.getFrom(), move.getTo());
 	}
-	
-
-
-}
+	}

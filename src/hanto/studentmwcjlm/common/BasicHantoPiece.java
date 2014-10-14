@@ -107,7 +107,7 @@ public class BasicHantoPiece implements HantoPiece {
 	 * 
 	 * @param board The board
 	 * @param currentPosition The current position of the piece
-	 * @return
+	 * @return The list of coordinates that this piece can legally move to
 	 */
 	public List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, ComparableHantoCoordinate currentPosition) {
 		return moveValidator.getValidMovementCoordinates(board, this, currentPosition);

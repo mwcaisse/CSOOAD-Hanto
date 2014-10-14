@@ -48,7 +48,7 @@ public interface MoveValidator {
 	 * @param board The board
 	 * @param piece The piece to move
 	 * @param currentPosition The current position of the piece
-	 * @return
+	 * @return The list of coordinates that can be legally moved to
 	 */
 	List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition);
 }

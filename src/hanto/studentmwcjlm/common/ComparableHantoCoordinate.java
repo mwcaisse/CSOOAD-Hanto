@@ -68,19 +68,16 @@ public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<Co
 	 * 
 	 * @return The list of coordinates adjacent to this coordinate
 	 */
-	public List<ComparableHantoCoordinate> getAdjacentCoords() {
-		int cx = getX();
-		int cy = getY();
-		
+	public List<ComparableHantoCoordinate> getAdjacentCoords() {		
 		List<ComparableHantoCoordinate> adjacentCoordinates = new ArrayList<ComparableHantoCoordinate>();
-		adjacentCoordinates.add(new ComparableHantoCoordinate(cx + 1, cy));
-		adjacentCoordinates.add(new ComparableHantoCoordinate(cx - 1, cy));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(x + 1, y));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(x - 1, y));
 		
-		adjacentCoordinates.add(new ComparableHantoCoordinate(cx, cy + 1));
-		adjacentCoordinates.add(new ComparableHantoCoordinate(cx, cy - 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(x, y + 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(x, y - 1));
 		
-		adjacentCoordinates.add(new ComparableHantoCoordinate(cx + 1, cy - 1));
-		adjacentCoordinates.add(new ComparableHantoCoordinate(cx - 1, cy + 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(x + 1, y - 1));
+		adjacentCoordinates.add(new ComparableHantoCoordinate(x - 1, y + 1));
 		
 		return adjacentCoordinates;
 	}

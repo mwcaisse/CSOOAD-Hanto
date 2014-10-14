@@ -80,14 +80,14 @@ public class JumpMoveValidator extends BasicMoveValidator {
 	
 	@Override
 	public boolean hasLegalMove(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition) {
-		// x == x
+		// x equals x
 		if (hasValidMoveInLine(board, piece, currentPosition, 0, 1)) {
 			return true;
 		}
 		else if (hasValidMoveInLine(board, piece, currentPosition, 0, -1)) {
 			return true;
 		}
-		//y == y
+		//y equals y
 		else if (hasValidMoveInLine(board, piece, currentPosition, 1, 0)) {
 			return true;
 		}
@@ -145,7 +145,7 @@ public class JumpMoveValidator extends BasicMoveValidator {
 	 */
 	public List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition) {
 		List<ComparableHantoCoordinate> validDestinations = new ArrayList<ComparableHantoCoordinate>();
-		//x == x
+		//x equals x
 		ComparableHantoCoordinate currentCoord = getFirstEmptyCoordInLine(board, currentPosition, 0, 1);
 		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
 			validDestinations.add(currentCoord);
@@ -154,7 +154,7 @@ public class JumpMoveValidator extends BasicMoveValidator {
 		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
 			validDestinations.add(currentCoord);
 		}
-		//y == y
+		//y equals y
 		currentCoord = getFirstEmptyCoordInLine(board, currentPosition, 1, 0);
 		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
 			validDestinations.add(currentCoord);
