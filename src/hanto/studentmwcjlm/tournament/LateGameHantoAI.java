@@ -226,13 +226,7 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @return true if we can legally move our butterfly, false otherwise
 	 */
 	private boolean canMoveOwnButterfly() {
-		//System.out.println("CMOB: GAME: " + game);
-		//System.out.println("CMOB: MyColor: " + myColor);
-		//System.out.println("CMOB: HantoPlayer: " + game.getHantoPlayer(myColor));
 		ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
-		//System.out.println("CMOB: BLoc: (" + myButterflyLocation.getX() + "," + myButterflyLocation.getY() );
-		//System.out.println("CMOB: Board: " + board);
-		//System.out.println("CMOB: ButterflyPiece: " + board.getPieceAt(myButterflyLocation));
 		if(board.getPieceAt(myButterflyLocation).hasLegalMove(board, myButterflyLocation)) {
 			return true;
 		}
