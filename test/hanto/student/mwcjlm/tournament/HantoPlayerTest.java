@@ -22,15 +22,25 @@ public class HantoPlayerTest {
 
 	
 	/** First Hanto player */
-	private HantoGamePlayer playerBlue;
+	private HantoPlayer playerBlue;
+	
+	/** The test blue player */
+	private TestHantoPlayer testPlayerBlue;
+	
+	/** The test red player */
+	private TestHantoPlayer testPlayerRed;
 	
 	/** Second Hanto Player */
-	private HantoGamePlayer playerRed;
+	private HantoPlayer playerRed;
 	
 	@Before
 	public void setup() {
-		playerBlue = new HantoPlayer();
-		playerRed = new HantoPlayer();
+		testPlayerBlue = new TestHantoPlayer();
+		testPlayerRed = new TestHantoPlayer();
+		
+		playerRed = testPlayerRed;
+		playerBlue = testPlayerBlue;
+		
 		playerBlue.startGame(HantoGameID.EPSILON_HANTO, HantoPlayerColor.BLUE, true);
 		playerRed.startGame(HantoGameID.EPSILON_HANTO, HantoPlayerColor.RED, false);
 	}
@@ -42,5 +52,16 @@ public class HantoPlayerTest {
 		assertNull(moveResult.getFrom());
 		assertEquals(new ComparableHantoCoordinate(0, 0), moveResult.getTo());
 	}
+	
+	@Test
+	public void testTwoMovesShouldHaveTwoPiecesOnBoard() {
+		HantoMoveRecord moveResult = playerBlue.makeMove(null);
+		playerRed.makeMove(moveResult);
+		
+		//red, should have two pieces on its board
+		assertEquals(2, testPlayerRed.getHantoGame().getBoard().getPieceCount());
+
+	}
+	
 	
 }

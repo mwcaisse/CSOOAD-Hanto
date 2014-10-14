@@ -26,10 +26,10 @@ import hanto.tournament.HantoMoveRecord;
 public class HantoPlayer implements HantoGamePlayer {
 
 	/** The hanto game to use to play */
-	private EpsilonHantoGame game;
+	protected EpsilonHantoGame game;
 	
 	/** The current Hanto AI to use for determining our next move */
-	private HantoAI hantoAI;
+	protected HantoAI hantoAI;
 	
 	
 	/**
@@ -77,7 +77,6 @@ public class HantoPlayer implements HantoGamePlayer {
 	 */
 	private void makeHantoMove(HantoMoveRecord move) throws HantoException {
 		game.makeMove(move.getPiece(), move.getFrom(), move.getTo());
-	}
-	
+	}		
 	
 }
