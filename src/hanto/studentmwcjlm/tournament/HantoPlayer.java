@@ -15,6 +15,7 @@ import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.epsilon.EpsilonHantoGame;
+import hanto.tournament.HantoGamePlayer;
 import hanto.tournament.HantoMoveRecord;
 
 /** Player for Hanto Epsilon Tournament
@@ -22,7 +23,7 @@ import hanto.tournament.HantoMoveRecord;
  * @author Mitchell Caisse, James Megin
  *
  */
-public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
+public class HantoPlayer implements HantoGamePlayer {
 
 	/** The hanto game to use to play */
 	private EpsilonHantoGame game;
@@ -55,7 +56,6 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 		try {
 			if (opponentsMove != null) {		
 				makeHantoMove(opponentsMove);
-				game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
 			}
 			HantoAIResult res = hantoAI.getNextMove();
 			hantoAI = res.getAi();
