@@ -45,7 +45,7 @@ public class EarlyGameHantoAI extends BaseHantoAI {
 		HantoPieceType piece = HantoPieceType.CRAB;
 		HantoAI nextAI = this;
 		turnCount++;
-		if(turnCount == 4) {
+		if(turnCount == 3) { //just for now
 			piece = HantoPieceType.BUTTERFLY;
 			nextAI = new LateGameHantoAI(game, myColor, turnCount);
 		}

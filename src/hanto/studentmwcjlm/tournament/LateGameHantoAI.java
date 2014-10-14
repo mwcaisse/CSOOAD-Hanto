@@ -50,15 +50,15 @@ public class LateGameHantoAI extends BaseHantoAI {
 		HantoAI nextAI = this;
 		
 		//check if we need to resign
-		if (!hasValidMove(game, myColor)) {
+		if (!hasValidMove()) {
 			//no valid moves, time to resign
 			move = createResignMove();
 		}
-		else if (shouldPlacePiece(game, myColor)) {
-			move = placePiece(game, myColor);
+		else if (shouldPlacePiece()) {
+			move = placePiece();
 		}
 		else {
-			move = movePiece(game, myColor);
+			move = movePiece();
 		}	
 		
 		return new HantoAIResult(nextAI, move);
@@ -70,8 +70,8 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor Our color
 	 * @return True if we have valid moves, false otherwise
 	 */
-	private boolean hasValidMove(EpsilonHantoGame game, HantoPlayerColor myColor) {
-		return game.getHantoPlayer(myColor).hasLegalMove(game.getBoard());
+	private boolean hasValidMove() {
+		return game.getHantoPlayer(myColor).hasLegalMove(board);
 	}
 	
 	/** Determines if we will place a piece
@@ -80,14 +80,14 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor Our color
 	 * @return True if we should place a piece, False if we should move a piece
 	 */
-	private boolean shouldPlacePiece(EpsilonHantoGame game, HantoPlayerColor myColor) {
+	private boolean shouldPlacePiece() {
 		HantoPlayer player = game.getHantoPlayer(myColor);
 		//if we can't place a piece then we have to move
-		if (!player.canPlacePiece(game.getBoard())) {
+		if (!player.canPlacePiece(board)) {
 			return false;
 		}
 		//if we can't move a piece then we have to play
-		if (!player.canMovePiece(game.getBoard())) {
+		if (!player.canMovePiece(board)) {
 			return true;
 		}		
 		//we can both place + move, 50% chance of either
@@ -100,9 +100,9 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor
 	 * @return
 	 */
-	private HantoMoveRecord placePiece(EpsilonHantoGame game, HantoPlayerColor myColor) {
-		ComparableHantoCoordinate to = getBestPlacementCoordinate(game, myColor);
-		HantoPieceType type = getRandomPiece(game, myColor);
+	private HantoMoveRecord placePiece() {
+		ComparableHantoCoordinate to = getBestPlacementCoordinate();
+		HantoPieceType type = getRandomPiece();
 		return new HantoMoveRecord(type, null, to);		
 	}
 	
@@ -111,18 +111,18 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor my player color
 	 * @return the coordinate
 	 */
-	private ComparableHantoCoordinate getBestPlacementCoordinate(EpsilonHantoGame game, HantoPlayerColor myColor) {
+	private ComparableHantoCoordinate getBestPlacementCoordinate() {
 		ComparableHantoCoordinate opponentButterflyLocation = game.getHantoPlayer(AbstractHantoGame.oppositeColor(myColor)).getButterflyLocation();
-		List<ComparableHantoCoordinate> myPieceLocations = game.getBoard().getPiecesForPlayer(myColor);
+		List<ComparableHantoCoordinate> myPieceLocations = board.getPiecesForPlayer(myColor);
 		ComparableHantoCoordinate shortestCoord = null;
 		int shortestDistance = Integer.MAX_VALUE;
 		PlacementValidator placementValidator = AdjacentPlacementValidator.getInstance();
 		for(ComparableHantoCoordinate coord: myPieceLocations) {
 			List<ComparableHantoCoordinate> unoccupiedCoords = coord.getAdjacentCoords();
-			unoccupiedCoords.removeAll(game.getBoard().getAdjacentLocationsWithPieces(coord));
+			unoccupiedCoords.removeAll(board.getAdjacentLocationsWithPieces(coord));
 			for(ComparableHantoCoordinate c: unoccupiedCoords) {
 				if(c.getDistance(opponentButterflyLocation) < shortestDistance &&
-						placementValidator.isPlacementValid(game.getBoard(), new BasicHantoPiece(myColor, HantoPieceType.CRAB), c)) {
+						placementValidator.isPlacementValid(board, new BasicHantoPiece(myColor, HantoPieceType.CRAB), c)) {
 					shortestCoord = c;
 					shortestDistance = c.getDistance(new ComparableHantoCoordinate(0, 0));
 				}
@@ -137,8 +137,8 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param color Our color
 	 * @return The piece selected
 	 */
-	private HantoPieceType getRandomPiece(EpsilonHantoGame game, HantoPlayerColor color) {
-		Map<HantoPieceType, Integer> piecesRemaining = game.getHantoPlayer(color).getPieceInventory();
+	private HantoPieceType getRandomPiece() {
+		Map<HantoPieceType, Integer> piecesRemaining = game.getHantoPlayer(myColor).getPieceInventory();
 	
 		double num = Math.random() * countPiecesRemaining(piecesRemaining);
 		
@@ -173,13 +173,13 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor
 	 * @return
 	 */
-	private HantoMoveRecord movePiece(EpsilonHantoGame game, HantoPlayerColor myColor) {
-		if (!moveOffensive(game, myColor)) {
+	private HantoMoveRecord movePiece() {
+		if (!moveOffensive()) {
 			//defensive moving
 			//check if we can move butterfly, if so, we move it anywhere.
 			ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
-			if(canMoveOwnButterfly(game, myColor)) {
-				ComparableHantoCoordinate destination = getButterflyMoveCoord(game, myColor);
+			if(canMoveOwnButterfly()) {
+				ComparableHantoCoordinate destination = getButterflyMoveCoord();
 				return new HantoMoveRecord(HantoPieceType.BUTTERFLY, myButterflyLocation, destination);
 			}
 
@@ -187,7 +187,7 @@ public class LateGameHantoAI extends BaseHantoAI {
 		//offensive moving
 		//try and move a piece next to their butterfly
 		//if cannot, then move a piece as close to butterfly as possible
-		return movePieceClosestToButterfly(game, myColor);
+		return movePieceClosestToButterfly();
 	}
 	
 	/** Finds the piece that we can move closest to the opponents butterfly
@@ -196,17 +196,17 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor Our color
 	 * @return The move record containing the piece + desitnation closest to opponenets butterfly
 	 */
-	private HantoMoveRecord movePieceClosestToButterfly(EpsilonHantoGame game, HantoPlayerColor myColor) {
+	private HantoMoveRecord movePieceClosestToButterfly() {
 		ComparableHantoCoordinate opponentButterflyCoord = game.getHantoPlayer(AbstractHantoGame.oppositeColor(myColor)).getButterflyLocation();
-		List<ComparableHantoCoordinate> ourPiecesCoords = game.getBoard().getPiecesForPlayer(myColor);
+		List<ComparableHantoCoordinate> ourPiecesCoords = board.getPiecesForPlayer(myColor);
 		
 		ComparableHantoCoordinate closestDestination = null;
 		int closestDistance = Integer.MAX_VALUE;
 		ComparableHantoCoordinate closestCurrentCoord = null;
 		
 		for (ComparableHantoCoordinate pieceCoord : ourPiecesCoords) {
-			BasicHantoPiece piece = game.getBoard().getPieceAt(pieceCoord);
-			for (ComparableHantoCoordinate destCoord : piece.getValidMovementCoordinates(game.getBoard(), pieceCoord)) {
+			BasicHantoPiece piece = board.getPieceAt(pieceCoord);
+			for (ComparableHantoCoordinate destCoord : piece.getValidMovementCoordinates(board, pieceCoord)) {
 				int distToButterfly = destCoord.getDistance(opponentButterflyCoord);
 				if (distToButterfly < closestDistance) {
 					closestDistance = distToButterfly;
@@ -216,7 +216,7 @@ public class LateGameHantoAI extends BaseHantoAI {
 			}
 		}
 		
-		HantoPieceType type = game.getBoard().getPieceAt(closestCurrentCoord).getType();
+		HantoPieceType type = board.getPieceAt(closestCurrentCoord).getType();
 		return new HantoMoveRecord(type, closestCurrentCoord, closestDestination);
 	}
 	
@@ -225,9 +225,9 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor our color
 	 * @return true if we can legally move our butterfly, false otherwise
 	 */
-	private boolean canMoveOwnButterfly(EpsilonHantoGame game, HantoPlayerColor myColor) {
+	private boolean canMoveOwnButterfly() {
 		ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
-		if(game.getBoard().getPieceAt(myButterflyLocation).hasLegalMove(game.getBoard(), myButterflyLocation)) {
+		if(board.getPieceAt(myButterflyLocation).hasLegalMove(board, myButterflyLocation)) {
 			return true;
 		}
 		return false;
@@ -238,15 +238,15 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor our color
 	 * @return the coordinate to move to
 	 */
-	private ComparableHantoCoordinate getButterflyMoveCoord(EpsilonHantoGame game, HantoPlayerColor myColor) {
+	private ComparableHantoCoordinate getButterflyMoveCoord() {
 		ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
-		BasicHantoPiece myButterfly = game.getBoard().getPieceAt(myButterflyLocation);
+		BasicHantoPiece myButterfly = board.getPieceAt(myButterflyLocation);
 		ComparableHantoCoordinate bestCoord = null;
 		int minAdjCount = Integer.MAX_VALUE;
-		for(ComparableHantoCoordinate coord: myButterfly.getValidMovementCoordinates(game.getBoard(), myButterflyLocation)) {			
-			if(game.getBoard().getAdjacentPieces(coord).size() < minAdjCount) {
+		for(ComparableHantoCoordinate coord: myButterfly.getValidMovementCoordinates(board, myButterflyLocation)) {			
+			if(board.getAdjacentPieces(coord).size() < minAdjCount) {
 				bestCoord = coord;
-				minAdjCount = game.getBoard().getAdjacentPieces(coord).size();
+				minAdjCount = board.getAdjacentPieces(coord).size();
 			}
 
 		}
@@ -259,12 +259,12 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @param myColor Our color
 	 * @return True if we should move offensivly, false if defensivly
 	 */
-	private boolean moveOffensive(EpsilonHantoGame game, HantoPlayerColor myColor) {
+	private boolean moveOffensive() {
 		ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
 		ComparableHantoCoordinate opponentButterflyLocation = game.getHantoPlayer(AbstractHantoGame.oppositeColor(myColor)).getButterflyLocation();
 		
-		int myButterflyAdjCount = game.getBoard().getAdjacentLocationsWithPieces(myButterflyLocation).size();
-		int opponentButterflyAdjCount = game.getBoard().getAdjacentLocationsWithPieces(opponentButterflyLocation).size();	
+		int myButterflyAdjCount = board.getAdjacentLocationsWithPieces(myButterflyLocation).size();
+		int opponentButterflyAdjCount = board.getAdjacentLocationsWithPieces(opponentButterflyLocation).size();	
 	
 		double chance = (opponentButterflyAdjCount) / (double) (myButterflyAdjCount + opponentButterflyAdjCount);		
 		
