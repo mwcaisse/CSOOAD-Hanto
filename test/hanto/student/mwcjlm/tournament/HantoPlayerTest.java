@@ -3,12 +3,12 @@
  */
 package hanto.student.mwcjlm.tournament;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.tournament.HantoPlayer;
-import hanto.tournament.HantoGamePlayer;
 import hanto.tournament.HantoMoveRecord;
 
 import org.junit.Before;
