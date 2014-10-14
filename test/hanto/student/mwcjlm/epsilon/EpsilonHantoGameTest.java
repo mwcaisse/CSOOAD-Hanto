@@ -1,8 +1,12 @@
 package hanto.student.mwcjlm.epsilon;
 
 
-import static hanto.common.HantoPieceType.*;
-import static hanto.common.HantoPlayerColor.*;
+import static hanto.common.HantoPieceType.BUTTERFLY;
+import static hanto.common.HantoPieceType.CRAB;
+import static hanto.common.HantoPieceType.HORSE;
+import static hanto.common.HantoPieceType.SPARROW;
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.RED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import hanto.common.HantoException;
@@ -273,6 +277,37 @@ public class EpsilonHantoGameTest {
 		game.makeMove(HORSE, createCoord(-1,  -1), createCoord(1, 1));
 	}
 	
+	@Test(expected = HantoPrematureResignationException.class)
+	public void shouldNotBeAbleToResignAfterPlaceingAllPieces() throws HantoException{
+		final PieceLocationPair[] board = new PieceLocationPair[] {
+			    plPair(BLUE, BUTTERFLY, 0, 0), 
+			    
+			    plPair(BLUE, SPARROW, 0, 1),
+			    plPair(BLUE, SPARROW, 0, 2),
+			    
+			    plPair(BLUE, CRAB, -1, 3),
+			    plPair(BLUE, CRAB, -1, 4),
+			    plPair(BLUE, CRAB, -1, 5),
+			    plPair(BLUE, CRAB, -1, 6),
+			    plPair(BLUE, CRAB, -1, 7),
+			    plPair(BLUE, CRAB, -1, 8),
+			    
+			    plPair(BLUE, HORSE, -1, 9),
+			    plPair(BLUE, HORSE, -1, 10),
+			    plPair(BLUE, HORSE, -1, 11),
+			    plPair(BLUE, HORSE, -1, 12)
+			    
+			    
+		};
+		game.initializeBoard(board);
+		game.setPlayerMoving(BLUE);		
+		game.makeMove(null, null, null);
+	}
+	
+	//1 butterfly
+	//2 sparrow
+	//6 crab
+	//4 horses
 	public ComparableHantoCoordinate createCoord(int x, int y) {
 		return new ComparableHantoCoordinate(x,y);
 	}
