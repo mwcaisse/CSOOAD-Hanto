@@ -82,6 +82,16 @@ public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<Co
 		return adjacentCoordinates;
 	}
 	
+	/** Determines whether the given coordinate is adjacent to this coordinate
+	 * 
+	 * @param coord The coordinate to check
+	 * @return True if the coordinate is adjacent, false otherwise
+	 */
+	
+	public boolean isAdjacent(ComparableHantoCoordinate coord) {
+		return getAdjacentCoords().contains(coord);
+	}
+	
 	/** Calculates the neighboring coordinates in the given radius
 	 * 
 	 * @param radius The radius
