@@ -27,12 +27,6 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 	/** The hanto game to use to play */
 	private EpsilonHantoGame game;
 	
-	/** The color that I am */
-	private HantoPlayerColor myColor;
-	
-	/** Whether or not we move first */
-	private boolean moveFirst;
-	
 	/** The current Hanto AI to use for determining our next move */
 	private HantoAI hantoAI;
 	
@@ -48,8 +42,6 @@ public class HantoGamePlayer implements hanto.tournament.HantoGamePlayer {
 	public void startGame(HantoGameID version, HantoPlayerColor myColor, boolean doIMoveFirst) {
 		HantoPlayerColor firstColor = doIMoveFirst ? myColor : AbstractHantoGame.oppositeColor(myColor);
 		game = new EpsilonHantoGame(firstColor);
-		this.myColor = myColor;
-		moveFirst = doIMoveFirst;
 		hantoAI = new FirstMoveHantoAI(game, myColor);
 	}
 	

@@ -7,7 +7,6 @@ import hanto.common.HantoGameID;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
-import hanto.studentmwcjlm.beta.BetaHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoGameFactory;
 

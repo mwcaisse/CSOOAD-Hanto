@@ -14,7 +14,6 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
-import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.placementvalidator.AdjacentPlacementValidator;
 import hanto.studentmwcjlm.common.placementvalidator.PlacementValidator;
 import hanto.studentmwcjlm.epsilon.EpsilonHantoGame;

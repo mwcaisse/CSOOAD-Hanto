@@ -1,20 +1,18 @@
 package hanto.student.mwcjlm.alpha;
+import static hanto.common.HantoPieceType.BUTTERFLY;
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.RED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
-import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
-import hanto.studentmwcjlm.alpha.AlphaHantoGame;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoGameFactory;
-import static hanto.common.HantoPieceType.*;
-import static hanto.common.MoveResult.*;
-import static hanto.common.HantoPlayerColor.*;
 
 import org.junit.Before;
 import org.junit.Test;
