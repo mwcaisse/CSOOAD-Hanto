@@ -63,7 +63,7 @@ public class HantoPlayer implements HantoGamePlayer {
 			return res.getMove();
 		}
 		catch (Exception e) {
-			System.out.println("Opponenets move created exception...");
+			System.out.println("Move Created Exception..");
 			e.printStackTrace();
 		}
 		

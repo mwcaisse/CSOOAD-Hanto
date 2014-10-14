@@ -63,5 +63,15 @@ public class HantoPlayerTest {
 
 	}
 	
+	@Test
+	public void firstMoveAsResignShouldReturnResign() {
+		HantoMoveRecord resignMove = new HantoMoveRecord(null, null, null);
+		playerBlue.makeMove(null);
+		HantoMoveRecord redMove = playerRed.makeMove(resignMove);
+		assertNull(redMove.getFrom());
+		assertNull(redMove.getTo());
+		assertNull(redMove.getPiece());
+	}
+	
 	
 }
