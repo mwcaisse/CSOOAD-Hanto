@@ -5,6 +5,7 @@ import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
+import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoPlayer;
 import hanto.studentmwcjlm.common.placementvalidator.AdjacentPlacementValidator;
 import hanto.studentmwcjlm.common.placementvalidator.PlacementValidator;
@@ -162,7 +163,13 @@ public class LateGameHantoAI implements HantoAI {
 		if (!moveOffensive(game, myColor)) {
 			//defensive moving
 			//check if we can move butterfly, if so, we move it anywhere.
+			ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
+			if(canMoveOwnButterfly(game, myColor)) {
+				ComparableHantoCoordinate destination = getButterflyMoveCoord(game, myColor);
+				return new HantoMoveRecord(HantoPieceType.BUTTERFLY, myButterflyLocation, destination);
+			}
 			//move any adjacent pieces next to butterfly
+			
 			//if neither, offensive move
 		}
 	
@@ -174,6 +181,41 @@ public class LateGameHantoAI implements HantoAI {
 		
 		
 		return null;
+	}
+	
+	/** See if we can move our own butterfly
+	 * @param game the game we are playing
+	 * @param myColor our color
+	 * @return true if we can legally move our butterfly, false otherwise
+	 */
+	private boolean canMoveOwnButterfly(EpsilonHantoGame game, HantoPlayerColor myColor) {
+		ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
+		if(game.getBoard().getPieceAt(myButterflyLocation).hasLegalMove(game.getBoard(), myButterflyLocation)) {
+			return true;
+		}
+		return false;
+	}
+	
+	/** Get the best move for our butterfly that will result with the least number of adjacent pieces
+	 * @param game the game we are playing
+	 * @param myColor our color
+	 * @return the coordinate to move to
+	 */
+	private ComparableHantoCoordinate getButterflyMoveCoord(EpsilonHantoGame game, HantoPlayerColor myColor) {
+		ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
+		List<ComparableHantoCoordinate> adjCoords = myButterflyLocation.getAdjacentCoords();
+		BasicHantoPiece myButterfly = game.getBoard().getPieceAt(myButterflyLocation);
+		ComparableHantoCoordinate bestCoord = null;
+		int minAdjCount = Integer.MAX_VALUE;
+		for(ComparableHantoCoordinate coord: adjCoords) {
+			if(myButterfly.isMoveValid(game.getBoard(), myButterflyLocation, coord)) {
+				if(game.getBoard().getAdjacentPieces(coord).size() < minAdjCount) {
+					bestCoord = coord;
+					minAdjCount = game.getBoard().getAdjacentPieces(coord).size();
+				}
+			}
+		}
+		return bestCoord;
 	}
 	
 	/** Determines if we should move offensivly or defensivly
