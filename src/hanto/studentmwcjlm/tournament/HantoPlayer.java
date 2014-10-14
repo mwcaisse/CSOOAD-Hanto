@@ -63,11 +63,8 @@ public class HantoPlayer implements HantoGamePlayer {
 			return res.getMove();
 		}
 		catch (Exception e) {
-			System.out.println("Move Created Exception..");
-			e.printStackTrace();
-		}
-		
-		return new HantoMoveRecord(null, null, null); // something went wrong, just resign. *tear	
+			return new HantoMoveRecord(null, null, null); // something went wrong, just resign. *tear
+		}	
 	}
 	
 	/** Makes the specified move

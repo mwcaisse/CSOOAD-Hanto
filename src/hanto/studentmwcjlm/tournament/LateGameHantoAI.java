@@ -197,7 +197,6 @@ public class LateGameHantoAI extends BaseHantoAI {
 	 * @return The move record containing the piece + desitnation closest to opponenets butterfly
 	 */
 	private HantoMoveRecord movePieceClosestToButterfly() {
-		ComparableHantoCoordinate opponentButterflyCoord = game.getHantoPlayer(AbstractHantoGame.oppositeColor(myColor)).getButterflyLocation();
 		List<ComparableHantoCoordinate> ourPiecesCoords = board.getPiecesForPlayer(myColor);
 		
 		CoordinateMoveDistance bestMove = null;
@@ -210,8 +209,13 @@ public class LateGameHantoAI extends BaseHantoAI {
 			}
 		}
 		
-		HantoPieceType type = board.getPieceAt(bestMove.getCurrentPosition()).getType();
-		return new HantoMoveRecord(type, bestMove.getCurrentPosition(), bestMove.getDestination());
+		if (bestMove != null) {
+			HantoPieceType type = board.getPieceAt(bestMove.getCurrentPosition()).getType();
+			return new HantoMoveRecord(type, bestMove.getCurrentPosition(), bestMove.getDestination());
+		}
+		else {
+			return createResignMove();
+		}
 	}
 	
 	/** Compares two moves to see which one is the best

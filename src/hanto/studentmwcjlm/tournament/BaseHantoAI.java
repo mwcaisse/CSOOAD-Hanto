@@ -47,12 +47,4 @@ public abstract class BaseHantoAI implements HantoAI {
 		board = game.getBoard();
 	}
 	
-	/** Sets the hanto board
-	 * 
-	 * @param board The new hanto board
-	 */
-	public void setHantoBoard(HantoBoard board) {
-		this.board = board;
-	}
-	
 }
