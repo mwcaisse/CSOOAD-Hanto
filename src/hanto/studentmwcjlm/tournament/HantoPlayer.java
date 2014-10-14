@@ -78,4 +78,6 @@ public class HantoPlayer implements HantoGamePlayer {
 	private void makeHantoMove(HantoMoveRecord move) throws HantoException {
 		game.makeMove(move.getPiece(), move.getFrom(), move.getTo());
 	}
-	}
+	
+	
+}

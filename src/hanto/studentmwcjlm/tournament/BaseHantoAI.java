@@ -31,7 +31,7 @@ public abstract class BaseHantoAI implements HantoAI {
 	protected final HantoPlayerColor myColor;
 	
 	/** The board for playing Hanto */
-	protected final HantoBoard board;
+	protected HantoBoard board;
 	
 	/** Creates a new Base Hanto AI with the given game, color, and turn count
 	 * 
@@ -45,6 +45,14 @@ public abstract class BaseHantoAI implements HantoAI {
 		this.myColor = myColor;
 		this.turnCount = turnCount;
 		board = game.getBoard();
+	}
+	
+	/** Sets the hanto board
+	 * 
+	 * @param board The new hanto board
+	 */
+	public void setHantoBoard(HantoBoard board) {
+		this.board = board;
 	}
 	
 }

@@ -61,7 +61,6 @@ public class EpsilonHantoGame extends AbstractHantoGame {
 			HantoCoordinate to) throws HantoException {
 		//check if the player resigns
 		if(pieceType == null && from == null && to == null) {
-			//TODO: check to see if they have legal moves, if they don't throw new HantoPrematureResignationException
 			if (currentPlayer.hasLegalMove(board)) {
 				throw new HantoPrematureResignationException();
 			}

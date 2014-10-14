@@ -166,7 +166,8 @@ public abstract class AbstractHantoGame implements HantoGame{
 			ComparableHantoCoordinate to) throws HantoException {
 	
 		if (piece.isMoveValid(board, from, to)) {
-			board.movePiece(from, to);	
+			board.movePiece(from, to);
+			currentPlayer.movePiece(piece.getType(), from, to);
 		}
 		else {
 			throw new HantoException("Invalid piece movement");

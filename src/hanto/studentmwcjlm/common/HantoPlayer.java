@@ -69,6 +69,19 @@ public class HantoPlayer {
 		}
 	}
 	
+	/** Notifies the player that a piece of the given type has been moved
+	 * 
+	 * @param pieceType The type of the piece that has been moved
+	 * @param from The starting position of the piece
+	 * @param to The destination position of the piece
+	 */
+
+	public void movePiece(HantoPieceType pieceType, ComparableHantoCoordinate from, ComparableHantoCoordinate to) {
+		if (pieceType == HantoPieceType.BUTTERFLY) {
+			butterflyLocation = to;
+		}
+	}
+	
 	/** Checks to see if the player has a legal move
 	 * @param board the game board
 	 * @return True if there is a legal move for the player, false otherwise
