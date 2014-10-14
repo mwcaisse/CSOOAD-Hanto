@@ -56,7 +56,31 @@ public class JumpMoveValidatorTest {
 	
 	@Test
 	public void testJumpHasLegalMove() throws HantoException {
+		BasicHantoPiece piece = new BasicHantoPiece(HantoPlayerColor.BLUE, HantoPieceType.HORSE);
+		BasicHantoPiece rpiece = new BasicHantoPiece(HantoPlayerColor.RED, HantoPieceType.CRAB);
+		board.addPieceToBoard(piece, createCoord(0, 0));
+		board.addPieceToBoard(rpiece, createCoord(0, 1));
+		assertTrue(moveValidator.hasLegalMove(board, piece, createCoord(0, 0)));
+		board.removePeiceFromBoard(createCoord(0, 1));
 		
+		board.addPieceToBoard(rpiece, createCoord(-1, 0));
+		assertTrue(moveValidator.hasLegalMove(board, piece, createCoord(0, 0)));
+		board.removePeiceFromBoard(createCoord(-1, 0));
+		
+		board.addPieceToBoard(rpiece, createCoord(1, -1));
+		assertTrue(moveValidator.hasLegalMove(board, piece, createCoord(0, 0)));
+		board.removePeiceFromBoard(createCoord(1, -1));
+		
+		board.addPieceToBoard(rpiece, createCoord(1, 0));
+		assertTrue(moveValidator.hasLegalMove(board, piece, createCoord(0, 0)));
+		board.removePeiceFromBoard(createCoord(1, 0));
+		
+		board.addPieceToBoard(rpiece, createCoord(0, -1));
+		assertTrue(moveValidator.hasLegalMove(board, piece, createCoord(0, 0)));
+		board.removePeiceFromBoard(createCoord(0, -1));
+		
+		board.addPieceToBoard(rpiece, createCoord(-1, 1));
+		assertTrue(moveValidator.hasLegalMove(board, piece, createCoord(0, 0)));
 	}
 	
 	public ComparableHantoCoordinate createCoord(int x, int y) {
