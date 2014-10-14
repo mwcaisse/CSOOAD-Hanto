@@ -10,6 +10,8 @@
 
 package hanto.studentmwcjlm.common;
 
+import java.util.List;
+
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
@@ -100,6 +102,17 @@ public class BasicHantoPiece implements HantoPiece {
 	public boolean hasLegalMove(HantoBoard board, ComparableHantoCoordinate position) {
 		return moveValidator.hasLegalMove(board, this, position);
 	}
+	
+	/** Returns a list of all the places this piece is able to move
+	 * 
+	 * @param board The board
+	 * @param currentPosition The current position of the piece
+	 * @return
+	 */
+	public List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, ComparableHantoCoordinate currentPosition) {
+		return moveValidator.getValidMovementCoordinates(board, this, currentPosition);
+	}
+		
 
 	
 	

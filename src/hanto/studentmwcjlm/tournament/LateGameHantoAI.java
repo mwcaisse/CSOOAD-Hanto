@@ -5,7 +5,6 @@ import hanto.common.HantoPlayerColor;
 import hanto.studentmwcjlm.common.AbstractHantoGame;
 import hanto.studentmwcjlm.common.BasicHantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
-import hanto.studentmwcjlm.common.HantoBoard;
 import hanto.studentmwcjlm.common.HantoPlayer;
 import hanto.studentmwcjlm.common.placementvalidator.AdjacentPlacementValidator;
 import hanto.studentmwcjlm.common.placementvalidator.PlacementValidator;
@@ -168,19 +167,42 @@ public class LateGameHantoAI implements HantoAI {
 				ComparableHantoCoordinate destination = getButterflyMoveCoord(game, myColor);
 				return new HantoMoveRecord(HantoPieceType.BUTTERFLY, myButterflyLocation, destination);
 			}
-			//move any adjacent pieces next to butterfly
-			
-			//if neither, offensive move
-		}
-	
+
+		}	
 		//offensive moving
 		//try and move a piece next to their butterfly
 		//if cannot, then move a piece as close to butterfly as possible
-			
-			
+		return movePieceClosestToButterfly(game, myColor);
+	}
+	
+	/** Finds the piece that we can move closest to the opponents butterfly
+	 * 
+	 * @param game The current game
+	 * @param myColor Our color
+	 * @return The move record containing the piece + desitnation closest to opponenets butterfly
+	 */
+	private HantoMoveRecord movePieceClosestToButterfly(EpsilonHantoGame game, HantoPlayerColor myColor) {
+		ComparableHantoCoordinate opponentButterflyCoord = game.getHantoPlayer(AbstractHantoGame.oppositeColor(myColor)).getButterflyLocation();
+		List<ComparableHantoCoordinate> ourPiecesCoords = game.getBoard().getPiecesForPlayer(myColor);
 		
+		ComparableHantoCoordinate closestDestination = null;
+		int closestDistance = Integer.MAX_VALUE;
+		ComparableHantoCoordinate closestCurrentCoord = null;
 		
-		return null;
+		for (ComparableHantoCoordinate pieceCoord : ourPiecesCoords) {
+			BasicHantoPiece piece = game.getBoard().getPieceAt(pieceCoord);
+			for (ComparableHantoCoordinate destCoord : piece.getValidMovementCoordinates(game.getBoard(), pieceCoord)) {
+				int distToButterfly = destCoord.getDistance(opponentButterflyCoord);
+				if (distToButterfly < closestDistance) {
+					closestDistance = distToButterfly;
+					closestDestination = destCoord;
+					closestCurrentCoord = pieceCoord;
+				}
+			}
+		}
+		
+		HantoPieceType type = game.getBoard().getPieceAt(closestCurrentCoord).getType();
+		return new HantoMoveRecord(type, closestCurrentCoord, closestDestination);
 	}
 	
 	/** See if we can move our own butterfly
@@ -203,17 +225,15 @@ public class LateGameHantoAI implements HantoAI {
 	 */
 	private ComparableHantoCoordinate getButterflyMoveCoord(EpsilonHantoGame game, HantoPlayerColor myColor) {
 		ComparableHantoCoordinate myButterflyLocation = game.getHantoPlayer(myColor).getButterflyLocation();
-		List<ComparableHantoCoordinate> adjCoords = myButterflyLocation.getAdjacentCoords();
 		BasicHantoPiece myButterfly = game.getBoard().getPieceAt(myButterflyLocation);
 		ComparableHantoCoordinate bestCoord = null;
 		int minAdjCount = Integer.MAX_VALUE;
-		for(ComparableHantoCoordinate coord: adjCoords) {
-			if(myButterfly.isMoveValid(game.getBoard(), myButterflyLocation, coord)) {
-				if(game.getBoard().getAdjacentPieces(coord).size() < minAdjCount) {
-					bestCoord = coord;
-					minAdjCount = game.getBoard().getAdjacentPieces(coord).size();
-				}
+		for(ComparableHantoCoordinate coord: myButterfly.getValidMovementCoordinates(game.getBoard(), myButterflyLocation)) {			
+			if(game.getBoard().getAdjacentPieces(coord).size() < minAdjCount) {
+				bestCoord = coord;
+				minAdjCount = game.getBoard().getAdjacentPieces(coord).size();
 			}
+
 		}
 		return bestCoord;
 	}
