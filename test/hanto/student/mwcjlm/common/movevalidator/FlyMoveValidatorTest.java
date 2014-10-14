@@ -84,6 +84,13 @@ public class FlyMoveValidatorTest {
 		assertTrue(canMove);
 	}
 	
+	@Test
+	public void testCanNotMoveDifferentPiece() {
+		BasicHantoPiece piece = new BasicHantoPiece(HantoPlayerColor.RED, HantoPieceType.HORSE);
+		boolean isMoveLegal = moveValidator.isMoveValid(board, piece, createCoord(0, 0), createCoord(0, 1));
+		assertFalse(isMoveLegal);
+	}
+	
 	public ComparableHantoCoordinate createCoord(int x, int y) {
 		return new ComparableHantoCoordinate(x,y);
 	}
