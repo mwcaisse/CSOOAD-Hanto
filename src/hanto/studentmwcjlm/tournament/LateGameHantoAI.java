@@ -200,24 +200,70 @@ public class LateGameHantoAI extends BaseHantoAI {
 		ComparableHantoCoordinate opponentButterflyCoord = game.getHantoPlayer(AbstractHantoGame.oppositeColor(myColor)).getButterflyLocation();
 		List<ComparableHantoCoordinate> ourPiecesCoords = board.getPiecesForPlayer(myColor);
 		
-		ComparableHantoCoordinate closestDestination = null;
-		int closestDistance = Integer.MAX_VALUE;
-		ComparableHantoCoordinate closestCurrentCoord = null;
+		CoordinateMoveDistance bestMove = null;
 		
 		for (ComparableHantoCoordinate pieceCoord : ourPiecesCoords) {
 			BasicHantoPiece piece = board.getPieceAt(pieceCoord);
 			for (ComparableHantoCoordinate destCoord : piece.getValidMovementCoordinates(board, pieceCoord)) {
-				int distToButterfly = destCoord.getDistance(opponentButterflyCoord);
-				if (distToButterfly < closestDistance) {
-					closestDistance = distToButterfly;
-					closestDestination = destCoord;
-					closestCurrentCoord = pieceCoord;
-				}
+				CoordinateMoveDistance nextMove = new CoordinateMoveDistance(destCoord, pieceCoord);
+				bestMove = compareMovements(bestMove, nextMove);
 			}
 		}
 		
-		HantoPieceType type = board.getPieceAt(closestCurrentCoord).getType();
-		return new HantoMoveRecord(type, closestCurrentCoord, closestDestination);
+		HantoPieceType type = board.getPieceAt(bestMove.getCurrentPosition()).getType();
+		return new HantoMoveRecord(type, bestMove.getCurrentPosition(), bestMove.getDestination());
+	}
+	
+	/** Compares two moves to see which one is the best
+	 * @param moveOne one of the moves
+	 * @param moveTwo the other move
+	 * @return the best move
+	 */
+	private CoordinateMoveDistance compareMovements(CoordinateMoveDistance moveOne, CoordinateMoveDistance moveTwo) {
+		if(moveOne == null) {
+			return moveTwo;
+		}
+		if(moveTwo == null) {
+			return moveOne;
+		}
+		CoordinateMoveDistance bestMove = moveOne;
+		// check if either are adjacent to the opponents butterfly, if so, return the other one
+		ComparableHantoCoordinate opponentButterflyCoord = game.getHantoPlayer(AbstractHantoGame.oppositeColor(myColor)).getButterflyLocation();
+		int moveOneDistance = moveOne.getDestination().getDistance(opponentButterflyCoord);
+		int moveTwoDistance = moveTwo.getDestination().getDistance(opponentButterflyCoord);
+		ComparableHantoCoordinate myButterflyCoord = game.getHantoPlayer(myColor).getButterflyLocation();
+		if(moveOne.getCurrentPosition().isAdjacent(opponentButterflyCoord) &&
+				!moveTwo.getCurrentPosition().isAdjacent(opponentButterflyCoord)) {
+			bestMove = moveTwo;
+		}
+		else if(!moveOne.getCurrentPosition().isAdjacent(opponentButterflyCoord) &&
+				moveTwo.getCurrentPosition().isAdjacent(opponentButterflyCoord)) {
+			bestMove = moveOne;
+		}
+		// check to see if one will be placed next to the opponents butterfly, if so, choose that one
+		else if(moveOneDistance == 1 && moveTwoDistance > 1) {
+			bestMove = moveOne;
+		}
+		else if(moveTwoDistance == 1 && moveOneDistance > 1) {
+			bestMove = moveTwo;
+		}
+		// check to see if one is next to our butterfly, if so, choose that one
+		else if(moveOne.getCurrentPosition().isAdjacent(myButterflyCoord) &&
+				!moveTwo.getCurrentPosition().isAdjacent(myButterflyCoord)) {
+			bestMove = moveTwo;
+		}
+		else if(!moveOne.getCurrentPosition().isAdjacent(myButterflyCoord) &&
+				moveTwo.getCurrentPosition().isAdjacent(myButterflyCoord)) {
+			bestMove = moveOne;
+		}
+		// if we get here, pick the one that will get us closest to their butterfly
+		else if(moveOneDistance > moveTwoDistance) {
+			bestMove = moveOne;
+		}
+		else {
+			bestMove = moveTwo;
+		}
+		return bestMove;
 	}
 	
 	/** See if we can move our own butterfly
