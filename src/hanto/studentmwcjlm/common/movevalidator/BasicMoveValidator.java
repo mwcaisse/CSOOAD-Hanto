@@ -77,4 +77,15 @@ public class BasicMoveValidator implements MoveValidator {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	/** Returns a list of all the places the specified piece is able to move
+	 * 
+	 * @param board The board
+	 * @param piece The piece to move
+	 * @param currentPosition The current position of the piece
+	 * @return
+	 */
+	public List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition) {
+		return new ArrayList<ComparableHantoCoordinate>();
+	}
 }

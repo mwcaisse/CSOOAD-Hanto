@@ -10,6 +10,9 @@
 
 package hanto.studentmwcjlm.common.movevalidator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
@@ -73,4 +76,104 @@ public class JumpMoveValidator extends BasicMoveValidator {
 		}
 		return false;
 	}
+	
+	
+	@Override
+	public boolean hasLegalMove(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition) {
+		// x == x
+		if (hasValidMoveInLine(board, piece, currentPosition, 0, 1)) {
+			return true;
+		}
+		else if (hasValidMoveInLine(board, piece, currentPosition, 0, -1)) {
+			return true;
+		}
+		//y == y
+		else if (hasValidMoveInLine(board, piece, currentPosition, 1, 0)) {
+			return true;
+		}
+		else if (hasValidMoveInLine(board, piece, currentPosition, -1, 0)) {
+			return true;
+		}
+		//diagnolly
+		else if (hasValidMoveInLine(board, piece, currentPosition, 1, -1)) {
+			return true;
+		}
+		else if (hasValidMoveInLine(board, piece, currentPosition, -1, 1)) {
+			return true;
+		}		
+		
+		return false;
+	}
+	
+	/** Checks if there is a valid move at the end of the specified line
+	 * 
+	 * @param board The board
+	 * @param piece The piece
+	 * @param startingCoord The starting coordinate of the line
+	 * @param xinc The x increment for each iteration
+	 * @param yinc The y increment for each iteration
+	 * @return True if the move is legal, false otherwise
+	 */
+	private boolean hasValidMoveInLine(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate startingCoord, int xinc, int yinc) {
+		ComparableHantoCoordinate currentCoord = getFirstEmptyCoordInLine(board, startingCoord, xinc, yinc);
+		return isMoveValid(board, piece, startingCoord, currentCoord);
+	}
+	
+	/** Gets the first empty coord in a line, with the given x and y increments
+	 * 
+	 * @param board The board
+	 * @param startingCoord The starting coordinate of the line
+	 * @param xinc The x increment for each iteration
+	 * @param yinc The y increment for each iteration
+	 * @return The coordinate of the first empty coordinate in the line
+	 */
+	private ComparableHantoCoordinate getFirstEmptyCoordInLine(HantoBoard board, ComparableHantoCoordinate startingCoord, int xinc, int yinc) {
+		ComparableHantoCoordinate currentCoord = new ComparableHantoCoordinate(startingCoord.getX() + xinc, startingCoord.getY() + yinc);
+		while (!board.isLocationEmpty(currentCoord)) {
+			currentCoord.incrementX(xinc);
+			currentCoord.incrementY(yinc);
+		}
+		return currentCoord;
+	}
+	
+	/** Returns a list of all the places the specified piece is able to move
+	 * 
+	 * @param board The board
+	 * @param piece The piece to move
+	 * @param currentPosition The current position of the piece
+	 * @return
+	 */
+	public List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition) {
+		List<ComparableHantoCoordinate> validDestinations = new ArrayList<ComparableHantoCoordinate>();
+		//x == x
+		ComparableHantoCoordinate currentCoord = getFirstEmptyCoordInLine(board, currentPosition, 0, 1);
+		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
+			validDestinations.add(currentCoord);
+		}
+		currentCoord = getFirstEmptyCoordInLine(board, currentPosition, 0, -1);
+		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
+			validDestinations.add(currentCoord);
+		}
+		//y == y
+		currentCoord = getFirstEmptyCoordInLine(board, currentPosition, 1, 0);
+		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
+			validDestinations.add(currentCoord);
+		}
+		currentCoord = getFirstEmptyCoordInLine(board, currentPosition, -1, 0);
+		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
+			validDestinations.add(currentCoord);
+		}
+		//diagnolly
+		currentCoord = getFirstEmptyCoordInLine(board, currentPosition, 1, -1);
+		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
+			validDestinations.add(currentCoord);
+		}
+		currentCoord = getFirstEmptyCoordInLine(board, currentPosition, -1, 1);
+		if (isMoveValid(board, piece, currentPosition, currentCoord)) {
+			validDestinations.add(currentCoord);
+		}
+		
+		return validDestinations;
+	}
+	
 }

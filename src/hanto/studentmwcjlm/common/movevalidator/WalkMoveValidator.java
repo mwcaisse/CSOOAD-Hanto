@@ -15,6 +15,7 @@ import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Move Validator for the Walking movement type
@@ -80,6 +81,24 @@ public class WalkMoveValidator extends BasicMoveValidator {
 			}
 		}
 		return false;
+	}
+	
+	/** Returns a list of all the places the specified piece is able to move
+	 * 
+	 * @param board The board
+	 * @param piece The piece to move
+	 * @param currentPosition The current position of the piece
+	 * @return
+	 */
+	public List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition) {
+		List<ComparableHantoCoordinate> validDesitnations = new ArrayList<ComparableHantoCoordinate>();
+		List<ComparableHantoCoordinate> adjCoords = currentPosition.getAdjacentCoords();
+		for(ComparableHantoCoordinate coord : adjCoords) {
+			if(isMoveValid(board, piece, currentPosition, coord)) {
+				validDesitnations.add(coord);
+			}
+		}
+		return validDesitnations;
 	}
 	
 }

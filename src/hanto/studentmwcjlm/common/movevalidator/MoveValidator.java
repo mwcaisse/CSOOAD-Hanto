@@ -15,6 +15,8 @@ import hanto.common.HantoPiece;
 import hanto.studentmwcjlm.common.ComparableHantoCoordinate;
 import hanto.studentmwcjlm.common.HantoBoard;
 
+import java.util.List;
+
 /**
  * @author Mitchell Caisse
  *
@@ -40,4 +42,13 @@ public interface MoveValidator {
 	 */
 	
 	boolean hasLegalMove(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate position);
+	
+	/** Returns a list of all the places the specified piece is able to move
+	 * 
+	 * @param board The board
+	 * @param piece The piece to move
+	 * @param currentPosition The current position of the piece
+	 * @return
+	 */
+	List<ComparableHantoCoordinate> getValidMovementCoordinates(HantoBoard board, HantoPiece piece, ComparableHantoCoordinate currentPosition);
 }

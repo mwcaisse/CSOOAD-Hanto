@@ -113,6 +113,22 @@ public class ComparableHantoCoordinate implements HantoCoordinate, Comparable<Co
 		adjCoords.remove(this);
 		return adjCoords;
 	}
+	
+	/** Increments Y by the given amount
+	 * 
+	 * @param amt The amount to increment Y by
+	 */
+	public void incrementY(int amt) {
+		y += amt;
+	}
+	
+	/** Increment X by the given amount
+	 * 
+	 * @param amt The amount to add to x
+	 */
+	public void incrementX(int amt) {
+		x += amt;
+	}
 
 	@Override
 	public int hashCode() {
